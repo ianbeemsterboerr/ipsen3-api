@@ -19,6 +19,6 @@ public class PersoneelResource {
     @JsonView(View.Public.class)
     @RolesAllowed("GUEST")
     public String getPersoon(){
-        return"LOL";
+        return "LOL xD";
     }
 }
