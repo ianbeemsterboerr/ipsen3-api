@@ -5,6 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.*;
 import javax.validation.constraints.*;
 
-public class lalaConfiguration extends Configuration {
+public class ApiConfiguration extends Configuration {
     // TODO: implement service configuration
 }
