@@ -59,4 +59,8 @@ public class Personeel implements Principal{
     public String getName() {
         return null;
     }
+
+    public String getPassword() {
+        return wachtwoord;
+    }
 }
