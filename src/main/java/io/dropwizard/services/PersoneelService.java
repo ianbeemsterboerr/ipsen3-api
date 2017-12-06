@@ -1,5 +1,8 @@
 package io.dropwizard.services;
 
+import io.dropwizard.auth.AuthenticationException;
+import io.dropwizard.auth.basic.BasicCredentials;
+import io.dropwizard.models.Personeel;
 import io.dropwizard.persistence.PersoneelDAO;
 
 public class PersoneelService {
@@ -8,8 +11,7 @@ public class PersoneelService {
     public PersoneelService(){
 
     }
-
-    public boolean login(String name, String password) {
-
+    public Personeel getPersoon(String email){
+        return dao.getByEmailaddress(email);
     }
 }

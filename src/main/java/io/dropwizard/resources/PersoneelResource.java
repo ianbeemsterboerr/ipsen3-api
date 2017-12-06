@@ -2,6 +2,7 @@ package io.dropwizard.resources;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import io.dropwizard.View;
+import io.dropwizard.auth.Auth;
 import io.dropwizard.models.Personeel;
 import io.dropwizard.services.PersoneelService;
 
@@ -12,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 @Singleton
 @Path("/personeel")
-@Produces(MediaType.TEXT_PLAIN)
+@Produces(MediaType.APPLICATION_JSON)
 public class PersoneelResource {
     PersoneelService service = new PersoneelService();
 
@@ -24,11 +25,12 @@ public class PersoneelResource {
     }
 
     @POST
-    @Path("/{name}{password}")
+    @Path("/{name}/{password}")
     @JsonView(View.Public.class)
     @RolesAllowed("GUEST")
     @Consumes(MediaType.APPLICATION_JSON)
-    public boolean logIn(@PathParam("name") String name, @PathParam("password") String password){
-        return service.login(name, password);
+    public Personeel logIn(@Auth Personeel personeel, @PathParam("name") String name, @PathParam("password") String password){
+         Personeel persoon = service.getPersoon(name);
+         return persoon;
     }
 }
