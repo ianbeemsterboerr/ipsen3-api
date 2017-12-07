@@ -1,13 +1,18 @@
 package io.dropwizard.resources;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.sun.org.apache.xpath.internal.SourceTree;
+import com.sun.org.glassfish.gmbal.ParameterNames;
 import io.dropwizard.View;
 import io.dropwizard.auth.Auth;
+import io.dropwizard.models.InlogModel;
 import io.dropwizard.models.Personeel;
 import io.dropwizard.services.PersoneelService;
+import org.jboss.logging.Param;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Singleton;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
@@ -24,13 +29,11 @@ public class PersoneelResource {
         return "LOL xD";
     }
 
-    @POST
-    @Path("/{name}/{password}")
+    @GET
+    @Path("/login")
     @JsonView(View.Public.class)
-    @RolesAllowed("GUEST")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Personeel logIn(@Auth Personeel personeel, @PathParam("name") String name, @PathParam("password") String password){
-         Personeel persoon = service.getPersoon(name);
-         return persoon;
+    public Personeel logIn(@Auth Personeel personeel){
+        System.out.println(personeel.getPassword());
+        return personeel;
     }
 }
