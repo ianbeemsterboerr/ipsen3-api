@@ -6,5 +6,15 @@ import org.hibernate.validator.constraints.*;
 import javax.validation.constraints.*;
 
 public class ApiConfiguration extends Configuration {
-    // TODO: implement service configuration
+    @NotEmpty
+    @JsonProperty
+    private String apiName;
+
+    public String getApiName() {
+        return apiName;
+    }
+
+    public void setApiName(String apiName) {
+        this.apiName = apiName;
+    }
 }

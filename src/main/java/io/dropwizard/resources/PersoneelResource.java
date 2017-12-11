@@ -15,6 +15,7 @@ import javax.inject.Singleton;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 @Singleton
 @Path("/personeel")
@@ -35,5 +36,12 @@ public class PersoneelResource {
     public Personeel logIn(@Auth Personeel personeel){
         System.out.println(personeel.getPassword());
         return personeel;
+    }
+
+    @GET
+    @Path("/getall")
+    @JsonView(View.Public.class)
+    public List<Personeel> getAll(){
+        return service.getAll();
     }
 }
