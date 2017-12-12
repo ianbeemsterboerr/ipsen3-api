@@ -6,6 +6,7 @@ import io.dropwizard.auth.basic.BasicAuthFactory;
 import io.dropwizard.models.Personeel;
 import io.dropwizard.persistence.ConnectionPool;
 import io.dropwizard.resources.PersoneelResource;
+import io.dropwizard.resources.UrenResource;
 import io.dropwizard.services.AuthService;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -49,22 +50,10 @@ public class ApiApplication extends Application<ApiConfiguration> {
         // Add URL mapping
         cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 
-        ConnectionPool pool = new ConnectionPool("org.mariadb.jdbc.Driver","jdbc:mariadb://localhost:3306:/UrenregistratieDatabase", "root", "ipsen123");
-        Connection con = pool.checkout();
-        ResultSet results;
-        try {
-            PreparedStatement stmnt = con.prepareStatement("SELECT * FROM klant");
-            results = stmnt.executeQuery();
-            while (results.next()){
-                System.out.println(results.getString(1));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            pool.checkIn(con);
-        }
-        pool.checkIn(con);
-        final PersoneelResource personeel = new PersoneelResource();
-        environment.jersey().register(personeel);
+        final PersoneelResource personeelResource = new PersoneelResource();
+        final UrenResource urenResource = new UrenResource();
+        environment.jersey().register(personeelResource);
+        environment.jersey().register(urenResource);
 
         environment.jersey().register(AuthFactory.binder(
                 new BasicAuthFactory<>(
