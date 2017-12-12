@@ -1,11 +1,14 @@
 package io.dropwizard.models;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.annotation.RegEx;
 import java.security.Principal;
 
 public class Personeel implements Principal{
+
     @NotEmpty
     private int personeelID;
 
@@ -80,6 +83,7 @@ public class Personeel implements Principal{
     private String achternaam;
 
     @NotEmpty
+    @Email
     private String email;
 
     @NotEmpty
