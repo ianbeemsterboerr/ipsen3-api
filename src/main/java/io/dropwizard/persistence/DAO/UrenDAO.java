@@ -24,12 +24,19 @@ public class UrenDAO {
      * @param einddatum
      * @return
      */
-    public List<Uren> getUrenByKlantProjectOnderwerp(String begindatum, String einddatum, String klant, String project, String onderwerp) {
+    public List<Uren> getUrenByKlantProjectOnderwerp(Integer id, String begindatum, String einddatum, String klant, String project, String onderwerp) {
         ResultSet queryResultaten;
         queryResultaten = null;
         try {
             Connection con = pool.checkout();
-            PreparedStatement statement = con.prepareStatement("SELECT geregistreerdetijd.*, personeel.voornaam, personeel.tussenvoegsel, personeel.achternaam FROM geregistreerdetijd JOIN personeel ON geregistreerdetijd.persoonID = personeel.persoonID\n WHERE begindatum >=? AND einddatum<=?"+ "AND (klant_naam = ? OR klant_naam LIKE ?)"+ "AND (project_naam = ? OR project_naam LIKE ?)"+ "AND (onderwerp_naam = ? OR onderwerp_naam LIKE ?)" );
+            PreparedStatement statement;
+            if(id==null){
+                statement = con.prepareStatement("SELECT geregistreerdetijd.*, personeel.voornaam, personeel.tussenvoegsel, personeel.achternaam FROM geregistreerdetijd JOIN personeel ON geregistreerdetijd.persoonID = personeel.persoonID\n WHERE begindatum >=? AND einddatum<=?"+ "AND (klant_naam = ? OR klant_naam LIKE ?)"+ "AND (project_naam = ? OR project_naam LIKE ?)"+ "AND (onderwerp_naam = ? OR onderwerp_naam LIKE ?)" + "AND persoonID = ?" );
+                statement.setInt(9, id);
+            }else {
+                statement = con.prepareStatement("SELECT geregistreerdetijd.*, personeel.voornaam, personeel.tussenvoegsel, personeel.achternaam FROM geregistreerdetijd JOIN personeel ON geregistreerdetijd.persoonID = personeel.persoonID\n WHERE begindatum >=? AND einddatum<=?"+ "AND (klant_naam = ? OR klant_naam LIKE ?)"+ "AND (project_naam = ? OR project_naam LIKE ?)"+ "AND (onderwerp_naam = ? OR onderwerp_naam LIKE ?)" );
+            }
+
             statement.setString(1, begindatum);
             statement.setString(2, einddatum);
 

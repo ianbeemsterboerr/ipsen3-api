@@ -11,7 +11,12 @@ public class UrenService {
         this.dao = new UrenDAO();
     }
 
-    public List<Uren> getUren(String begindatum, String einddatum, String klant, String project, String onderwerp) {
-        return dao.getUrenByKlantProjectOnderwerp(begindatum, einddatum, klant, project, onderwerp);
+    //Admin
+    public List<Uren> getUrenAdmin(String begindatum, String einddatum, String klant, String project, String onderwerp) {
+        return dao.getUrenByKlantProjectOnderwerp(null, begindatum, einddatum, klant, project, onderwerp);
+    }
+    //Personeel
+    public List<Uren> getUren(int id, String begindatum, String einddatum, String klant, String project, String onderwerp) {
+        return dao.getUrenByKlantProjectOnderwerp(id, begindatum, einddatum, klant, project, onderwerp);
     }
 }

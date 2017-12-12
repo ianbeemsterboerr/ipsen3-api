@@ -24,16 +24,31 @@ public class UrenResource {
     //  localhost:8080/uren/getby?begindatum=2017-1-1&einddatum=2018-1-1&klant=WebEdu&project=UrenRegistratieApplicatie&onderwerp=Applicatie
 
     @GET
-    @Path("/getby")
+    @Path("/admingetby")
     @JsonView(View.Public.class)
-    @RolesAllowed("GUEST")
-    public List<Uren> getUren(
+    @RolesAllowed("GUEST")  //TODO: Moet alleen benaderbaar zijn door admins.
+    public List<Uren> getUrenAdmin(
             @QueryParam("begindatum") String begindatum,
             @QueryParam("einddatum") String einddatum,
             @DefaultValue("")@QueryParam("klant") String klant,
             @DefaultValue("")@QueryParam("project") String project,
             @DefaultValue("")@QueryParam("onderwerp") String onderwerp){
 
-        return service.getUren(begindatum, einddatum, klant, project, onderwerp);
+        return service.getUrenAdmin(begindatum, einddatum, klant, project, onderwerp);
+    }
+
+    @GET
+    @Path("/getby")
+    @JsonView(View.Public.class)
+    @RolesAllowed("GUEST")
+    public List<Uren> getUren(
+            @QueryParam("id") int id,
+            @QueryParam("begindatum") String begindatum,
+            @QueryParam("einddatum") String einddatum,
+            @DefaultValue("")@QueryParam("klant") String klant,
+            @DefaultValue("")@QueryParam("project") String project,
+            @DefaultValue("")@QueryParam("onderwerp") String onderwerp){
+
+        return service.getUren(id, begindatum, einddatum, klant, project, onderwerp);
     }
 }
