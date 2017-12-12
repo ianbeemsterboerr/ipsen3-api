@@ -13,6 +13,10 @@ public class Personeel implements Principal{
     @Length(min = 3, max = 40)
     private String voornaam;
 
+    public Personeel(){
+
+    }
+
     public int getPersoneelID() {
         return personeelID;
     }

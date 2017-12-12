@@ -1,3 +1,4 @@
+apiName: "WebEdu Urenregistratie API"
 logging:
   level: INFO
   loggers:
