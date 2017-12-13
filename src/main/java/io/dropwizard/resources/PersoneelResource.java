@@ -19,13 +19,6 @@ public class PersoneelResource {
     PersoneelService service = new PersoneelService();
 
     @GET
-    @JsonView(View.Public.class)
-    @RolesAllowed("GUEST")
-    public String getPersoon(){
-        return "LOL xD";
-    }
-
-    @GET
     @Path("/login")
     @JsonView(View.Public.class)
     public Personeel logIn(@Auth Personeel personeel){
@@ -39,4 +32,6 @@ public class PersoneelResource {
     public List<Personeel> getAll(){
         return service.getAll();
     }
+
+
 }

@@ -19,4 +19,8 @@ public class UrenService {
     public List<Uren> getUren(int id, String begindatum, String einddatum, String klant, String project, String onderwerp) {
         return dao.getUrenByKlantProjectOnderwerp(id, begindatum, einddatum, klant, project, onderwerp);
     }
+
+    public List<Uren> getUrenByPersoneelId(int id) {
+        return dao.getByPersoonId(id);
+    }
 }

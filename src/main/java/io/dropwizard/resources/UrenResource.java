@@ -37,18 +37,18 @@ public class UrenResource {
         return service.getUrenAdmin(begindatum, einddatum, klant, project, onderwerp);
     }
 
+    /**
+     * Ontvangt een personeelID en geeft alle gewerkte uren voor deze personeelID terug.
+     * @param id
+     * @return
+     */
     @GET
-    @Path("/getby")
+    @Path("/getbyid")
     @JsonView(View.Public.class)
     @RolesAllowed("GUEST")
     public List<Uren> getUren(
-            @QueryParam("id") int id,
-            @QueryParam("begindatum") String begindatum,
-            @QueryParam("einddatum") String einddatum,
-            @DefaultValue("")@QueryParam("klant") String klant,
-            @DefaultValue("")@QueryParam("project") String project,
-            @DefaultValue("")@QueryParam("onderwerp") String onderwerp){
+            @QueryParam("id") int id){
 
-        return service.getUren(id, begindatum, einddatum, klant, project, onderwerp);
+        return service.getUrenByPersoneelId(id);
     }
 }
