@@ -49,6 +49,7 @@ public class UrenResource {
     public List<Uren> getUren(
             @QueryParam("id") int id){
 
+        System.out.println(id);
         return service.getUrenByPersoneelId(id);
     }
 }

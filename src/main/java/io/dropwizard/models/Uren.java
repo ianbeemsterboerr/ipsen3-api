@@ -5,9 +5,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class Uren {
-    private int klantId;
-    private int projectId;
-    private int onderwerpId;
+
 
     @NotEmpty
     private int uurId;
@@ -37,11 +35,21 @@ public class Uren {
     private String onderwerpNaam;
 
     @NotNull
+    private int klantId;
+
+    @NotNull
+    private int projectId;
+
+    @NotNull
+    private int onderwerpId;
+
+    @NotNull
     private String commentaar;
 
     @NotNull
     private boolean goedgekeurd;
 
+    @NotNull
     private String persoonNaam;
 
     @NotNull
@@ -186,29 +194,7 @@ public class Uren {
     }
 
 
-    public int getKlantId() {
-        return klantId;
-    }
 
-    public void setKlantId(int klantId) {
-        this.klantId = klantId;
-    }
-
-    public int getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
-    }
-
-    public int getOnderwerpId() {
-        return onderwerpId;
-    }
-
-    public void setOnderwerpId(int onderwerpId) {
-        this.onderwerpId = onderwerpId;
-    }
 }
 
 

@@ -86,6 +86,7 @@ public class UrenDAO {
                         personeelsNaam,
                         false
                 ));
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
