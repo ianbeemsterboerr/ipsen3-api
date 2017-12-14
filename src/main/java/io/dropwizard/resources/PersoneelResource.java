@@ -5,7 +5,6 @@ import io.dropwizard.View;
 import io.dropwizard.auth.Auth;
 import io.dropwizard.models.Personeel;
 import io.dropwizard.services.PersoneelService;
-import org.eclipse.jetty.server.Authentication;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Singleton;

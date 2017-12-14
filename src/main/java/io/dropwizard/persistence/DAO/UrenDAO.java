@@ -4,6 +4,7 @@ import io.dropwizard.models.Personeel;
 import io.dropwizard.models.Uren;
 import io.dropwizard.persistence.ConnectionPool;
 
+import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -56,6 +57,7 @@ public class UrenDAO {
 
         return toModel(queryResultaten);
     }
+
     private List<Uren> toModel(ResultSet results){
         List<Uren> toModel = new ArrayList<>();
         String personeelsNaam;
@@ -68,23 +70,45 @@ public class UrenDAO {
                 }
                 toModel.add(new Uren(
                         results.getInt("uurID"),
-                        results.getString("begindatum"),
-                        results.getString("einddatum"),
-                        results.getString("begintijd"),
-                        results.getString("eindtijd"),
-                        results.getString("commentaar"),
-                        results.getBoolean("goedgekeurd"),
                         results.getInt("persoonID"),
+                        results.getString("begindatum"),
+                        results.getString("begintijd"),
+                        results.getString("einddatum"),
+                        results.getString("eindtijd"),
                         results.getString("klant_naam"),
                         results.getString("project_naam"),
                         results.getString("onderwerp_naam"),
-                        personeelsNaam
+                        results.getInt("klant_ID"),
+                        results.getInt("project_ID"),
+                        results.getInt("onderwerp_ID"),
+                        results.getString("commentaar"),
+                        results.getBoolean("goedgekeurd"),
+                        personeelsNaam,
+                        false
                 ));
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return toModel;
+    }
+
+    public List<Uren> getByPersoonId(int id){
+        ResultSet resultSet = null;
+        Connection con = pool.checkout();
+        PreparedStatement statement;
+
+        try {
+            statement = con.prepareStatement("SELECT geregistreerdetijd.uurID, geregistreerdetijd.begindatum, geregistreerdetijd.einddatum, geregistreerdetijd.begintijd, geregistreerdetijd.eindtijd, geregistreerdetijd.commentaar, geregistreerdetijd.goedgekeurd, personeel.voornaam, personeel.persoonID, personeel.achternaam, personeel.tussenvoegsel, klant.klant_naam, geregistreerdetijd.klant_ID, project.project_naam, geregistreerdetijd.project_ID, onderwerp.onderwerp_naam, geregistreerdetijd.onderwerp_ID FROM geregistreerdetijd JOIN personeel ON personeel.persoonID = geregistreerdetijd.persoonID JOIN klant ON klant.klant_ID = geregistreerdetijd.klant_ID JOIN project ON project.project_ID = geregistreerdetijd.project_ID JOIN onderwerp ON onderwerp.onderwerp_ID = geregistreerdetijd.onderwerp_ID WHERE geregistreerdetijd.persoonID = ?");
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+            pool.checkIn(con);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            pool.checkIn(con);
+        }
+        return toModel(resultSet);
     }
 }
 

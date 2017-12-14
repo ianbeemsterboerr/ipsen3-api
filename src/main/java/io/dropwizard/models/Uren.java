@@ -6,13 +6,56 @@ import javax.validation.constraints.NotNull;
 
 public class Uren {
 
+
     @NotEmpty
     private int uurId;
 
     @NotNull
     private int personeelID;
 
-    public Uren(int uurId, int personeelID, String beginDatum, String beginTijd, String eindDatum, String eindTijd, String klantNaam, String projectNaam, String onderwerpNaam, String commentaar, boolean goedgekeurd, String persoonNaam, boolean isChanged) {
+    @NotNull
+    private String beginDatum;
+
+    @NotNull
+    private String beginTijd;
+
+    @NotNull
+    private String eindDatum;
+
+    @NotNull
+    private String eindTijd;
+
+    @NotNull
+    private String klantNaam;
+
+    @NotNull
+    private String projectNaam;
+
+    @NotNull
+    private String onderwerpNaam;
+
+    @NotNull
+    private int klantId;
+
+    @NotNull
+    private int projectId;
+
+    @NotNull
+    private int onderwerpId;
+
+    @NotNull
+    private String commentaar;
+
+    @NotNull
+    private boolean goedgekeurd;
+
+    @NotNull
+    private String persoonNaam;
+
+    @NotNull
+    private boolean isChanged = false;
+
+    public Uren(int uurId, int personeelID, String beginDatum, String beginTijd, String eindDatum, String eindTijd, String klantNaam, String projectNaam, String onderwerpNaam,int klantId, int projectId, int onderwerpId, String commentaar, boolean goedgekeurd, String persoonNaam, boolean isChanged) {
         this.uurId = uurId;
         this.personeelID = personeelID;
         this.beginDatum = beginDatum;
@@ -26,6 +69,9 @@ public class Uren {
         this.goedgekeurd = goedgekeurd;
         this.persoonNaam = persoonNaam;
         this.isChanged = isChanged;
+        this.projectId = projectId;
+        this.klantId = klantId;
+        this.onderwerpId = onderwerpId;
     }
 
     public Uren(int uurID, String begindatum, String einddatum, String begintijd, String eindtijd, String commentaar, boolean goedgekeurd, int persoonID, String klantnaam, String projectnaam, String onderwerpnaam, String personeelsnaam) {
@@ -147,35 +193,8 @@ public class Uren {
         isChanged = changed;
     }
 
-    @NotNull
-    private String beginDatum;
 
-    @NotNull
-    private String beginTijd;
 
-    @NotNull
-    private String eindDatum;
-
-    @NotNull
-    private String eindTijd;
-
-    @NotNull
-    private String klantNaam;
-
-    @NotNull
-    private String projectNaam;
-
-    @NotNull
-    private String onderwerpNaam;
-
-    @NotNull
-    private String commentaar;
-
-    @NotNull
-    private boolean goedgekeurd;
-
-    private String persoonNaam;
-
-    @NotNull
-    private boolean isChanged = false;
 }
+
+
