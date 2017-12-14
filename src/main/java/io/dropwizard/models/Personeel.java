@@ -107,6 +107,14 @@ public class Personeel implements Principal{
         this.werkzaam = werkzaam;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public String getWachtwoord() {
+        return wachtwoord;
+    }
+
     public Personeel(int personeelID, String voornaam, String achternaam, String email, String wachtwoord, String rechten, String werkzaam){
         this.personeelID = personeelID;
         this.voornaam = voornaam;
@@ -115,6 +123,7 @@ public class Personeel implements Principal{
         this.email = email;
         this.wachtwoord = wachtwoord;
         this.rechten = rechten;
+
         this.werkzaam = werkzaam;
 
     }
@@ -122,7 +131,7 @@ public class Personeel implements Principal{
 
     @Override
     public String getName() {
-        return null;
+        return email;
     }
 
     public String getPassword() {
