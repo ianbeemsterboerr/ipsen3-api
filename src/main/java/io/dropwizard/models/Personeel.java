@@ -9,7 +9,6 @@ import java.security.Principal;
 
 public class Personeel implements Principal{
 
-    @NotEmpty
     private int personeelID;
 
     @NotEmpty

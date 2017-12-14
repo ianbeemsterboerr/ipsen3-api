@@ -90,23 +90,29 @@ public class PersoneelDAO {
     public void add(Personeel personeel){
         try{
             Connection con = pool.checkout();
-            PreparedStatement statement = con.prepareStatement("INSERT INTO personeel (achternaam, tussenvoegsel, voornaam, email, rechten, werkzaam) VALUES (?, ?, ?, ?, ?, ?");
+            PreparedStatement statement = con.prepareStatement("INSERT INTO personeel (achternaam, tussenvoegsel, voornaam, email, rechten, werkzaam) VALUES (?, ?, ?, ?, ?, ?)");
 
-            statement.setString(1, achternaam);
+            System.out.println(personeel.getVoornaam());
+            statement.setString(1, personeel.getAchternaam());
 
-            if (tussenvoegsel.equals("")) {
+            if (personeel.getTussenvoegsel().equals("")) {
                 statement.setString(2, null);
             } else {
-                statement.setString(2, tussenvoegsel);
+                statement.setString(2, personeel.getTussenvoegsel());
             }
-            statement.setString(3, voornaam);
-            statement.setString(4, email);
-            statement.setString(5, rechten);
+            statement.setString(3, personeel.getVoornaam());
+            statement.setString(4, personeel.getEmail());
+            if(personeel.getRechten().equals("Personeel")){
+                statement.setString(5, "0");
+            } else {
+                statement.setString(5, "1");
+            }
+
             statement.setString(6, "1");
 
             statement.executeQuery();
         } catch(SQLException e){
-            System.out.println("Ging mis");
+            e.printStackTrace();
 
         }
     }
