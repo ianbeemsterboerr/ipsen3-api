@@ -47,4 +47,14 @@ public class PersoneelResource {
         int werkzaamBool = werkzaam.equals("1") ? 0 : 1;
         service.setWerkzaam(werkzaamBool, id);
     }
+
+    @POST
+    @Path("add")
+    @Consumes (MediaType.APPLICATION.JSON)
+    @JsonView(View.Protect.class)
+    public void createAccount(@Valid Personeel personeel) {
+        service.addUser(personeel);
+    }
+
+
 }

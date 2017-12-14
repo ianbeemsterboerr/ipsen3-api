@@ -86,4 +86,29 @@ public class PersoneelDAO {
         }
         return alHetPersoneel;
     }
+
+    public void add(Personeel personeel){
+        try{
+            Connection con = pool.checkout();
+            PreparedStatement statement = con.prepareStatement("INSERT INTO personeel (achternaam, tussenvoegsel, voornaam, email, rechten, werkzaam) VALUES (?, ?, ?, ?, ?, ?");
+
+            statement.setString(1, achternaam);
+
+            if (tussenvoegsel.equals("")) {
+                statement.setString(2, null);
+            } else {
+                statement.setString(2, tussenvoegsel);
+            }
+            statement.setString(3, voornaam);
+            statement.setString(4, email);
+            statement.setString(5, rechten);
+            statement.setString(6, "1");
+
+            statement.executeQuery();
+        } catch(SQLException e){
+            System.out.println("Ging mis");
+
+        }
+    }
+
 }

@@ -23,4 +23,8 @@ public class PersoneelService {
     public List<Personeel> getAll() {
         return dao.getAll();
     }
+
+    public void addUser(Personeel personeel){
+        dao.add(personeel);
+    }
 }
