@@ -5,6 +5,7 @@ import io.dropwizard.View;
 import io.dropwizard.auth.Auth;
 import io.dropwizard.models.Personeel;
 import io.dropwizard.services.PersoneelService;
+import org.eclipse.jetty.server.Authentication;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Singleton;
@@ -38,5 +39,13 @@ public class PersoneelResource {
     @JsonView(View.Public.class)
     public List<Personeel> getAll(){
         return service.getAll();
+    }
+
+    @POST
+    @Path("/werkzaam")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void updateWerkzaam(@QueryParam("id") int id, @QueryParam("werkzaam") String werkzaam){
+        int werkzaamBool = werkzaam.equals("1") ? 0 : 1;
+        service.setWerkzaam(werkzaamBool, id);
     }
 }

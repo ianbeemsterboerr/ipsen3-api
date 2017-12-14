@@ -1,6 +1,6 @@
-# lala
+# Ipsen3API
 
-How to start the lala application
+How to start the Ipsen3API application
 ---
 
 1. Run `mvn clean install` to build your application

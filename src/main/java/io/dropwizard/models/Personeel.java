@@ -16,6 +16,26 @@ public class Personeel implements Principal{
     @Length(min = 3, max = 40)
     private String voornaam;
 
+    private String tussenvoegsel;
+
+    @NotEmpty
+    @Length(min = 3, max = 40)
+    private String achternaam;
+
+    @NotEmpty
+    @Length(min = 8)
+    private String wachtwoord;
+
+    @NotEmpty
+    @Email
+    private String email;
+
+    @NotEmpty
+    private String rechten;
+
+    @NotEmpty
+    private String werkzaam;
+
     public Personeel(){
 
     }
@@ -56,6 +76,10 @@ public class Personeel implements Principal{
         this.email = email;
     }
 
+    public String getEmail(){
+        return this.email;
+    }
+
     public void setWachtwoord(String wachtwoord) {
         this.wachtwoord = wachtwoord;
     }
@@ -76,25 +100,6 @@ public class Personeel implements Principal{
         this.werkzaam = werkzaam;
     }
 
-    private String tussenvoegsel;
-
-    @NotEmpty
-    @Length(min = 3, max = 40)
-    private String achternaam;
-
-    @NotEmpty
-    @Email
-    private String email;
-
-    @NotEmpty
-    @Length(min = 8)
-    private String wachtwoord;
-
-    @NotEmpty
-    private String rechten;
-
-    @NotEmpty
-    private String werkzaam;
 
     public Personeel(int personeelID, String voornaam, String tussenvoegsel, String achternaam, String email, String wachtwoord, String rechten, String werkzaam){
         this.personeelID = personeelID;
@@ -118,7 +123,6 @@ public class Personeel implements Principal{
         this.werkzaam = werkzaam;
 
     }
-
 
     @Override
     public String getName() {

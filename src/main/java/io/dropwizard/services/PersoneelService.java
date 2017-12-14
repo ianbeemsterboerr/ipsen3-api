@@ -11,6 +11,11 @@ public class PersoneelService {
     public PersoneelService(){
 
     }
+
+    public void setWerkzaam(int werkzaam, int id){
+        dao.setWerkzaam(werkzaam, id);
+    }
+
     public Personeel getPersoon(String email){
         return dao.getByEmailaddress(email);
     }

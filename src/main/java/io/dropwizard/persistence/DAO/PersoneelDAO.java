@@ -47,6 +47,20 @@ public class PersoneelDAO {
         return model;
     }
 
+    public void setWerkzaam(int werkzaam, int id){
+        try{
+            Connection con = pool.checkout();
+            System.out.println(werkzaam + " " + id);
+            PreparedStatement statement = con.prepareStatement("update personeel set werkzaam = ? where persoonID = ?");
+            statement.setInt(1, werkzaam);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+            pool.checkIn(con);
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
     public List<Personeel> getAll(){
         ResultSet results;
         List<Personeel> alHetPersoneel = new ArrayList<>();
