@@ -95,7 +95,7 @@ public class PersoneelDAO {
             System.out.println(personeel.getVoornaam());
             statement.setString(1, personeel.getAchternaam());
 
-            if (personeel.getTussenvoegsel().equals("")) {
+            if (personeel.getTussenvoegsel() == null) {
                 statement.setString(2, null);
             } else {
                 statement.setString(2, personeel.getTussenvoegsel());
