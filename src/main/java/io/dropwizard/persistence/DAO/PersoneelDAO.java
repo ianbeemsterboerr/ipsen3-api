@@ -73,13 +73,12 @@ public class PersoneelDAO {
             while (results.next()){
                 Personeel model;
                 if (results.getString("tussenvoegsel") != null) {
-                    model = new Personeel(results.getInt("persoonID"), results.getString("achternaam"), results.getString("tussenvoegsel"), results.getString("voornaam"), results.getString("email"), results.getString("wachtwoord"), results.getString("rechten"), results.getString("werkzaam"));
+                    model = new Personeel(results.getInt("persoonID"), results.getString("voornaam"), results.getString("tussenvoegsel"), results.getString("achternaam"), results.getString("email"), results.getString("wachtwoord"), results.getString("rechten"), results.getString("werkzaam"));
                 } else {
-                    model = new Personeel(results.getInt("persoonID"), results.getString("achternaam"), results.getString("voornaam"), results.getString("email"), results.getString("wachtwoord"), results.getString("rechten"), results.getString("werkzaam"));
+                    model = new Personeel(results.getInt("persoonID"), results.getString("voornaam"), results.getString("achternaam"), results.getString("email"), results.getString("wachtwoord"), results.getString("rechten"), results.getString("werkzaam"));
                 }
                 alHetPersoneel.add(model);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
             pool.checkIn(con);
