@@ -52,4 +52,12 @@ public class UrenResource {
         System.out.println(id);
         return service.getUrenByPersoneelId(id);
     }
+
+    @GET
+    @Path("/getall")
+    @JsonView(View.Private.class)
+    @RolesAllowed("ADMIN")
+    public List<Uren> getAllUren(){
+        return service.getAllUren();
+    }
 }
