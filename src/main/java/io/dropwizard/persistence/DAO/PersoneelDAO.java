@@ -47,6 +47,20 @@ public class PersoneelDAO {
         return model;
     }
 
+    public void setWerkzaam(int werkzaam, int id){
+        try{
+            Connection con = pool.checkout();
+            System.out.println(werkzaam + " " + id);
+            PreparedStatement statement = con.prepareStatement("update personeel set werkzaam = ? where persoonID = ?");
+            statement.setInt(1, werkzaam);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+            pool.checkIn(con);
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
     public List<Personeel> getAll(){
         ResultSet results;
         List<Personeel> alHetPersoneel = new ArrayList<>();
@@ -59,17 +73,47 @@ public class PersoneelDAO {
             while (results.next()){
                 Personeel model;
                 if (results.getString("tussenvoegsel") != null) {
-                    model = new Personeel(results.getInt("persoonID"), results.getString("achternaam"), results.getString("tussenvoegsel"), results.getString("voornaam"), results.getString("email"), results.getString("wachtwoord"), results.getString("rechten"), results.getString("werkzaam"));
+                    model = new Personeel(results.getInt("persoonID"), results.getString("voornaam"), results.getString("tussenvoegsel"), results.getString("achternaam"), results.getString("email"), results.getString("wachtwoord"), results.getString("rechten"), results.getString("werkzaam"));
                 } else {
-                    model = new Personeel(results.getInt("persoonID"), results.getString("achternaam"), results.getString("voornaam"), results.getString("email"), results.getString("wachtwoord"), results.getString("rechten"), results.getString("werkzaam"));
+                    model = new Personeel(results.getInt("persoonID"), results.getString("voornaam"), results.getString("achternaam"), results.getString("email"), results.getString("wachtwoord"), results.getString("rechten"), results.getString("werkzaam"));
                 }
                 alHetPersoneel.add(model);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
             pool.checkIn(con);
         }
         return alHetPersoneel;
     }
+
+    public void add(Personeel personeel){
+        try{
+            Connection con = pool.checkout();
+            PreparedStatement statement = con.prepareStatement("INSERT INTO personeel (achternaam, tussenvoegsel, voornaam, email, rechten, werkzaam) VALUES (?, ?, ?, ?, ?, ?)");
+
+            System.out.println(personeel.getVoornaam());
+            statement.setString(1, personeel.getAchternaam());
+
+            if (personeel.getTussenvoegsel() == null) {
+                statement.setString(2, null);
+            } else {
+                statement.setString(2, personeel.getTussenvoegsel());
+            }
+            statement.setString(3, personeel.getVoornaam());
+            statement.setString(4, personeel.getEmail());
+            if(personeel.getRechten().equals("Personeel")){
+                statement.setString(5, "0");
+            } else {
+                statement.setString(5, "1");
+            }
+
+            statement.setString(6, "1");
+
+            statement.executeQuery();
+        } catch(SQLException e){
+            e.printStackTrace();
+
+        }
+    }
+
 }

@@ -11,11 +11,20 @@ public class PersoneelService {
     public PersoneelService(){
 
     }
+
+    public void setWerkzaam(int werkzaam, int id){
+        dao.setWerkzaam(werkzaam, id);
+    }
+
     public Personeel getPersoon(String email){
         return dao.getByEmailaddress(email);
     }
 
     public List<Personeel> getAll() {
         return dao.getAll();
+    }
+
+    public void addUser(Personeel personeel){
+        dao.add(personeel);
     }
 }
