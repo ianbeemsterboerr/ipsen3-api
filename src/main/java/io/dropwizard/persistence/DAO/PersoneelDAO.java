@@ -116,4 +116,8 @@ public class PersoneelDAO {
         }
     }
 
+    public void setWachtwoord(){
+
+    }
+
 }
