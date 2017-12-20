@@ -39,4 +39,15 @@ public class KlantDAO {
         return klanten;
     }
 
+    public void add(Klant klant){
+        try{
+            Connection con = pool.checkout();
+            PreparedStatement statement = con.prepareStatement("INSERT INTO klant (klant_naam) VALUES (?)");
+            statement.setString(1, klant.getKlantNaam());
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -55,7 +55,7 @@ public class PersoneelResource {
     @POST
     @Path("add")
     @Consumes (MediaType.APPLICATION_JSON)
-    @JsonView(View.Protected.class)
+    @JsonView(View.OnlyAdmins.class)
     public void createAccount(Personeel personeel) {
         //TODO @Valid toevoegen, maar werkt niet... ?
         System.out.println(personeel.getVoornaam());
