@@ -52,7 +52,6 @@ public class PersoneelResource {
     @POST
     @Path("wachtwoord")
     @Consumes(MediaType.APPLICATION_JSON)
-    @JsonView(View.Protected.class)
     public void veranderWachtwoord(@QueryParam("wachtwoord") String newPassword, @QueryParam("id") int ID ) {
         System.out.println(newPassword + " " + ID);
         service.changePassword(newPassword, ID);

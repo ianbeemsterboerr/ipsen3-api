@@ -60,13 +60,13 @@ public class ApiApplication extends Application<ApiConfiguration> {
         environment.jersey().register(urenResource);
         environment.jersey().register(security);
         environment.jersey().register(logInResource);
-//        environment.jersey().register(AuthFactory.binder(
-//                new BasicAuthFactory<>(
-//                        new AuthService(),
-//                        "lol",
-//                        Personeel.class
-//                )
-//        ));
+        environment.jersey().register(AuthFactory.binder(
+                new BasicAuthFactory<>(
+                        new AuthService(),
+                        "lol",
+                        Personeel.class
+                )
+        ));
     }
 
 }
