@@ -75,10 +75,6 @@ public class Personeel implements Principal{
         this.email = email;
     }
 
-    public String getEmail(){
-        return this.email;
-    }
-
     public void setWachtwoord(String wachtwoord) {
         this.wachtwoord = wachtwoord;
     }
