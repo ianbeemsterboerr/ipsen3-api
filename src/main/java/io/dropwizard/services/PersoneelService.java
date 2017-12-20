@@ -27,4 +27,8 @@ public class PersoneelService {
     public void addUser(Personeel personeel){
         dao.add(personeel);
     }
+
+    public void changePassword(String newPassword, int ID) {
+        dao.setWachtwoord(newPassword, ID);
+    }
 }
