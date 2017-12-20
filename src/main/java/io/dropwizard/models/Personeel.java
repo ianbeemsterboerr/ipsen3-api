@@ -4,7 +4,6 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.annotation.RegEx;
 import java.security.Principal;
 
 public class Personeel implements Principal{
@@ -103,7 +102,13 @@ public class Personeel implements Principal{
     public Personeel(int personeelID, String voornaam, String tussenvoegsel, String achternaam, String email, String wachtwoord, String rechten, String werkzaam){
         this.personeelID = personeelID;
         this.voornaam = voornaam;
-        this.tussenvoegsel = tussenvoegsel;
+
+        if(tussenvoegsel != null && tussenvoegsel.equals("")) {
+            this.tussenvoegsel = null;
+        } else {
+            this.tussenvoegsel = tussenvoegsel;
+        }
+
         this.achternaam = achternaam;
         this.email = email;
         this.wachtwoord = wachtwoord;

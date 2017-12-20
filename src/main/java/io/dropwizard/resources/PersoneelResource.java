@@ -11,6 +11,7 @@ import javax.inject.Singleton;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Singleton
@@ -30,7 +31,6 @@ public class PersoneelResource {
     @Path("/login")
     @JsonView(View.Public.class)
     public Personeel logIn(@Auth Personeel personeel){
-        System.out.println(personeel.getPassword());
         return personeel;
     }
 
@@ -53,7 +53,7 @@ public class PersoneelResource {
     @Path("add")
     @Consumes (MediaType.APPLICATION_JSON)
     @JsonView(View.Protected.class)
-    public void createAccount(Personeel personeel) {
+    public void createAccount(@Valid Personeel personeel) {
         //TODO @Valid toevoegen, maar werkt niet... ?
         System.out.println(personeel.getVoornaam());
         service.addUser(personeel);
