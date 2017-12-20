@@ -23,4 +23,9 @@ public class UrenService {
     public List<Uren> getUrenByPersoneelId(int id) {
         return dao.getByPersoonId(id);
     }
+
+    public List<Uren> getAllUren() {
+        return dao.getAllUren();
+
+    }
 }

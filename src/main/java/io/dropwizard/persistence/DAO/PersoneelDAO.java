@@ -20,7 +20,6 @@ public class PersoneelDAO {
 
     public PersoneelDAO() {
         this.pool = new ConnectionPool("org.mariadb.jdbc.Driver","jdbc:mariadb://localhost:3306:/UrenregistratieDatabase", "root", "ipsen123");
-        user1 = new Personeel(1, "Pietje", "Potvis", "potvis@live.nl", "wachtwoord", "Admin", "Ja");
     }
 
     public Personeel getByEmailaddress(String email) {
@@ -113,6 +112,22 @@ public class PersoneelDAO {
         } catch(SQLException e){
             e.printStackTrace();
 
+        }
+    }
+
+    public void setWachtwoord(String newPassword, int ID) {
+        Connection con = pool.checkout();
+        String id = Integer.toString(ID);
+        try {
+
+            PreparedStatement changePassword = con.prepareStatement("UPDATE personeel SET wachtwoord = (?) WHERE persoonID = (?);");
+            changePassword.setString(1,newPassword);
+            changePassword.setString(2,id);
+            changePassword.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            pool.checkIn(con);
         }
     }
 

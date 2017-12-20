@@ -1,10 +1,13 @@
 package io.dropwizard.resources;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.sun.org.apache.xpath.internal.SourceTree;
 import io.dropwizard.View;
 import io.dropwizard.auth.Auth;
+import io.dropwizard.jersey.PATCH;
 import io.dropwizard.models.Personeel;
 import io.dropwizard.services.PersoneelService;
+import jdk.management.resource.internal.inst.SocketOutputStreamRMHooks;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Singleton;
@@ -17,22 +20,9 @@ import java.util.List;
 @Singleton
 @Path("/personeel")
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed({"ADMIN", "PERSONEEL"})
 public class PersoneelResource {
     PersoneelService service = new PersoneelService();
-
-    @GET
-    @JsonView(View.Public.class)
-    @RolesAllowed("GUEST")
-    public String getPersoon(){
-        return "LOL xD";
-    }
-
-    @GET
-    @Path("/login")
-    @JsonView(View.Public.class)
-    public Personeel logIn(@Auth Personeel personeel){
-        return personeel;
-    }
 
     @GET
     @Path("/getall")
@@ -50,13 +40,21 @@ public class PersoneelResource {
     }
 
     @POST
-    @Path("add")
+    @Path("/add")
     @Consumes (MediaType.APPLICATION_JSON)
-    @JsonView(View.Protected.class)
-    public void createAccount(@Valid Personeel personeel) {
+    @JsonView(View.OnlyAdmins.class)
+    public void createAccount(Personeel personeel) {
         //TODO @Valid toevoegen, maar werkt niet... ?
         System.out.println(personeel.getVoornaam());
         service.addUser(personeel);
     }
 
+    @POST
+    @Path("wachtwoord")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @JsonView(View.Protected.class)
+    public void veranderWachtwoord(@QueryParam("wachtwoord") String newPassword, @QueryParam("id") int ID ) {
+        System.out.println(newPassword + " " + ID);
+        service.changePassword(newPassword, ID);
+    }
 }
