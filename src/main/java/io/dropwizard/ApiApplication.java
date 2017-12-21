@@ -13,7 +13,7 @@ import io.dropwizard.services.SecurityFilterService;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
-
+import io.dropwizard.bundles.assets.ConfiguredAssetsBundle;
 import javax.inject.Singleton;
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
@@ -23,7 +23,7 @@ import java.util.EnumSet;
 
 public class ApiApplication extends Application<ApiConfiguration> {
     private String apiName;
-    private String databaseURL;
+    private ConfiguredBundle assetsBundle;
     public static void main(final String[] args) throws Exception {
         new ApiApplication().run(args);
     }
@@ -36,7 +36,8 @@ public class ApiApplication extends Application<ApiConfiguration> {
 
     @Override
     public void initialize(final Bootstrap<ApiConfiguration> bootstrap) {
-        // TODO: application initialization
+        assetsBundle = (ConfiguredBundle) new ConfiguredAssetsBundle("/assets/", "/", "index.html");
+        bootstrap.addBundle(assetsBundle);
     }
 
     @Override
@@ -48,6 +49,7 @@ public class ApiApplication extends Application<ApiConfiguration> {
         cors.setInitParameter("allowedOrigins", "*");
         cors.setInitParameter("allowedHeaders", "X-Requested-With,Content-Type,Accept,Origin, Authorization");
         cors.setInitParameter("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
+        cors.setInitParameter(CrossOriginFilter.ALLOW_CREDENTIALS_PARAM, "true");
 
         // Add URL mapping
         cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
@@ -60,13 +62,13 @@ public class ApiApplication extends Application<ApiConfiguration> {
         environment.jersey().register(urenResource);
         environment.jersey().register(security);
         environment.jersey().register(logInResource);
-//        environment.jersey().register(AuthFactory.binder(
-//                new BasicAuthFactory<>(
-//                        new AuthService(),
-//                        "lol",
-//                        Personeel.class
-//                )
-//        ));
+        environment.jersey().register(AuthFactory.binder(
+                new BasicAuthFactory<>(
+                        new AuthService(),
+                        "lol",
+                        Personeel.class
+                )
+        ));
     }
 
 }
