@@ -50,4 +50,9 @@ public class UrenService {
 
 
     }
+
+    public List<Uren> getAllUren() {
+        return dao.getAllUren();
+
+    }
 }

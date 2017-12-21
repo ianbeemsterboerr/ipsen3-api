@@ -111,6 +111,21 @@ public class UrenDAO {
         return toModel(resultSet);
     }
 
+    public List<Uren> getAllUren() {
+        ResultSet results = null;
+        Connection con;
+        PreparedStatement statement;
+        try {
+            con = pool.checkout();
+            statement = con.prepareStatement("SELECT geregistreerdetijd.uurID, geregistreerdetijd.begindatum, geregistreerdetijd.einddatum, geregistreerdetijd.begintijd, geregistreerdetijd.eindtijd, geregistreerdetijd.commentaar, geregistreerdetijd.goedgekeurd, personeel.voornaam, personeel.persoonID, personeel.achternaam, personeel.tussenvoegsel, klant.klant_naam, geregistreerdetijd.klant_ID, project.project_naam, geregistreerdetijd.project_ID, onderwerp.onderwerp_naam, geregistreerdetijd.onderwerp_ID FROM geregistreerdetijd JOIN personeel ON personeel.persoonID = geregistreerdetijd.persoonID JOIN klant ON klant.klant_ID = geregistreerdetijd.klant_ID JOIN project ON project.project_ID = geregistreerdetijd.project_ID JOIN onderwerp ON onderwerp.onderwerp_ID = geregistreerdetijd.onderwerp_ID");
+            results = statement.executeQuery();
+            pool.checkIn(con);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return toModel(results);
+    }
+
     public void setHour(Uren hour) {
         Connection con = pool.checkout();
         try {

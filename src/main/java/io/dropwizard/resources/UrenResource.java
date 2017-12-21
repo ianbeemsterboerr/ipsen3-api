@@ -23,19 +23,6 @@ public class UrenResource {
     //  localhost:8080/uren/getby?begindatum=2017-1-1&einddatum=2018-1-1&klant=WebEdu&project=UrenRegistratieApplicatie
     //  localhost:8080/uren/getby?begindatum=2017-1-1&einddatum=2018-1-1&klant=WebEdu&project=UrenRegistratieApplicatie&onderwerp=Applicatie
 
-    @GET
-    @Path("/admingetby")
-    @JsonView(View.Public.class)
-    @RolesAllowed("GUEST")  //TODO: Moet alleen benaderbaar zijn door admins.
-    public List<Uren> getUrenAdmin(
-            @QueryParam("begindatum") String begindatum,
-            @QueryParam("einddatum") String einddatum,
-            @DefaultValue("")@QueryParam("klant") String klant,
-            @DefaultValue("")@QueryParam("project") String project,
-            @DefaultValue("")@QueryParam("onderwerp") String onderwerp){
-
-        return service.getUrenAdmin(begindatum, einddatum, klant, project, onderwerp);
-    }
 
     /**
      * Ontvangt een personeelID en geeft alle gewerkte uren voor deze personeelID terug.
@@ -51,6 +38,14 @@ public class UrenResource {
 
         System.out.println(id);
         return service.getUrenByPersoneelId(id);
+    }
+
+    @GET
+    @Path("/getall")
+    @JsonView(View.OnlyAdmins.class)
+    @RolesAllowed("ADMIN")
+    public List<Uren> getAllUren(){
+        return service.getAllUren();
     }
 
     @POST

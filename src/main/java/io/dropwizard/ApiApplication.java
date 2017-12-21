@@ -6,13 +6,15 @@ import io.dropwizard.auth.basic.BasicAuthFactory;
 import io.dropwizard.models.Personeel;
 import io.dropwizard.persistence.ConnectionPool;
 import io.dropwizard.resources.CustomerResource;
+import io.dropwizard.resources.LogInResource;
 import io.dropwizard.resources.PersoneelResource;
 import io.dropwizard.resources.UrenResource;
 import io.dropwizard.services.AuthService;
+import io.dropwizard.services.SecurityFilterService;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
-
+import io.dropwizard.bundles.assets.ConfiguredAssetsBundle;
 import javax.inject.Singleton;
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
@@ -22,7 +24,7 @@ import java.util.EnumSet;
 
 public class ApiApplication extends Application<ApiConfiguration> {
     private String apiName;
-    private String databaseURL;
+    private ConfiguredBundle assetsBundle;
     public static void main(final String[] args) throws Exception {
         new ApiApplication().run(args);
     }
@@ -35,7 +37,8 @@ public class ApiApplication extends Application<ApiConfiguration> {
 
     @Override
     public void initialize(final Bootstrap<ApiConfiguration> bootstrap) {
-        // TODO: application initialization
+        assetsBundle = (ConfiguredBundle) new ConfiguredAssetsBundle("/assets/", "/", "index.html");
+        bootstrap.addBundle(assetsBundle);
     }
 
     @Override
@@ -47,15 +50,20 @@ public class ApiApplication extends Application<ApiConfiguration> {
         cors.setInitParameter("allowedOrigins", "*");
         cors.setInitParameter("allowedHeaders", "X-Requested-With,Content-Type,Accept,Origin, Authorization");
         cors.setInitParameter("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
+        cors.setInitParameter(CrossOriginFilter.ALLOW_CREDENTIALS_PARAM, "true");
 
         // Add URL mapping
         cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 
         final PersoneelResource personeelResource = new PersoneelResource();
         final UrenResource urenResource = new UrenResource();
+        final SecurityFilterService security = new SecurityFilterService();
+        final LogInResource logInResource = new LogInResource();
         final CustomerResource customerResource = new CustomerResource();
         environment.jersey().register(personeelResource);
         environment.jersey().register(urenResource);
+        environment.jersey().register(security);
+        environment.jersey().register(logInResource);
         environment.jersey().register(customerResource);
 
         environment.jersey().register(AuthFactory.binder(

@@ -19,23 +19,9 @@ import java.util.List;
 @Singleton
 @Path("/personeel")
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed({"ADMIN", "PERSONEEL"})
 public class PersoneelResource {
     PersoneelService service = new PersoneelService();
-
-    @GET
-    @JsonView(View.Public.class)
-    @RolesAllowed("GUEST")
-    public String getPersoon(){
-        return "LOL xD";
-    }
-
-    @GET
-    @Path("/login")
-    @JsonView(View.Public.class)
-    public Personeel logIn(@Auth Personeel personeel){
-        System.out.println(personeel.getPassword());
-        return personeel;
-    }
 
     @GET
     @Path("/getall")
@@ -53,7 +39,7 @@ public class PersoneelResource {
     }
 
     @POST
-    @Path("add")
+    @Path("/add")
     @Consumes (MediaType.APPLICATION_JSON)
     @JsonView(View.OnlyAdmins.class)
     public void createAccount(Personeel personeel) {
