@@ -52,4 +52,14 @@ public class UrenResource {
         System.out.println(id);
         return service.getUrenByPersoneelId(id);
     }
+
+    @POST
+    @Path("/setHour")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @JsonView(View.OnlyAdmins.class)
+    public void setHours( Uren uren) {
+        System.out.println(uren.getEmployeeId());
+        this.service.setHours(uren);
+    }
+
 }

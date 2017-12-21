@@ -8,181 +8,196 @@ public class Uren {
 
 
     @NotEmpty
-    private int uurId;
+    private int hourID;
 
     @NotNull
-    private int personeelID;
+    private int employeeId;
 
     @NotNull
-    private String beginDatum;
+    private String startingDate;
 
     @NotNull
-    private String beginTijd;
+    private String startingTime;
 
     @NotNull
-    private String eindDatum;
+    private String endingDate;
 
     @NotNull
-    private String eindTijd;
+    private String endingTime;
 
     @NotNull
-    private String klantNaam;
+    private String customerName;
 
     @NotNull
-    private String projectNaam;
+    private String projectName;
 
     @NotNull
-    private String onderwerpNaam;
+    private String subjectName;
 
     @NotNull
-    private int klantId;
+    private int customerId;
 
     @NotNull
     private int projectId;
 
     @NotNull
-    private int onderwerpId;
+    private int subjectId;
 
     @NotNull
-    private String commentaar;
+    private String comment;
 
     @NotNull
-    private boolean goedgekeurd;
+    private boolean confirmed;
 
     @NotNull
-    private String persoonNaam;
+    private String employeeName;
 
     @NotNull
     private boolean isChanged = false;
 
-    public Uren(int uurId, int personeelID, String beginDatum, String beginTijd, String eindDatum, String eindTijd, String klantNaam, String projectNaam, String onderwerpNaam,int klantId, int projectId, int onderwerpId, String commentaar, boolean goedgekeurd, String persoonNaam, boolean isChanged) {
-        this.uurId = uurId;
-        this.personeelID = personeelID;
-        this.beginDatum = beginDatum;
-        this.beginTijd = beginTijd;
-        this.eindDatum = eindDatum;
-        this.eindTijd = eindTijd;
-        this.klantNaam = klantNaam;
-        this.projectNaam = projectNaam;
-        this.onderwerpNaam = onderwerpNaam;
-        this.commentaar = commentaar;
-        this.goedgekeurd = goedgekeurd;
-        this.persoonNaam = persoonNaam;
+    public Uren(int uurId, int employeeId, String startingDate, String startingTime, String endingDate, String endingTime, String customerName, String projectName, String subjectName, int customerId, int projectId, int subjectId, String comment, boolean confirmed, String employeeName, boolean isChanged) {
+        this.hourID = uurId;
+        this.employeeId = employeeId;
+        this.startingDate = startingDate;
+        this.startingTime = startingTime;
+        this.endingDate = endingDate;
+        this.endingTime = endingTime;
+        this.customerName = customerName;
+        this.projectName = projectName;
+        this.subjectName = subjectName;
+        this.comment = comment;
+        this.confirmed = confirmed;
+        this.employeeName = employeeName;
         this.isChanged = isChanged;
         this.projectId = projectId;
-        this.klantId = klantId;
-        this.onderwerpId = onderwerpId;
+        this.customerId = customerId;
+        this.subjectId = subjectId;
     }
 
-    public Uren(int uurID, String begindatum, String einddatum, String begintijd, String eindtijd, String commentaar, boolean goedgekeurd, int persoonID, String klantnaam, String projectnaam, String onderwerpnaam, String personeelsnaam) {
-        this.uurId = uurID;
-        this.personeelID = persoonID;
-        this.beginDatum = begindatum;
-        this.beginTijd = begintijd;
-        this.eindDatum = einddatum;
-        this.eindTijd = eindtijd;
-        this.klantNaam = klantnaam;
-        this.projectNaam = projectnaam;
-        this.onderwerpNaam = onderwerpnaam;
-        this.commentaar = commentaar;
-        this.goedgekeurd = goedgekeurd;
-        this.persoonNaam = personeelsnaam;
+    public Uren(int hourID, String startingDate, String endingDate, String startingTime, String endingTime, String comment, boolean confirmed, int employeeId, String customerName, String projectName, String subjectName, String employeeName) {
+        this.hourID = hourID;
+        this.employeeId = employeeId;
+        this.startingDate = startingDate;
+        this.startingTime = startingTime;
+        this.endingDate = endingDate;
+        this.endingTime = endingTime;
+        this.customerName = customerName;
+        this.projectName = projectName;
+        this.subjectName = subjectName;
+        this.comment = comment;
+        this.confirmed = confirmed;
+        this.employeeName = employeeName;
+    }
+
+    public Uren(String startingDate, String startingTime, String endingDate, String endingTime, String customerName, String projectName, String subjectName, String comment, int employeeID) {
+        this.startingDate = startingDate;
+        this.startingTime = startingTime;
+        this.endingDate = endingDate;
+        this.endingTime = endingTime;
+        this.customerName = customerName;
+        this.projectName = projectName;
+        this.subjectName = subjectName;
+        this.comment = comment;
+        this.employeeId = employeeID;
+    }
+
+    public Uren(){
     }
 
     public int getUurId() {
-        return uurId;
+        return hourID;
     }
 
     public void setUurId(int uurId) {
-        this.uurId = uurId;
+        this.hourID = uurId;
     }
 
-    public int getPersoneelID() {
-        return personeelID;
+    public int getEmployeeId() {
+        return employeeId;
     }
 
-    public void setPersoneelID(int personeelID) {
-        this.personeelID = personeelID;
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
     }
 
-    public String getBeginDatum() {
-        return beginDatum;
+    public String getStartingDate() {
+        return startingDate;
     }
 
-    public void setBeginDatum(String beginDatum) {
-        this.beginDatum = beginDatum;
+    public void setStartingDate(String startingDate) {
+        this.startingDate = startingDate;
     }
 
-    public String getBeginTijd() {
-        return beginTijd;
+    public String getStartingTime() {
+        return startingTime;
     }
 
-    public void setBeginTijd(String beginTijd) {
-        this.beginTijd = beginTijd;
+    public void setStartingTime(String startingTime) {
+        this.startingTime = startingTime;
     }
 
-    public String getEindDatum() {
-        return eindDatum;
+    public String getEndingDate() {
+        return endingDate;
     }
 
-    public void setEindDatum(String eindDatum) {
-        this.eindDatum = eindDatum;
+    public void setEndingDate(String endingDate) {
+        this.endingDate = endingDate;
     }
 
-    public String getEindTijd() {
-        return eindTijd;
+    public String getEndingTime() {
+        return endingTime;
     }
 
-    public void setEindTijd(String eindTijd) {
-        this.eindTijd = eindTijd;
+    public void setEndingTime(String endingTime) {
+        this.endingTime = endingTime;
     }
 
-    public String getKlantNaam() {
-        return klantNaam;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setKlantNaam(String klantNaam) {
-        this.klantNaam = klantNaam;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
-    public String getProjectNaam() {
-        return projectNaam;
+    public String getProjectName() {
+        return projectName;
     }
 
-    public void setProjectNaam(String projectNaam) {
-        this.projectNaam = projectNaam;
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 
-    public String getOnderwerpNaam() {
-        return onderwerpNaam;
+    public String getSubjectName() {
+        return subjectName;
     }
 
-    public void setOnderwerpNaam(String onderwerpNaam) {
-        this.onderwerpNaam = onderwerpNaam;
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
     }
 
-    public String getCommentaar() {
-        return commentaar;
+    public String getComment() {
+        return comment;
     }
 
-    public void setCommentaar(String commentaar) {
-        this.commentaar = commentaar;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
-    public boolean isGoedgekeurd() {
-        return goedgekeurd;
+    public boolean isConfirmed() {
+        return confirmed;
     }
 
-    public void setGoedgekeurd(boolean goedgekeurd) {
-        this.goedgekeurd = goedgekeurd;
+    public void setConfirmed(boolean confirmed) {
+        this.confirmed = confirmed;
     }
 
-    public String getPersoonNaam() {
-        return persoonNaam;
+    public String getEmployeeName() {
+        return employeeName;
     }
 
-    public void setPersoonNaam(String persoonNaam) {
-        this.persoonNaam = persoonNaam;
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
     }
 
     public boolean isChanged() {
@@ -192,6 +207,39 @@ public class Uren {
     public void setChanged(boolean changed) {
         isChanged = changed;
     }
+
+    public int getHourID() {
+        return hourID;
+    }
+
+    public void setHourID(int hourID) {
+        this.hourID = hourID;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public int getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
+    }
+
+    public int getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(int subjectId) {
+        this.subjectId = subjectId;
+    }
+
 
 
 
