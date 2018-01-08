@@ -12,8 +12,9 @@ public class PersoneelService {
 
     }
 
-    public void setWerkzaam(int werkzaam, int id){
-        dao.setWerkzaam(werkzaam, id);
+    public void setWerkzaam(String werkzaam, int id){
+        int werkzaamBool = werkzaam.equals("1") ? 0 : 1;
+        dao.setWerkzaam(werkzaamBool, id);
     }
 
     public Personeel getPersoon(String email){

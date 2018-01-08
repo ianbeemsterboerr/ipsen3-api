@@ -148,7 +148,20 @@ public class UrenDAO {
         } finally {
             pool.checkIn(con);
         }
+    }
 
+    public void setConfirmed(Uren uur, boolean confirmed){
+        Connection con = pool.checkout();
+        try{
+            PreparedStatement statement = con.prepareStatement("UPDATE geregistreerdetijd set goedgekeurd = ? WHERE uurID = ?");
+            statement.setBoolean(1, confirmed);
+            statement.setInt(2, uur.getUurId());
+            statement.executeUpdate();
+            pool.checkIn(con);
+        } catch(SQLException e){
+            pool.checkIn(con);
+            e.printStackTrace();
+        }
     }
 }
 
