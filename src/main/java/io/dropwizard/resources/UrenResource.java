@@ -57,4 +57,12 @@ public class UrenResource {
         this.service.setHours(uren);
     }
 
+    @POST
+    @Path("/confirm")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @JsonView(View.OnlyAdmins.class)
+    public void setConfirmed(Uren uur){
+        this.service.setConfirmed(uur);
+    }
+
 }

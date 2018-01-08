@@ -34,8 +34,7 @@ public class PersoneelResource {
     @Path("/werkzaam")
     @Consumes(MediaType.APPLICATION_JSON)
     public void updateWerkzaam(@QueryParam("id") int id, @QueryParam("werkzaam") String werkzaam){
-        int werkzaamBool = werkzaam.equals("1") ? 0 : 1;
-        service.setWerkzaam(werkzaamBool, id);
+        service.setWerkzaam(werkzaam, id);
     }
 
     @POST

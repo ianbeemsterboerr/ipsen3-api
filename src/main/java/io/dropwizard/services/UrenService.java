@@ -67,6 +67,11 @@ public class UrenService {
             }
 
     }
+    public void setConfirmed(Uren uur){
+        boolean confirmed = uur.isConfirmed() == true ? false : true;
+        this.dao.setConfirmed(uur, confirmed);
+    }
+
 
     public List<Uren> getAllUren() {
         return dao.getAllUren();
