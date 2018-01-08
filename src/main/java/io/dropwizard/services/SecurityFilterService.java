@@ -1,6 +1,5 @@
 package io.dropwizard.services;
 
-import io.dropwizard.View;
 import io.dropwizard.models.Personeel;
 import io.dropwizard.persistence.DAO.PersoneelDAO;
 import org.glassfish.jersey.internal.util.Base64;
@@ -20,8 +19,11 @@ public class SecurityFilterService implements ContainerRequestFilter{
 
     private static final String SECURED_URL_PREFIX_EMPLOYEE = "api";
 
-    private PersoneelDAO dao = new PersoneelDAO();
-
+    private PersoneelDAO dao;
+    @com.google.inject.Inject
+    public SecurityFilterService(PersoneelDAO dao){
+        this.dao = dao;
+    }
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
         System.out.println("In filter");

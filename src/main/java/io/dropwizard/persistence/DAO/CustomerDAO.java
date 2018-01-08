@@ -3,6 +3,7 @@ package io.dropwizard.persistence.DAO;
 import io.dropwizard.models.Customer;
 import io.dropwizard.persistence.ConnectionPool;
 
+import javax.inject.Singleton;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Singleton
 public class CustomerDAO {
 
     private ConnectionPool pool;

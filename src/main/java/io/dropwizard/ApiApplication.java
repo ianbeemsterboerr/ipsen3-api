@@ -1,30 +1,22 @@
 package io.dropwizard;
 
 
-import io.dropwizard.auth.AuthFactory;
-import io.dropwizard.auth.basic.BasicAuthFactory;
-import io.dropwizard.models.Personeel;
-import io.dropwizard.persistence.ConnectionPool;
-import io.dropwizard.resources.CustomerResource;
-import io.dropwizard.resources.LogInResource;
-import io.dropwizard.resources.PersoneelResource;
-import io.dropwizard.resources.UrenResource;
-import io.dropwizard.services.AuthService;
-import io.dropwizard.services.SecurityFilterService;
+import com.google.inject.Module;
+import com.hubspot.dropwizard.guice.GuiceBundle;
+import io.dropwizard.bundles.assets.ConfiguredAssetsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
-import io.dropwizard.bundles.assets.ConfiguredAssetsBundle;
-import javax.inject.Singleton;
+
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
-import java.sql.*;
 import java.util.EnumSet;
-
 
 public class ApiApplication extends Application<ApiConfiguration> {
     private String apiName;
     private ConfiguredBundle assetsBundle;
+    private GuiceBundle guiceBundle;
+
     public static void main(final String[] args) throws Exception {
         new ApiApplication().run(args);
     }
@@ -37,8 +29,20 @@ public class ApiApplication extends Application<ApiConfiguration> {
 
     @Override
     public void initialize(final Bootstrap<ApiConfiguration> bootstrap) {
-        assetsBundle = (ConfiguredBundle) new ConfiguredAssetsBundle("/assets/", "/", "index.html");
+        assetsBundle = new ConfiguredAssetsBundle("/assets/", "/", "index.html");
+        guiceBundle = createGuiceBundle(ApiConfiguration.class, new GuiceModule());
+
+        bootstrap.addBundle(guiceBundle);
         bootstrap.addBundle(assetsBundle);
+        //new ConnectionPool("org.mariadb.jdbc.Driver","jdbc:mariadb://localhost:3306:/UrenregistratieDatabase", "root", "ipsen123")
+    }
+
+    private GuiceBundle createGuiceBundle(Class<ApiConfiguration> apiConfigurationClass, Module Module) {
+        GuiceBundle.Builder guiceBuilder = GuiceBundle.<ApiConfiguration>newBuilder()
+                .addModule(Module)
+                .enableAutoConfig("io.dropwizard")
+                .setConfigClass(apiConfigurationClass);
+        return guiceBuilder.build();
     }
 
     @Override
@@ -55,24 +59,24 @@ public class ApiApplication extends Application<ApiConfiguration> {
         // Add URL mapping
         cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 
-        final PersoneelResource personeelResource = new PersoneelResource();
-        final UrenResource urenResource = new UrenResource();
-        final SecurityFilterService security = new SecurityFilterService();
-        final LogInResource logInResource = new LogInResource();
-        final CustomerResource customerResource = new CustomerResource();
-        environment.jersey().register(personeelResource);
-        environment.jersey().register(urenResource);
-        environment.jersey().register(security);
-        environment.jersey().register(logInResource);
-        environment.jersey().register(customerResource);
-
-        environment.jersey().register(AuthFactory.binder(
-                new BasicAuthFactory<>(
-                        new AuthService(),
-                        "lol",
-                        Personeel.class
-                )
-        ));
+//        final PersoneelResource personeelResource = new PersoneelResource();
+//        final UrenResource urenResource = new UrenResource();
+//        final SecurityFilterService security = new SecurityFilterService();
+//        final LogInResource logInResource = new LogInResource();
+//        final CustomerResource customerResource = new CustomerResource();
+//        environment.jersey().register(personeelResource);
+//        environment.jersey().register(urenResource);
+//        environment.jersey().register(security);
+//        environment.jersey().register(logInResource);
+//        environment.jersey().register(customerResource);
+//
+//        environment.jersey().register(AuthFactory.binder(
+//                new BasicAuthFactory<>(
+//                        new AuthService(),
+//                        "lol",
+//                        Personeel.class
+//                )
+//        ));
     }
 
 }

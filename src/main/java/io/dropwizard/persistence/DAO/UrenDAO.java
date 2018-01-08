@@ -1,10 +1,9 @@
 package io.dropwizard.persistence.DAO;
-
-import io.dropwizard.models.Personeel;
 import io.dropwizard.models.Uren;
 import io.dropwizard.persistence.ConnectionPool;
 
-import javax.xml.transform.Result;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,9 +11,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Singleton
 public class UrenDAO {
     ConnectionPool pool;
-
+    @Inject
     public UrenDAO(){
         this.pool = new ConnectionPool("org.mariadb.jdbc.Driver","jdbc:mariadb://localhost:3306:/UrenregistratieDatabase", "root", "ipsen123");
     }

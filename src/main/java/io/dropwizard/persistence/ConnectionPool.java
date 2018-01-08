@@ -1,21 +1,16 @@
 package io.dropwizard.persistence;
 
-
-import com.sun.org.apache.xml.internal.utils.ObjectPool;
-
-
 import javax.inject.Singleton;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 /**
  * Fungeert als een connectionpool. Zorgt ervoor dat er nieuwe connecties worden aangemaakt als het druk wordt.
  */
 @Singleton
 public class ConnectionPool extends io.dropwizard.persistence.ObjectPool<Connection> {
-    private String dsn, usr, pwd;
+    private String dsn, usr, pwd, driver;
 
     public ConnectionPool(String driver, String dsn, String usr, String pwd){
         super();
@@ -31,6 +26,27 @@ public class ConnectionPool extends io.dropwizard.persistence.ObjectPool<Connect
         this.dsn = dsn;
         this.usr = usr;
         this.pwd = pwd;
+    }
+
+    /**
+     * Creer connectionpool zonder gegevens op te geven, want de gegevens blijven eigenlijk altijd hetzelfde.
+     */
+    public ConnectionPool(){
+        super();
+        this.driver = "org.mariadb.jdbc.Driver";
+
+        try {
+            Class.forName(driver).newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        this.dsn = "jdbc:mariadb://localhost:3306:/UrenregistratieDatabase";
+        this.pwd = "root";
+        this.usr = "ipsen123";
     }
 
     /**
@@ -50,7 +66,7 @@ public class ConnectionPool extends io.dropwizard.persistence.ObjectPool<Connect
     @Override
     public boolean validate(Connection o) {
         try {
-            return (!((Connection) o).isClosed());
+            return (!o.isClosed());
         } catch (SQLException e) {
             e.printStackTrace();
             return (false);
@@ -60,7 +76,7 @@ public class ConnectionPool extends io.dropwizard.persistence.ObjectPool<Connect
     @Override
     public void expire(Connection o) {
         try {
-            ((Connection) o).close();
+            o.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

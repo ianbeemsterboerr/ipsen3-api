@@ -2,12 +2,12 @@ package io.dropwizard.persistence.DAO;
 
 import io.dropwizard.models.Subject;
 import io.dropwizard.persistence.ConnectionPool;
-
+import javax.inject.Singleton;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+@Singleton
 public class SubjectDAO {
 
     private ConnectionPool pool;

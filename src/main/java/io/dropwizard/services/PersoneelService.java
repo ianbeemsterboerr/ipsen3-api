@@ -3,13 +3,15 @@ package io.dropwizard.services;
 import io.dropwizard.models.Personeel;
 import io.dropwizard.persistence.DAO.PersoneelDAO;
 
+import javax.inject.Inject;
 import java.util.List;
 
 public class PersoneelService {
-    PersoneelDAO dao = new PersoneelDAO();
+    PersoneelDAO dao;
 
-    public PersoneelService(){
-
+    @Inject
+    public PersoneelService(PersoneelDAO dao){
+        this.dao = dao;
     }
 
     public void setWerkzaam(String werkzaam, int id){

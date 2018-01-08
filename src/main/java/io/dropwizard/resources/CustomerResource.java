@@ -5,6 +5,7 @@ import io.dropwizard.View;
 import io.dropwizard.models.Customer;
 import io.dropwizard.services.CustomerService;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -17,7 +18,12 @@ import java.util.List;
 @Path("/Klanten")
 @Produces(MediaType.APPLICATION_JSON)
 public class CustomerResource {
-    public CustomerService service = new CustomerService();
+    public CustomerService service;
+
+    @Inject
+    public CustomerResource(CustomerService service){
+        this.service = service;
+    }
 
     @GET
     @Path("/getAll")

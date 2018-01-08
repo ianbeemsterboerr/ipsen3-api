@@ -6,6 +6,7 @@ import io.dropwizard.models.Uren;
 import io.dropwizard.services.UrenService;
 
 import javax.annotation.security.RolesAllowed;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -15,7 +16,12 @@ import java.util.List;
 @Path("/uren")
 @Produces(MediaType.APPLICATION_JSON)
 public class UrenResource {
-    public UrenService service = new UrenService();
+    public UrenService service;
+
+    @Inject
+    public UrenResource(UrenService service){
+        this.service = service;
+    }
 
     //  Voorbeelden voor de URL:
     //  localhost:8080/uren/getby?begindatum=2017-1-1&einddatum=2018-1-1

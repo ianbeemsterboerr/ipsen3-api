@@ -2,8 +2,8 @@ package io.dropwizard.persistence.DAO;
 
 import io.dropwizard.models.Personeel;
 import io.dropwizard.persistence.ConnectionPool;
-
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,15 +11,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Singleton
 public class PersoneelDAO {
     Personeel user1;
     //TODO: De connectionpool moet ge inject worden inplaats van meegegeven of geinitialiseerd. Er mag er maar een levend zijn.
 
     private ConnectionPool pool;
     //private ConnectionPool pool = new ConnectionPool();
-
-    public PersoneelDAO() {
-        this.pool = new ConnectionPool("org.mariadb.jdbc.Driver","jdbc:mariadb://localhost:3306:/UrenregistratieDatabase", "root", "ipsen123");
+    @Inject
+    public PersoneelDAO(ConnectionPool pool) {
+        this.pool = pool;
     }
 
     public Personeel getByEmailaddress(String email) {

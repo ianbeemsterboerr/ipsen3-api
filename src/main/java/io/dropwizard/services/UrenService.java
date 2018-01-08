@@ -1,5 +1,6 @@
 package io.dropwizard.services;
 
+import com.google.inject.Inject;
 import io.dropwizard.models.Customer;
 import io.dropwizard.models.Project;
 import io.dropwizard.models.Subject;
@@ -14,12 +15,13 @@ public class UrenService {
     private ProjectService projectService;
     private SubjectService subjectService;
 
-    public UrenService(){
+    @Inject
+    public UrenService(UrenDAO dao, CustomerService customerService, ProjectService projectService, SubjectService subjectService){
 
-        this.dao = new UrenDAO();
-        this.customerService = new CustomerService();
-        this.projectService = new ProjectService();
-        this.subjectService = new SubjectService();
+        this.dao = dao;
+        this.customerService = customerService;
+        this.projectService = projectService;
+        this.subjectService = subjectService;
 
     }
 
@@ -51,7 +53,7 @@ public class UrenService {
 
     }
     public void setConfirmed(Uren uur){
-        boolean confirmed = uur.isConfirmed() == true ? false : true;
+        boolean confirmed = uur.isConfirmed() != true;
         this.dao.setConfirmed(uur, confirmed);
     }
 
