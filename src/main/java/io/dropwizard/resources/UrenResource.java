@@ -47,4 +47,22 @@ public class UrenResource {
     public List<Uren> getAllUren(){
         return service.getAllUren();
     }
+
+    @POST
+    @Path("/setHour")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @JsonView(View.OnlyAdmins.class)
+    public void setHours( Uren uren) {
+        System.out.println(uren.getEmployeeId());
+        this.service.setHours(uren);
+    }
+
+    @POST
+    @Path("/confirm")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @JsonView(View.OnlyAdmins.class)
+    public void setConfirmed(Uren uur){
+        this.service.setConfirmed(uur);
+    }
+
 }

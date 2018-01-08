@@ -18,9 +18,11 @@ public class AuthService implements Authenticator<BasicCredentials, Personeel> {
     @Override
     public Optional<Personeel> authenticate(BasicCredentials basicCredentials) throws AuthenticationException {
         Personeel persoon = dao.getByEmailaddress(basicCredentials.getUsername());
-
-        if (persoon != null && persoon.getPassword().equals(basicCredentials.getPassword())){
-            return Optional.of(persoon);
+        if (persoon != null && persoon.getPassword() != null){
+            if(persoon.getPassword().equals(basicCredentials.getPassword())) {
+                System.out.println("DEBUGGG");
+                return Optional.of(persoon);
+            }
         }
         return Optional.absent();
     }

@@ -34,8 +34,7 @@ public class PersoneelResource {
     @Path("/werkzaam")
     @Consumes(MediaType.APPLICATION_JSON)
     public void updateWerkzaam(@QueryParam("id") int id, @QueryParam("werkzaam") String werkzaam){
-        int werkzaamBool = werkzaam.equals("1") ? 0 : 1;
-        service.setWerkzaam(werkzaamBool, id);
+        service.setWerkzaam(werkzaam, id);
     }
 
     @POST
@@ -49,9 +48,8 @@ public class PersoneelResource {
     }
 
     @POST
-    @Path("wachtwoord")
+    @Path("/wachtwoord")
     @Consumes(MediaType.APPLICATION_JSON)
-    @JsonView(View.Protected.class)
     public void veranderWachtwoord(@QueryParam("wachtwoord") String newPassword, @QueryParam("id") int ID ) {
         System.out.println(newPassword + " " + ID);
         service.changePassword(newPassword, ID);

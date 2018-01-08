@@ -17,16 +17,17 @@ import java.util.StringTokenizer;
 public class SecurityFilterService implements ContainerRequestFilter{
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String AUTHORIZATION_HEADER_PREFIX = "Basic ";
-    private static final String SECURED_URL_PREFIX_EMPLOYEE = "personeel";
-    private static final String SECURED_URL_PREFIX_ADMIN = "admin";
+
+    private static final String SECURED_URL_PREFIX_EMPLOYEE = "api";
 
     private PersoneelDAO dao = new PersoneelDAO();
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-
+        System.out.println("In filter");
     if(requestContext.getUriInfo().getPath().contains(SECURED_URL_PREFIX_EMPLOYEE)){
         List<String> authHeader = requestContext.getHeaders().get(AUTHORIZATION_HEADER);
+        System.out.println("In filtermethod, ");
         if(authHeader != null && authHeader.size()>0) {
             String authToken = authHeader.get(0);
             authToken = authToken.replaceFirst(AUTHORIZATION_HEADER_PREFIX, "");
@@ -34,6 +35,10 @@ public class SecurityFilterService implements ContainerRequestFilter{
             StringTokenizer tokenizer = new StringTokenizer(decodeString, ":");
             String email = tokenizer.nextToken();
             String password = tokenizer.nextToken();
+
+            System.out.println(email);
+            System.out.println(password);
+
 
             Personeel user = dao.getByEmailaddress(email);
 

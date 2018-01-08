@@ -11,6 +11,12 @@ public class Project {
     private int klantId;
     private int projectID;
 
+    public Project(int projectID, String projectNaam, int klantId){
+
+        this.projectID = projectID;
+        this.klantId = klantId;
+        this.projectNaam = projectNaam;
+    }
 
     public int getProjectID(){return projectID; }
 
@@ -18,13 +24,16 @@ public class Project {
 
     public String getProjectNaam(){return projectNaam;}
 
-    public void setProjectNaam(String projectNaam){this.projectNaam = projectNaam;}
-
-    public Project(int projectID, String projectNaam, int klantId){
-
-        this.projectID = projectID;
-        this.klantId = klantId;
+    public void setProjectNaam(String projectNaam) {
         this.projectNaam = projectNaam;
-
     }
+
+    public int getKlantId() {
+        return klantId;
+    }
+
+    public void setKlantId(int klantId) {
+        this.klantId = klantId;
+    }
+
 }

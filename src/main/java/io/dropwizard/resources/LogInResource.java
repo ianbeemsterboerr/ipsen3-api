@@ -23,7 +23,6 @@ public class LogInResource {
     @Path("/login")
     @JsonView(View.Public.class)
     public Personeel logIn(@Auth Personeel personeel){
-        System.out.println(personeel.getPassword());
         return personeel;
     }
 }
