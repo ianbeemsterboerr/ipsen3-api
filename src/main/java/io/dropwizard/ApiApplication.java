@@ -5,11 +5,9 @@ import io.dropwizard.auth.AuthFactory;
 import io.dropwizard.auth.basic.BasicAuthFactory;
 import io.dropwizard.models.Personeel;
 import io.dropwizard.persistence.ConnectionPool;
-import io.dropwizard.resources.CustomerResource;
-import io.dropwizard.resources.LogInResource;
-import io.dropwizard.resources.PersoneelResource;
-import io.dropwizard.resources.UrenResource;
+import io.dropwizard.resources.*;
 import io.dropwizard.services.AuthService;
+import io.dropwizard.services.ProjectService;
 import io.dropwizard.services.SecurityFilterService;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -60,11 +58,15 @@ public class ApiApplication extends Application<ApiConfiguration> {
         final SecurityFilterService security = new SecurityFilterService();
         final LogInResource logInResource = new LogInResource();
         final CustomerResource customerResource = new CustomerResource();
+        final ProjectResource projectResource = new ProjectResource();
+        final SubjectResource subjectResource = new SubjectResource();
         environment.jersey().register(personeelResource);
         environment.jersey().register(urenResource);
         environment.jersey().register(security);
         environment.jersey().register(logInResource);
         environment.jersey().register(customerResource);
+        environment.jersey().register(projectResource);
+        environment.jersey().register(subjectResource);
 
         environment.jersey().register(AuthFactory.binder(
                 new BasicAuthFactory<>(

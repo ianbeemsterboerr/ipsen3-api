@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProjectDAO {
 
@@ -40,7 +42,6 @@ public class ProjectDAO {
             getProject.setString(2, projectName);
             ResultSet results = getProject.executeQuery();
             if (results.next()) {
-                System.out.println(results.getString("project_naam"));
                 project = new Project(results.getInt("project_ID"), results.getString("project_naam"), results.getInt("klant_ID"));
             }else {
                 System.out.println("niks");
@@ -52,5 +53,32 @@ public class ProjectDAO {
         }
         return project;
 
+    }
+
+    public List<Project> getProjectByID(int customerID) {
+        Connection con = pool.checkout();
+        List<Project> projects = null;
+        try {
+            PreparedStatement getProjects = con.prepareStatement("SELECT project_ID, project_naam, klant_ID FROM project WHERE klant_ID = (?)");
+            getProjects.setInt(1, customerID);
+
+            ResultSet results = getProjects.executeQuery();
+            projects = new ArrayList<>();
+            if (results != null) {
+                while(results.next()) {
+                    projects.add(new Project(results.getInt("project_ID"), results.getString("project_naam"), results.getInt("klant_ID")));
+                    System.out.println(results.getString(2));
+                }
+            } else {
+                System.out.println("geen projecten");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            pool.checkIn(con);
+        }
+
+        return projects;
     }
 }

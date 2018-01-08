@@ -129,16 +129,24 @@ public class UrenDAO {
     public void setHour(Uren hour) {
         Connection con = pool.checkout();
         try {
-            PreparedStatement setHour = con.prepareStatement("INSERT INTO geregistreerdetijd (begindatum, einddatum, begintijd, eindtijd, commentaar, persoonID, klant_ID, project_ID, onderwerp_ID) VALUES (?,?,?,?,?,?,?,?,?)");
-            setHour.setString(1, hour.getStartingDate());
-            setHour.setString(2, hour.getEndingDate());
-            setHour.setString(3, hour.getStartingTime());
-            setHour.setString(4, hour.getEndingTime());
-            setHour.setString(5, hour.getComment());
-            setHour.setInt(6, hour.getEmployeeId());
-            setHour.setInt(7, hour.getCustomerId());
-            setHour.setInt(8, hour.getProjectId());
-            setHour.setInt(9, hour.getSubjectId());
+            PreparedStatement setHour = null;
+            if (hour.getComment() != null) {
+                setHour = con.prepareStatement("INSERT INTO geregistreerdetijd (begindatum, einddatum, begintijd, eindtijd, persoonID, klant_ID, project_ID, onderwerp_ID, commentaar) VALUES (?,?,?,?,?,?,?,?,?)");
+                setHour.setString(9, hour.getComment());
+
+            } else {
+                setHour = con.prepareStatement("INSERT INTO geregistreerdetijd (begindatum, einddatum, begintijd, eindtijd, persoonID, klant_ID, project_ID, onderwerp_ID) VALUES (?,?,?,?,?,?,?,?)");
+
+            }
+                setHour.setString(1, hour.getStartingDate());
+                setHour.setString(2, hour.getEndingDate());
+                setHour.setString(3, hour.getStartingTime());
+                setHour.setString(4, hour.getEndingTime());
+
+                setHour.setInt(5, hour.getEmployeeId());
+                setHour.setInt(6, hour.getCustomerId());
+                setHour.setInt(7, hour.getProjectId());
+                setHour.setInt(8, hour.getSubjectId());
 
             setHour.executeQuery();
 
