@@ -60,4 +60,15 @@ public class UrenService {
         return dao.getAllUren();
 
     }
+    public void updateHour(Uren hour){
+        Customer customer = customerService.getCustomerByName(hour.getCustomerName());
+        Project project = projectService.getProjectByCIdAndPName(hour.getProjectName(), customer.getCustomerId());
+        Subject subject = subjectService.getSubjectByPIDSName(project.getProjectID(), hour.getSubjectName());
+
+        hour.setCustomerId(customer.getCustomerId());
+        hour.setProjectId(project.getProjectID());
+        hour.setSubjectId(subject.getSubjectId());
+
+        dao.updateHour(hour);
+    }
 }
