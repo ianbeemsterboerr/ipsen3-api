@@ -171,5 +171,26 @@ public class UrenDAO {
             e.printStackTrace();
         }
     }
+
+    public void updateHour(Uren hour){
+        Connection con = pool.checkout();
+        try{
+            PreparedStatement statement = con.prepareStatement("UPDATE gereristreerdetijd SET begindatum = ?, einddatum = ?, begintijd = ?, eindtijd = ?, commentaar = ?, persoonID = ?, klant_ID = ?, project_ID = ?, onderwerp_ID = ? WHERE uurID = ? AND confirmed = false");
+            statement.setString(1, hour.getStartingDate());
+            statement.setString(2, hour.getEndingDate());
+            statement.setString(3, hour.getStartingTime());
+            statement.setString(4, hour.getEndingTime());
+            statement.setString(5, hour.getComment());
+            statement.setInt(6, hour.getEmployeeId());
+            statement.setInt(7, hour.getCustomerId());
+            statement.setInt(8, hour.getProjectId());
+            statement.setInt(9, hour.getSubjectId());
+            statement.setInt(10, hour.getUurId());
+            statement.executeUpdate();
+        } catch(SQLException e){
+            pool.checkIn(con);
+            e.printStackTrace();
+        }
+    }
 }
 
