@@ -2,33 +2,27 @@ package io.dropwizard.resources;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import io.dropwizard.View;
-import io.dropwizard.models.Customer;
-import io.dropwizard.services.CustomerService;
+import io.dropwizard.models.Project;
+import io.dropwizard.services.ProjectService;
 
 import javax.inject.Singleton;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-
 @Singleton
-@Path("/klanten")
+@Path("/projects")
 @Produces(MediaType.APPLICATION_JSON)
-public class CustomerResource {
-    CustomerService service;
-
-    public CustomerResource(CustomerService service){
-        this.service = service;
-    }
+public class ProjectResource {
+    public ProjectService service = new ProjectService();
 
     @GET
-    @Path("/all")
+    @Path("/allByName")
     @JsonView(View.Public.class)
-    public List<Customer> getCustomer() {
-        return service.getCustomer();
+    public List<Project> getProjects(@QueryParam("name") String customerName) {
+        return service.getProjects(customerName);
     }
-
-
 }

@@ -35,17 +35,34 @@ public class UrenService {
     }
 
     public void setHours(Uren hour) {
-        Customer customer = customerService.getCustomerByName(hour.getCustomerName());
-        Project project = projectService.getProjectByCIdAndPName(hour.getProjectName(), customer.getCustomerId());
-        Subject subject = subjectService.getSubjectByPIDSName(project.getProjectID(), hour.getSubjectName());
 
-        hour.setCustomerId(customer.getCustomerId());
-        hour.setProjectId(project.getProjectID());
-        hour.setSubjectId(subject.getSubjectId());
+        Customer customer;
+        Project project;
+        Subject subject;
+            if (getCustomer(hour.getCustomerName()) != null) {
+                customer = getCustomer(hour.getCustomerName());
 
+                if (getProject(customer.getCustomerId(), hour.getProjectName()) != null) {
+                    project = getProject(customer.getCustomerId(), hour.getProjectName());
 
-        dao.setHour(hour);
+                    if (getSubject(project.getProjectID(), hour.getSubjectName()) != null) {
+                        subject = getSubject(project.getProjectID(), hour.getSubjectName());
 
+                        hour.setCustomerId(customer.getCustomerId());
+                        hour.setProjectId(project.getProjectID());
+                        hour.setSubjectId(subject.getSubjectId());
+
+                        dao.setHour(hour);
+
+                    } else {
+                        System.out.println("subject bestaat al");
+                    }
+                } else {
+                    System.out.println("project bestaat al");
+                }
+            } else {
+                System.out.println("klant bestaat nog niet");
+            }
 
     }
     public void setConfirmed(Uren uur){
@@ -58,4 +75,21 @@ public class UrenService {
         return dao.getAllUren();
 
     }
+
+    private Customer getCustomer(String customerName) {
+        Customer customer= customerService.getCustomerByName(customerName);
+        return customer;
+    }
+
+    private Project getProject(int customerID, String projectName) {
+        Project project= projectService.getProjectByCIdAndPName(projectName, customerID);
+        return project;
+    }
+
+    private Subject getSubject(int projectID, String subjectName) {
+        Subject subject = subjectService.getSubjectByPIDSName(projectID, subjectName);
+        return subject;
+    }
+
+
 }

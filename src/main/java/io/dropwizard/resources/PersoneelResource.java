@@ -46,7 +46,6 @@ public class PersoneelResource {
     @JsonView(View.OnlyAdmins.class)
     public void createAccount(Personeel personeel) {
         //TODO @Valid toevoegen, maar werkt niet... ?
-        System.out.println(personeel.getVoornaam());
         service.addUser(personeel);
     }
 
@@ -54,7 +53,6 @@ public class PersoneelResource {
     @Path("/wachtwoord")
     @Consumes(MediaType.APPLICATION_JSON)
     public void veranderWachtwoord(@QueryParam("wachtwoord") String newPassword, @QueryParam("id") int ID ) {
-        System.out.println(newPassword + " " + ID);
         service.changePassword(newPassword, ID);
     }
 }

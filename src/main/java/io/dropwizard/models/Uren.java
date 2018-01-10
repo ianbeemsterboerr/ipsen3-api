@@ -42,8 +42,7 @@ public class Uren {
 
     @NotNull
     private int subjectId;
-
-    @NotNull
+    
     private String comment;
 
     @NotNull
