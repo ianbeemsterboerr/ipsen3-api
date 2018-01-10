@@ -19,4 +19,9 @@ public class CustomerService {
     public Customer getCustomerByName(String customerName) {
        return dao.getCustomerByName(customerName);
     }
+
+    public void addUser(Customer customer){
+        dao.add(customer);
+    }
+    }
 }
