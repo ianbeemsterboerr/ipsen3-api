@@ -27,7 +27,6 @@ public class CustomerService {
         dao.addCustomer(klantNaam);
 
         customer = dao.getCustomerByName(klantnaam);
-
         service.addProject(customer.getCustomerId(), projectnaam, onderwerpnaam);
 
     }
