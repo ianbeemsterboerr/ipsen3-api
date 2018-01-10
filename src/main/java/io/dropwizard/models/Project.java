@@ -7,33 +7,33 @@ public class Project {
 
     @NotEmpty
     @Length(max = 40)
-    private String projectNaam;
-    private int klantId;
+    private String projectName;
+    private int customerID;
     private int projectID;
 
-    public Project(int projectID, String projectNaam, int klantId){
+    public Project(int projectID, String projectName, int customerID){
 
         this.projectID = projectID;
-        this.klantId = klantId;
-        this.projectNaam = projectNaam;
+        this.customerID = customerID;
+        this.projectName = projectName;
     }
 
     public int getProjectID(){return projectID; }
 
     public void setProjectID(int projectID){this.projectID = projectID;}
 
-    public String getProjectNaam(){return projectNaam;}
+    public String getProjectName(){return projectName;}
 
-    public void setProjectNaam(String projectNaam) {
-        this.projectNaam = projectNaam;
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 
-    public int getKlantId() {
-        return klantId;
+    public int getCustomerID() {
+        return customerID;
     }
 
-    public void setKlantId(int klantId) {
-        this.klantId = klantId;
+    public void setCustomerID(int customerID) {
+        this.customerID = customerID;
     }
 
 }

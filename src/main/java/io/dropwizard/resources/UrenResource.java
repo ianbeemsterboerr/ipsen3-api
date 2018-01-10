@@ -25,7 +25,7 @@ public class UrenResource {
 
 
     /**
-     * Ontvangt een personeelID en geeft alle gewerkte uren voor deze personeelID terug.
+     * Ontvangt een personeelID en geeft alle gewerkte uren voor dit personeelID terug.
      * @param id
      * @return
      */
@@ -36,7 +36,6 @@ public class UrenResource {
     public List<Uren> getUren(
             @QueryParam("id") int id){
 
-        System.out.println(id);
         return service.getUrenByPersoneelId(id);
     }
 
@@ -53,7 +52,6 @@ public class UrenResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.OnlyAdmins.class)
     public void setHours( Uren uren) {
-        System.out.println(uren.getEmployeeId());
         this.service.setHours(uren);
     }
 
