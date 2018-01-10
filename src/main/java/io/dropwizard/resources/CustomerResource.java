@@ -28,15 +28,15 @@ public class CustomerResource {
         return service.getCustomer();
     }
 
-    @POST
-    @Path("/add")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @JsonView(View.OnlyAdmins.class)
-    public void createAccount(Customer customer) {
-        //TODO @Valid toevoegen, maar werkt niet... ?
-        System.out.println(customer.getCustomerName());
-        service.addCustomer(customer);
-    }
+//    @POST
+//    @Path("/add")
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @JsonView(View.OnlyAdmins.class)
+//    public void createAccount(Customer customer) {
+//        //TODO @Valid toevoegen, maar werkt niet... ?
+//        System.out.println(customer.getCustomerName());
+//        service.addCustomer(customer);
+//    }
 
 
 
