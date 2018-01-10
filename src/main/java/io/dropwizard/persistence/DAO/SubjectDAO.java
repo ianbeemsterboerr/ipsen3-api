@@ -35,6 +35,21 @@ public class SubjectDAO extends DAO{
         return subject;
     }
 
+    public void addSubject(String onderwerpnaam){
+        Connection con = pool.checkout();
+        Subject subject = null;
+        try {
+            PreparedStatement addSubject = con.prepareStatement("INSERT INTO subject (subject_naam), VALUE (?)");
+            addSubject.setString(1, onderwerpnaam);
+            addSubject.executeQuery();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            pool.checkIn(con);
+        }
+
+    }
+
     public List<Subject> getSubjects(int projectID) {
         Connection con = pool.checkout();
         List<Subject> subjects = null;

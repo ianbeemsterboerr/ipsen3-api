@@ -20,8 +20,8 @@ public class CustomerService {
        return dao.getCustomerByName(customerName);
     }
 
-//    public void addUser(Customer customer){
+//    public void addCustomer(Customer customer){
 //        dao.add(customer);
 //    }
-//    }
-}
+    }
+
