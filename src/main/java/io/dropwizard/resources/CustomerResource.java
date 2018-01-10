@@ -12,13 +12,17 @@ import java.util.List;
 
 
 @Singleton
-@Path("/Klanten")
+@Path("/klanten")
 @Produces(MediaType.APPLICATION_JSON)
 public class CustomerResource {
-    public CustomerService service = new CustomerService();
+    CustomerService service;
+
+    public CustomerResource(CustomerService service){
+        this.service = service;
+    }
 
     @GET
-    @Path("/getAll")
+    @Path("/all")
     @JsonView(View.Public.class)
     public List<Customer> getCustomer() {
         return service.getCustomer();

@@ -6,10 +6,10 @@ import io.dropwizard.persistence.DAO.CustomerDAO;
 import java.util.List;
 
 public class CustomerService {
-    CustomerDAO dao = new CustomerDAO();
+    CustomerDAO dao;
 
-    public CustomerService(){
-
+    public CustomerService(CustomerDAO dao){
+        this.dao = dao;
     }
 
     public List<Customer> getCustomer() {

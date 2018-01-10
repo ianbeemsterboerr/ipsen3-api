@@ -6,14 +6,15 @@ import io.dropwizard.persistence.DAO.PersoneelDAO;
 import java.util.List;
 
 public class PersoneelService {
-    PersoneelDAO dao = new PersoneelDAO();
+    PersoneelDAO dao;
 
-    public PersoneelService(){
-
+    public PersoneelService(PersoneelDAO dao){
+        this.dao = dao;
     }
 
-    public void setWerkzaam(int werkzaam, int id){
-        dao.setWerkzaam(werkzaam, id);
+    public void setWerkzaam(String werkzaam, int id){
+        int werkzaamBool = werkzaam.equals("1") ? 0 : 1;
+        dao.setWerkzaam(werkzaamBool, id);
     }
 
     public Personeel getPersoon(String email){

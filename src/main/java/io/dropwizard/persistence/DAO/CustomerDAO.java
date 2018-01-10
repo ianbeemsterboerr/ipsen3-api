@@ -10,13 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerDAO {
-
-    private ConnectionPool pool;
-    //private ConnectionPool pool = new ConnectionPool();
-
-    public CustomerDAO() {
-        this.pool = new ConnectionPool("org.mariadb.jdbc.Driver", "jdbc:mariadb://localhost:3306:/UrenregistratieDatabase", "root", "ipsen123");
+public class CustomerDAO extends DAO{
+    public CustomerDAO(ConnectionPool pool){
+        super(pool);
     }
 
     public List<Customer> getCustomer() {

@@ -7,7 +7,6 @@ import io.dropwizard.auth.Auth;
 import io.dropwizard.jersey.PATCH;
 import io.dropwizard.models.Personeel;
 import io.dropwizard.services.PersoneelService;
-import jdk.management.resource.internal.inst.SocketOutputStreamRMHooks;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Singleton;
@@ -21,7 +20,11 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @RolesAllowed({"ADMIN", "PERSONEEL"})
 public class PersoneelResource {
-    PersoneelService service = new PersoneelService();
+    private  PersoneelService service;
+
+    public PersoneelResource(PersoneelService service){
+        this.service = service;
+    }
 
     @GET
     @Path("/getall")
@@ -34,8 +37,7 @@ public class PersoneelResource {
     @Path("/werkzaam")
     @Consumes(MediaType.APPLICATION_JSON)
     public void updateWerkzaam(@QueryParam("id") int id, @QueryParam("werkzaam") String werkzaam){
-        int werkzaamBool = werkzaam.equals("1") ? 0 : 1;
-        service.setWerkzaam(werkzaamBool, id);
+        service.setWerkzaam(werkzaam, id);
     }
 
     @POST
@@ -44,7 +46,6 @@ public class PersoneelResource {
     @JsonView(View.OnlyAdmins.class)
     public void createAccount(Personeel personeel) {
         //TODO @Valid toevoegen, maar werkt niet... ?
-        System.out.println(personeel.getVoornaam());
         service.addUser(personeel);
     }
 
@@ -52,7 +53,6 @@ public class PersoneelResource {
     @Path("/wachtwoord")
     @Consumes(MediaType.APPLICATION_JSON)
     public void veranderWachtwoord(@QueryParam("wachtwoord") String newPassword, @QueryParam("id") int ID ) {
-        System.out.println(newPassword + " " + ID);
         service.changePassword(newPassword, ID);
     }
 }

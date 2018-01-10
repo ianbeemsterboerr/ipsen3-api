@@ -5,12 +5,9 @@ import io.dropwizard.auth.AuthFactory;
 import io.dropwizard.auth.basic.BasicAuthFactory;
 import io.dropwizard.models.Personeel;
 import io.dropwizard.persistence.ConnectionPool;
-import io.dropwizard.resources.CustomerResource;
-import io.dropwizard.resources.LogInResource;
-import io.dropwizard.resources.PersoneelResource;
-import io.dropwizard.resources.UrenResource;
-import io.dropwizard.services.AuthService;
-import io.dropwizard.services.SecurityFilterService;
+import io.dropwizard.persistence.DAO.*;
+import io.dropwizard.resources.*;
+import io.dropwizard.services.*;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
@@ -55,20 +52,50 @@ public class ApiApplication extends Application<ApiConfiguration> {
         // Add URL mapping
         cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 
-        final PersoneelResource personeelResource = new PersoneelResource();
-        final UrenResource urenResource = new UrenResource();
-        final SecurityFilterService security = new SecurityFilterService();
+        ConnectionPool connectionPool = new ConnectionPool("org.mariadb.jdbc.Driver", "jdbc:mariadb://localhost:3306:/UrenregistratieDatabase", "root", "ipsen123");
+
+        /**
+         * Initialise all the DAO objects.
+         */
+        CustomerDAO customerDAO = new CustomerDAO(connectionPool);
+        PersoneelDAO personeelDAO = new PersoneelDAO(connectionPool);
+        ProjectDAO projectDAO = new ProjectDAO(connectionPool);
+        SubjectDAO subjectDAO = new SubjectDAO(connectionPool);
+        UrenDAO urenDAO = new UrenDAO(connectionPool);
+
+        /**
+         * Initialise all the Service objects.
+         */
+
+        final AuthService authService = new AuthService(personeelDAO);
+        final CustomerService customerService = new CustomerService(customerDAO);
+        final PersoneelService personeelService = new PersoneelService(personeelDAO);
+        final ProjectService projectService = new ProjectService(projectDAO, customerService);
+        final SecurityFilterService security = new SecurityFilterService(personeelDAO);
+        final SubjectService subjectService = new SubjectService(subjectDAO, projectService, customerService);
+        final UrenService urenService = new UrenService(urenDAO, customerService, projectService, subjectService);
+
+        /**
+         * Initialise all the Resource objects.
+         */
+        final PersoneelResource personeelResource = new PersoneelResource(personeelService);
+        final UrenResource urenResource = new UrenResource(urenService);
         final LogInResource logInResource = new LogInResource();
-        final CustomerResource customerResource = new CustomerResource();
+        final CustomerResource customerResource = new CustomerResource(customerService);
+        final ProjectResource projectResource = new ProjectResource(projectService);
+        final SubjectResource subjectResource = new SubjectResource(subjectService);
+
         environment.jersey().register(personeelResource);
         environment.jersey().register(urenResource);
         environment.jersey().register(security);
         environment.jersey().register(logInResource);
         environment.jersey().register(customerResource);
+        environment.jersey().register(projectResource);
+        environment.jersey().register(subjectResource);
 
         environment.jersey().register(AuthFactory.binder(
                 new BasicAuthFactory<>(
-                        new AuthService(),
+                        authService,
                         "lol",
                         Personeel.class
                 )

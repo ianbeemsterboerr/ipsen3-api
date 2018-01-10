@@ -12,11 +12,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UrenDAO {
-    ConnectionPool pool;
+public class UrenDAO extends DAO{
 
-    public UrenDAO(){
-        this.pool = new ConnectionPool("org.mariadb.jdbc.Driver","jdbc:mariadb://localhost:3306:/UrenregistratieDatabase", "root", "ipsen123");
+    public UrenDAO(ConnectionPool pool){
+        super(pool);
     }
 
     /**
@@ -129,16 +128,24 @@ public class UrenDAO {
     public void setHour(Uren hour) {
         Connection con = pool.checkout();
         try {
-            PreparedStatement setHour = con.prepareStatement("INSERT INTO geregistreerdetijd (begindatum, einddatum, begintijd, eindtijd, commentaar, persoonID, klant_ID, project_ID, onderwerp_ID) VALUES (?,?,?,?,?,?,?,?,?)");
-            setHour.setString(1, hour.getStartingDate());
-            setHour.setString(2, hour.getEndingDate());
-            setHour.setString(3, hour.getStartingTime());
-            setHour.setString(4, hour.getEndingTime());
-            setHour.setString(5, hour.getComment());
-            setHour.setInt(6, hour.getEmployeeId());
-            setHour.setInt(7, hour.getCustomerId());
-            setHour.setInt(8, hour.getProjectId());
-            setHour.setInt(9, hour.getSubjectId());
+            PreparedStatement setHour = null;
+            if (hour.getComment() != null) {
+                setHour = con.prepareStatement("INSERT INTO geregistreerdetijd (begindatum, einddatum, begintijd, eindtijd, persoonID, klant_ID, project_ID, onderwerp_ID, commentaar) VALUES (?,?,?,?,?,?,?,?,?)");
+                setHour.setString(9, hour.getComment());
+
+            } else {
+                setHour = con.prepareStatement("INSERT INTO geregistreerdetijd (begindatum, einddatum, begintijd, eindtijd, persoonID, klant_ID, project_ID, onderwerp_ID) VALUES (?,?,?,?,?,?,?,?)");
+
+            }
+                setHour.setString(1, hour.getStartingDate());
+                setHour.setString(2, hour.getEndingDate());
+                setHour.setString(3, hour.getStartingTime());
+                setHour.setString(4, hour.getEndingTime());
+
+                setHour.setInt(5, hour.getEmployeeId());
+                setHour.setInt(6, hour.getCustomerId());
+                setHour.setInt(7, hour.getProjectId());
+                setHour.setInt(8, hour.getSubjectId());
 
             setHour.executeQuery();
 
@@ -148,7 +155,41 @@ public class UrenDAO {
         } finally {
             pool.checkIn(con);
         }
+    }
 
+    public void setConfirmed(Uren uur, boolean confirmed){
+        Connection con = pool.checkout();
+        try{
+            PreparedStatement statement = con.prepareStatement("UPDATE geregistreerdetijd set goedgekeurd = ? WHERE uurID = ?");
+            statement.setBoolean(1, confirmed);
+            statement.setInt(2, uur.getUurId());
+            statement.executeUpdate();
+            pool.checkIn(con);
+        } catch(SQLException e){
+            pool.checkIn(con);
+            e.printStackTrace();
+        }
+    }
+
+    public void updateHour(Uren hour){
+        Connection con = pool.checkout();
+        try{
+            PreparedStatement statement = con.prepareStatement("UPDATE gereristreerdetijd SET begindatum = ?, einddatum = ?, begintijd = ?, eindtijd = ?, commentaar = ?, persoonID = ?, klant_ID = ?, project_ID = ?, onderwerp_ID = ? WHERE uurID = ? AND confirmed = false");
+            statement.setString(1, hour.getStartingDate());
+            statement.setString(2, hour.getEndingDate());
+            statement.setString(3, hour.getStartingTime());
+            statement.setString(4, hour.getEndingTime());
+            statement.setString(5, hour.getComment());
+            statement.setInt(6, hour.getEmployeeId());
+            statement.setInt(7, hour.getCustomerId());
+            statement.setInt(8, hour.getProjectId());
+            statement.setInt(9, hour.getSubjectId());
+            statement.setInt(10, hour.getUurId());
+            statement.executeUpdate();
+        } catch(SQLException e){
+            pool.checkIn(con);
+            e.printStackTrace();
+        }
     }
 }
 
