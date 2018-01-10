@@ -11,15 +11,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersoneelDAO {
-    Personeel user1;
-    //TODO: De connectionpool moet ge inject worden inplaats van meegegeven of geinitialiseerd. Er mag er maar een levend zijn.
+public class PersoneelDAO extends DAO{
 
-    private ConnectionPool pool;
-    //private ConnectionPool pool = new ConnectionPool();
-
-    public PersoneelDAO() {
-        this.pool = new ConnectionPool("org.mariadb.jdbc.Driver","jdbc:mariadb://localhost:3306:/UrenregistratieDatabase", "root", "ipsen123");
+    public PersoneelDAO(ConnectionPool pool) {
+        super(pool);
     }
 
     public Personeel getByEmailaddress(String email) {

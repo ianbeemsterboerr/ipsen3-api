@@ -14,13 +14,11 @@ public class UrenService {
     private ProjectService projectService;
     private SubjectService subjectService;
 
-    public UrenService(){
-
-        this.dao = new UrenDAO();
-        this.customerService = new CustomerService();
-        this.projectService = new ProjectService();
-        this.subjectService = new SubjectService();
-
+    public UrenService(UrenDAO dao, CustomerService customerService, ProjectService projectService, SubjectService subjectService){
+        this.dao = dao;
+        this.customerService = customerService;
+        this.projectService = projectService;
+        this.subjectService = subjectService;
     }
 
     //Admin

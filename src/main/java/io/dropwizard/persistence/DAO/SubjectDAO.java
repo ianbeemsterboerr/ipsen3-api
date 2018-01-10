@@ -8,14 +8,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SubjectDAO {
+public class SubjectDAO extends DAO{
 
-    private ConnectionPool pool;
-
-    public SubjectDAO() {
-        this.pool = new ConnectionPool("org.mariadb.jdbc.Driver","jdbc:mariadb://localhost:3306:/UrenregistratieDatabase", "root", "ipsen123");
+    public SubjectDAO(ConnectionPool pool) {
+        super(pool);
     }
-
 
     public Subject getSubjectByPIDSName(int projectID, String subjectName) {
         Connection con = pool.checkout();

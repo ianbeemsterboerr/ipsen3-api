@@ -14,10 +14,14 @@ import java.util.List;
 
 
 @Singleton
-@Path("/Klanten")
+@Path("/klanten")
 @Produces(MediaType.APPLICATION_JSON)
 public class CustomerResource {
-    public CustomerService service = new CustomerService();
+    CustomerService service;
+
+    public CustomerResource(CustomerService service){
+        this.service = service;
+    }
 
     @GET
     @Path("/getAll")

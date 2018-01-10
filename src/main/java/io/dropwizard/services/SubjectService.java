@@ -5,9 +5,9 @@ import io.dropwizard.persistence.DAO.SubjectDAO;
 
 public class SubjectService {
 
-    SubjectDAO dao = new SubjectDAO();
-    SubjectService() {
-
+    SubjectDAO dao;
+    public SubjectService(SubjectDAO dao) {
+        this.dao = dao;
     }
 
     public Subject getSubjectByPIDSName(int projectID, String subjectName) {

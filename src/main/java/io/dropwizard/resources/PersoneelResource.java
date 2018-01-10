@@ -7,7 +7,6 @@ import io.dropwizard.auth.Auth;
 import io.dropwizard.jersey.PATCH;
 import io.dropwizard.models.Personeel;
 import io.dropwizard.services.PersoneelService;
-import jdk.management.resource.internal.inst.SocketOutputStreamRMHooks;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Singleton;
@@ -21,7 +20,11 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @RolesAllowed({"ADMIN", "PERSONEEL"})
 public class PersoneelResource {
-    PersoneelService service = new PersoneelService();
+    private  PersoneelService service;
+
+    public PersoneelResource(PersoneelService service){
+        this.service = service;
+    }
 
     @GET
     @Path("/getall")

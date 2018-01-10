@@ -8,12 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ProjectDAO {
+public class ProjectDAO extends DAO{
 
-    private ConnectionPool pool;
-
-    public ProjectDAO(){
-        this.pool = new ConnectionPool("org.mariadb.jdbc.Driver","jdbc:mariadb://localhost:3306:/UrenregistratieDatabase", "root", "ipsen123");
+    public ProjectDAO(ConnectionPool pool){
+        super(pool);
     }
 
     public void add(String projectName, int customerId){

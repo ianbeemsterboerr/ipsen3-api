@@ -19,6 +19,10 @@ import javax.ws.rs.core.MediaType;
 @PermitAll
 public class LogInResource {
 
+    public LogInResource(){
+
+    }
+
     @GET
     @Path("/login")
     @JsonView(View.Public.class)
