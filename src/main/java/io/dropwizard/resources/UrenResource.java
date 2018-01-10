@@ -67,4 +67,10 @@ public class UrenResource {
         this.service.setConfirmed(uur);
     }
 
+    @POST
+    @Path("/updateHour")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @JsonView(View.Public.class)
+    public void updateHour(Uren hour){ this.service.updateHour(hour);}
+
 }
