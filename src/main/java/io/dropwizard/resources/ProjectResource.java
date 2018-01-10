@@ -17,7 +17,11 @@ import java.util.List;
 @Path("/projects")
 @Produces(MediaType.APPLICATION_JSON)
 public class ProjectResource {
-    public ProjectService service = new ProjectService();
+    public ProjectService service;
+
+    public  ProjectResource(ProjectService service){
+        this.service = service;
+    }
 
     @GET
     @Path("/allByName")

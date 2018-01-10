@@ -7,10 +7,11 @@ import io.dropwizard.persistence.DAO.ProjectDAO;
 import java.util.List;
 
 public class ProjectService {
-
+    CustomerService customerService;
     ProjectDAO dao;
-    public ProjectService(ProjectDAO dao) {
+    public ProjectService(ProjectDAO dao, CustomerService customerService) {
         this.dao = dao;
+        this.customerService = customerService;
     }
 
     public Project getProjectByCIdAndPName(String projectName, int customerId) {
@@ -18,7 +19,7 @@ public class ProjectService {
     }
 
     public List<Project> getProjects(String customerName) {
-        CustomerService customerService = new CustomerService();
+
 
         Customer customer = customerService.getCustomerByName(customerName);
 

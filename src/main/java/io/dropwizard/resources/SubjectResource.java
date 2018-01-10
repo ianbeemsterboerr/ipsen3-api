@@ -3,6 +3,7 @@ package io.dropwizard.resources;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.dropwizard.View;
 import io.dropwizard.models.Subject;
+import io.dropwizard.services.ProjectService;
 import io.dropwizard.services.SubjectService;
 
 import javax.inject.Singleton;
@@ -17,7 +18,10 @@ import java.util.List;
 @Path("/subjects")
 @Produces(MediaType.APPLICATION_JSON)
 public class SubjectResource {
-    public SubjectService service = new SubjectService();
+    SubjectService service;
+    public  SubjectResource(SubjectService service){
+        this.service = service;
+    }
 
     @GET
     @Path("/allByName")

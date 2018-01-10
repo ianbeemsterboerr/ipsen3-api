@@ -5,12 +5,9 @@ import io.dropwizard.auth.AuthFactory;
 import io.dropwizard.auth.basic.BasicAuthFactory;
 import io.dropwizard.models.Personeel;
 import io.dropwizard.persistence.ConnectionPool;
-import io.dropwizard.resources.CustomerResource;
-import io.dropwizard.resources.LogInResource;
-import io.dropwizard.resources.PersoneelResource;
-import io.dropwizard.resources.UrenResource;
-import io.dropwizard.services.AuthService;
-import io.dropwizard.services.SecurityFilterService;
+import io.dropwizard.persistence.DAO.*;
+import io.dropwizard.resources.*;
+import io.dropwizard.services.*;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
@@ -73,9 +70,9 @@ public class ApiApplication extends Application<ApiConfiguration> {
         final AuthService authService = new AuthService(personeelDAO);
         final CustomerService customerService = new CustomerService(customerDAO);
         final PersoneelService personeelService = new PersoneelService(personeelDAO);
-        final ProjectService  projectService = new ProjectService(projectDAO);
+        final ProjectService projectService = new ProjectService(projectDAO, customerService);
         final SecurityFilterService security = new SecurityFilterService(personeelDAO);
-        final SubjectService subjectService = new SubjectService(subjectDAO);
+        final SubjectService subjectService = new SubjectService(subjectDAO, projectService, customerService);
         final UrenService urenService = new UrenService(urenDAO, customerService, projectService, subjectService);
 
         /**
@@ -84,9 +81,10 @@ public class ApiApplication extends Application<ApiConfiguration> {
         final PersoneelResource personeelResource = new PersoneelResource(personeelService);
         final UrenResource urenResource = new UrenResource(urenService);
         final LogInResource logInResource = new LogInResource();
-        final CustomerResource customerResource = new CustomerResource();
-        final ProjectResource projectResource = new ProjectResource();
-        final SubjectResource subjectResource = new SubjectResource();
+        final CustomerResource customerResource = new CustomerResource(customerService);
+        final ProjectResource projectResource = new ProjectResource(projectService);
+        final SubjectResource subjectResource = new SubjectResource(subjectService);
+
         environment.jersey().register(personeelResource);
         environment.jersey().register(urenResource);
         environment.jersey().register(security);
@@ -97,7 +95,7 @@ public class ApiApplication extends Application<ApiConfiguration> {
 
         environment.jersey().register(AuthFactory.binder(
                 new BasicAuthFactory<>(
-                        new AuthService(),
+                        authService,
                         "lol",
                         Personeel.class
                 )
