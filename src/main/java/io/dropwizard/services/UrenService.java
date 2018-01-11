@@ -14,13 +14,11 @@ public class UrenService {
     private ProjectService projectService;
     private SubjectService subjectService;
 
-    public UrenService(){
-
-        this.dao = new UrenDAO();
-        this.customerService = new CustomerService();
-        this.projectService = new ProjectService();
-        this.subjectService = new SubjectService();
-
+    public UrenService(UrenDAO dao, CustomerService customerService, ProjectService projectService, SubjectService subjectService){
+        this.dao = dao;
+        this.customerService = customerService;
+        this.projectService = projectService;
+        this.subjectService = subjectService;
     }
 
     //Admin
@@ -76,6 +74,17 @@ public class UrenService {
     public List<Uren> getAllUren() {
         return dao.getAllUren();
 
+    }
+    public void updateHour(Uren hour){
+        Customer customer = customerService.getCustomerByName(hour.getCustomerName());
+        Project project = projectService.getProjectByCIdAndPName(hour.getProjectName(), customer.getCustomerId());
+        Subject subject = subjectService.getSubjectByPIDSName(project.getProjectID(), hour.getSubjectName());
+
+        hour.setCustomerId(customer.getCustomerId());
+        hour.setProjectId(project.getProjectID());
+        hour.setSubjectId(subject.getSubjectId());
+
+        dao.updateHour(hour);
     }
 
     private Customer getCustomer(String customerName) {

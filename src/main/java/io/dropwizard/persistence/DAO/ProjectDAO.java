@@ -10,12 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectDAO {
+public class ProjectDAO extends DAO{
 
-    private ConnectionPool pool;
-
-    public ProjectDAO(){
-        this.pool = new ConnectionPool("org.mariadb.jdbc.Driver","jdbc:mariadb://localhost:3306:/UrenregistratieDatabase", "root", "ipsen123");
+    public ProjectDAO(ConnectionPool pool){
+        super(pool);
     }
 
     public void addProject(String projectnaam, int klant_ID){
@@ -52,6 +50,21 @@ public class ProjectDAO {
             pool.checkIn(con);
         }
         return project;
+
+    }
+
+    public void addProject(String projectnaam){
+        Connection con = pool.checkout();
+        Project project = null;
+        try {
+            PreparedStatement addProject = con.prepareStatement("INSERT INTO project (project_naam), VALUE (?)");
+            addProject.setString(1, projectnaam);
+            addProject.executeQuery();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            pool.checkIn(con);
+        }
 
     }
 

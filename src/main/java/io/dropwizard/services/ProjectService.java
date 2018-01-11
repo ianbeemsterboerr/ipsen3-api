@@ -8,18 +8,23 @@ import java.util.List;
 
 public class ProjectService {
 
-    ProjectDAO dao = new ProjectDAO();
-    SubjectService service = new SubjectService();
-
     private Project project = null;
-    public ProjectService() { }
+    private CustomerService customerService;
+    private SubjectService subjectService;
+    private ProjectDAO dao;
+
+    public ProjectService(ProjectDAO dao, CustomerService customerService, SubjectService subjectService) {
+        this.dao = dao;
+        this.customerService = customerService;
+        this.subjectService = subjectService;
+    }
 
     public Project getProjectByCIdAndPName(String projectName, int customerId) {
         return this.dao.getProjectByCIdAndPName(projectName, customerId);
     }
 
     public List<Project> getProjects(String customerName) {
-        CustomerService customerService = new CustomerService();
+
 
         Customer customer = customerService.getCustomerByName(customerName);
 
@@ -31,6 +36,6 @@ public class ProjectService {
         dao.addProject(projectnaam, klant_ID);
 
         project = dao.getProjectByCIdAndPName(projectnaam, klant_ID);
-        service.addSubject(project.getProjectID(), onderwerpnaam);
+        subjectService.addSubject(project.getProjectID(), onderwerpnaam);
     }
 }

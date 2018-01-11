@@ -6,15 +6,17 @@ import io.dropwizard.persistence.DAO.CustomerDAO;
 import java.util.List;
 
 public class CustomerService {
-    CustomerDAO dao;
+    private CustomerDAO dao;
 
     private Customer customer;
+    private ProjectService service;
 
-    public CustomerService() {
-        this.dao = new CustomerDAO();
+    public CustomerService(CustomerDAO dao, ProjectService service){
+        this.dao = dao;
+        this.service = service;
     }
 
-    ProjectService service = new ProjectService();
+
 
     public List<Customer> getCustomer() {
         return dao.getCustomer();
@@ -24,6 +26,7 @@ public class CustomerService {
        return dao.getCustomerByName(customerName);
     }
 
+
     public void addCustomer(String klantnaam, String projectnaam, String onderwerpnaam) {
 
         dao.addCustomer(klantnaam);
@@ -31,7 +34,5 @@ public class CustomerService {
         customer = dao.getCustomerByName(klantnaam);
 
         service.addProject(customer.getCustomerId(), projectnaam, onderwerpnaam);
-
-    }
-    }
+    }}
 

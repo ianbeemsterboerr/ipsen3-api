@@ -16,7 +16,11 @@ import java.util.List;
 @Path("/klanten")
 @Produces(MediaType.APPLICATION_JSON)
 public class CustomerResource {
-    public CustomerService service = new CustomerService();
+    CustomerService service;
+
+    public CustomerResource(CustomerService service){
+        this.service = service;
+    }
 
     @GET
     @Path("/all")

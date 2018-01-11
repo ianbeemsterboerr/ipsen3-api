@@ -8,10 +8,13 @@ import io.dropwizard.persistence.DAO.SubjectDAO;
 import java.util.List;
 
 public class SubjectService {
-
-    SubjectDAO dao = new SubjectDAO();
-    public SubjectService() {
-
+    ProjectService projectService;
+    CustomerService customerService;
+    SubjectDAO dao;
+    public SubjectService(SubjectDAO dao, ProjectService projectService, CustomerService customerService) {
+        this.dao = dao;
+        this.projectService = projectService;
+        this.customerService = customerService;
     }
 
     public Subject getSubjectByPIDSName(int projectID, String subjectName) {
@@ -19,14 +22,10 @@ public class SubjectService {
     }
 
     public List<Subject> getSubjects(String projectName, String customerName) {
-        CustomerService customerService = new CustomerService();
+
         Customer customer = customerService.getCustomerByName(customerName);
-        ProjectService projectService = new ProjectService();
         Project project = projectService.getProjectByCIdAndPName(projectName, customer.getCustomerId());
-
-
         return this.dao.getSubjects(project.getProjectID());
-
     }
 
     public void addSubject(int projectID, String onderwerpnaam) {

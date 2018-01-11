@@ -15,7 +15,11 @@ import java.util.List;
 @Path("/uren")
 @Produces(MediaType.APPLICATION_JSON)
 public class UrenResource {
-    public UrenService service = new UrenService();
+    private UrenService service;
+
+    public UrenResource(UrenService service){
+        this.service = service;
+    }
 
     //  Voorbeelden voor de URL:
     //  localhost:8080/uren/getby?begindatum=2017-1-1&einddatum=2018-1-1
@@ -62,5 +66,11 @@ public class UrenResource {
     public void setConfirmed(Uren uur){
         this.service.setConfirmed(uur);
     }
+
+    @POST
+    @Path("/updateHour")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @JsonView(View.Public.class)
+    public void updateHour(Uren hour){ this.service.updateHour(hour);}
 
 }

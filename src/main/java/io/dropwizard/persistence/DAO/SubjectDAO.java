@@ -13,12 +13,11 @@ import java.util.List;
 
 
 
-public class SubjectDAO {
+public class SubjectDAO extends DAO{
 
-    private ConnectionPool pool;
 
-    public SubjectDAO() {
-        this.pool = new ConnectionPool("org.mariadb.jdbc.Driver","jdbc:mariadb://localhost:3306:/UrenregistratieDatabase", "root", "ipsen123");
+    public SubjectDAO(ConnectionPool pool) {
+        super(pool);
     }
 
     public Subject getSubjectByPIDSName(int projectID, String subjectName) {
@@ -40,15 +39,15 @@ public class SubjectDAO {
         return subject;
     }
 
-    public void addSubject(String onderwerpnaam, int project_ID){
+
+    public void addSubject(String onderwerpnaam, int projectDao) {
         Connection con = pool.checkout();
-        Subject subject = null;
         try {
-            PreparedStatement addSubject = con.prepareStatement("INSERT INTO subject (onderwerp_naam, project_ID), VALUE (?,?)");
+            PreparedStatement addSubject = con.prepareStatement("INSERT INTO subject (subject_naam, project_ID), VALUE (?,?)");
             addSubject.setString(1, onderwerpnaam);
-            addSubject.setInt(2,project_ID);
+            addSubject.setInt(2,projectDao);
             addSubject.executeQuery();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             pool.checkIn(con);

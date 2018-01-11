@@ -10,13 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerDAO {
-
-    private ConnectionPool pool;
-    //private ConnectionPool pool = new ConnectionPool();
-
-    public CustomerDAO() {
-        this.pool = new ConnectionPool("org.mariadb.jdbc.Driver", "jdbc:mariadb://localhost:3306:/UrenregistratieDatabase", "root", "ipsen123");
+public class CustomerDAO extends DAO{
+    public CustomerDAO(ConnectionPool pool){
+        super(pool);
     }
 
     public List<Customer> getCustomer() {
@@ -38,19 +34,6 @@ public class CustomerDAO {
         return klanten;
     }
 
-    public void addCustomer(String customerName){
-        Connection con = pool.checkout();
-        try{
-            PreparedStatement addCustomer = con.prepareStatement("INSERT INTO klant (klant_naam) VALUES (?)");
-            addCustomer.setString(1, customerName);
-            addCustomer.executeQuery();
-
-        }catch(SQLException e){
-            e.printStackTrace();
-        } finally {
-            pool.checkIn(con);
-        }
-    }
 
     public Customer getCustomerByName(String customerName) {
         Connection con = pool.checkout();
@@ -71,5 +54,19 @@ public class CustomerDAO {
             pool.checkIn(con);
         }
         return customer;
+    }
+
+    public void addCustomer(String klantnaam){
+        Connection con = pool.checkout();
+        try {
+            PreparedStatement addCustomer = con.prepareStatement("INSERT INTO klant (klant_naam), VALUE (?)");
+            addCustomer.setString(1, klantnaam);
+            addCustomer.executeQuery();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            pool.checkIn(con);
+        }
+
     }
 }

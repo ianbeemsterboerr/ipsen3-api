@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonView;
 import io.dropwizard.View;
 import io.dropwizard.models.Categories;
 import io.dropwizard.models.Subject;
+import io.dropwizard.services.ProjectService;
 import io.dropwizard.services.SubjectService;
+import io.dropwizard.models.Categories;
 
 import javax.inject.Singleton;
 import javax.ws.rs.*;
@@ -15,7 +17,10 @@ import java.util.List;
 @Path("/subjects")
 @Produces(MediaType.APPLICATION_JSON)
 public class SubjectResource {
-    public SubjectService service = new SubjectService();
+    SubjectService service;
+    public  SubjectResource(SubjectService service){
+        this.service = service;
+    }
 
     @GET
     @Path("/allByName")
@@ -28,6 +33,8 @@ public class SubjectResource {
     @Path("/add")
     @JsonView(View.Public.class)
     public void addSubject(Categories category){
+
         service.addSubject(category.getProject_ID(), category.getOnderwerpnaam());
+
     }
 }

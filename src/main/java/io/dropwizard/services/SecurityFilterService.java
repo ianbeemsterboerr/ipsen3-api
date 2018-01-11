@@ -20,7 +20,11 @@ public class SecurityFilterService implements ContainerRequestFilter{
 
     private static final String SECURED_URL_PREFIX_EMPLOYEE = "api";
 
-    private PersoneelDAO dao = new PersoneelDAO();
+    private PersoneelDAO dao;
+
+    public  SecurityFilterService(PersoneelDAO dao){
+        this.dao = dao;
+    }
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
