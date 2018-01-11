@@ -53,6 +53,21 @@ public class ProjectDAO extends DAO{
 
     }
 
+    public void addProject(String projectnaam){
+        Connection con = pool.checkout();
+        Project project = null;
+        try {
+            PreparedStatement addProject = con.prepareStatement("INSERT INTO project (project_naam), VALUE (?)");
+            addProject.setString(1, projectnaam);
+            addProject.executeQuery();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            pool.checkIn(con);
+        }
+
+    }
+
     public List<Project> getProjectByID(int customerID) {
         Connection con = pool.checkout();
         List<Project> projects = null;
