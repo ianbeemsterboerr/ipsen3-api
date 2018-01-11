@@ -65,4 +65,6 @@ public class ConnectionPool extends io.dropwizard.persistence.ObjectPool<Connect
             e.printStackTrace();
         }
     }
+
+
 }

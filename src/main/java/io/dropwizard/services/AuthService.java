@@ -20,7 +20,7 @@ public class AuthService implements Authenticator<BasicCredentials, Personeel> {
         Personeel persoon = dao.getByEmailaddress(basicCredentials.getUsername());
         if (persoon != null && persoon.getPassword() != null){
             if(persoon.getPassword().equals(basicCredentials.getPassword())) {
-                System.out.println("DEBUGGG");
+
                 return Optional.of(persoon);
             }
         }
