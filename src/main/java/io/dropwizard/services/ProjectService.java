@@ -9,7 +9,7 @@ import java.util.List;
 public class ProjectService {
 
     ProjectDAO dao = new ProjectDAO();
-    SubjectService service = new SubjectService;
+    SubjectService service = new SubjectService();
 
     private Project project = null;
     public ProjectService() { }
@@ -28,7 +28,7 @@ public class ProjectService {
     }
 
     public void addProject(int klant_ID, String projectnaam, String onderwerpnaam) {
-        dao.addProject(klant_ID, projectnaam);
+        dao.addProject(projectnaam, klant_ID);
 
         project = dao.getProjectByCIdAndPName(projectnaam, klant_ID);
         service.addSubject(project.getProjectID(), onderwerpnaam);

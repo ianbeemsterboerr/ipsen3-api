@@ -30,7 +30,7 @@ public class SubjectService {
     }
 
     public void addSubject(int projectID, String onderwerpnaam) {
-        dao.addSubject(projectID, onderwerpnaam);
+        dao.addSubject(onderwerpnaam, projectID);
     }
 
 

@@ -18,15 +18,15 @@ public class ProjectDAO {
         this.pool = new ConnectionPool("org.mariadb.jdbc.Driver","jdbc:mariadb://localhost:3306:/UrenregistratieDatabase", "root", "ipsen123");
     }
 
-    public void add(String projectName, int customerId){
+    public void addProject(String projectnaam, int klant_ID){
         Connection con = pool.checkout();
-        try{
-            PreparedStatement statement = con.prepareStatement("INSERT INTO project (project_naam, klant_ID) VALUES (?, ?)");
-            statement.setString(1, projectName);
-            statement.setInt(2, customerId);
-
-
-        }catch(SQLException e){
+        Project project = null;
+        try {
+            PreparedStatement addProject = con.prepareStatement("INSERT INTO project (project_naam, klant_ID), VALUE (?,?)");
+            addProject.setString(1, projectnaam);
+            addProject.setInt(2, klant_ID);
+            addProject.executeQuery();
+        } catch (SQLException e){
             e.printStackTrace();
         } finally {
             pool.checkIn(con);

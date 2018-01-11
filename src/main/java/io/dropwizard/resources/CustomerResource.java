@@ -26,7 +26,7 @@ public class CustomerResource {
     }
 
     @POST
-    @Path("/all")
+    @Path("/add")
     @JsonView(View.Public.class)
     public void addCustomer(Categories categorie) {
         service.addCustomer(categorie.getKlantnaam(), categorie.getProjectnaam(), categorie.getOnderwerpnaam());

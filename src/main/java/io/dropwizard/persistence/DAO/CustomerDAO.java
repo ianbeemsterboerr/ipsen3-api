@@ -38,11 +38,12 @@ public class CustomerDAO {
         return klanten;
     }
 
-    public void add(String customerName){
+    public void addCustomer(String customerName){
         Connection con = pool.checkout();
         try{
-            PreparedStatement statement = con.prepareStatement("INSERT INTO klant (klant_naam) VALUES (?)");
-            statement.setString(1, customerName);
+            PreparedStatement addCustomer = con.prepareStatement("INSERT INTO klant (klant_naam) VALUES (?)");
+            addCustomer.setString(1, customerName);
+            addCustomer.executeQuery();
 
         }catch(SQLException e){
             e.printStackTrace();
