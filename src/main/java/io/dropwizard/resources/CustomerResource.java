@@ -6,9 +6,7 @@ import io.dropwizard.models.Customer;
 import io.dropwizard.services.CustomerService;
 
 import javax.inject.Singleton;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -17,7 +15,11 @@ import java.util.List;
 @Path("/klanten")
 @Produces(MediaType.APPLICATION_JSON)
 public class CustomerResource {
-    public CustomerService service = new CustomerService();
+    CustomerService service;
+
+    public CustomerResource(CustomerService service){
+        this.service = service;
+    }
 
     @GET
     @Path("/all")
@@ -25,6 +27,17 @@ public class CustomerResource {
     public List<Customer> getCustomer() {
         return service.getCustomer();
     }
+
+//    @POST
+//    @Path("/add")
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @JsonView(View.OnlyAdmins.class)
+//    public void createAccount(Customer customer) {
+//        //TODO @Valid toevoegen, maar werkt niet... ?
+//        System.out.println(customer.getCustomerName());
+//        service.addCustomer(customer);
+//    }
+
 
 
 }

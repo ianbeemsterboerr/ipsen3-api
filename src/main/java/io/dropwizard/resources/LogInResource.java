@@ -6,7 +6,6 @@ import io.dropwizard.auth.Auth;
 import io.dropwizard.models.Personeel;
 
 import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.inject.Singleton;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -18,6 +17,10 @@ import javax.ws.rs.core.MediaType;
 @Produces(MediaType.APPLICATION_JSON)
 @PermitAll
 public class LogInResource {
+
+    public LogInResource(){
+
+    }
 
     @GET
     @Path("/login")

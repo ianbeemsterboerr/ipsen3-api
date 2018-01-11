@@ -10,14 +10,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubjectDAO {
+public class SubjectDAO extends DAO{
 
-    private ConnectionPool pool;
-
-    public SubjectDAO() {
-        this.pool = new ConnectionPool("org.mariadb.jdbc.Driver","jdbc:mariadb://localhost:3306:/UrenregistratieDatabase", "root", "ipsen123");
+    public SubjectDAO(ConnectionPool pool) {
+        super(pool);
     }
-
 
     public Subject getSubjectByPIDSName(int projectID, String subjectName) {
         Connection con = pool.checkout();
@@ -36,6 +33,21 @@ public class SubjectDAO {
             pool.checkIn(con);
         }
         return subject;
+    }
+
+    public void addSubject(String onderwerpnaam){
+        Connection con = pool.checkout();
+        Subject subject = null;
+        try {
+            PreparedStatement addSubject = con.prepareStatement("INSERT INTO subject (subject_naam), VALUE (?)");
+            addSubject.setString(1, onderwerpnaam);
+            addSubject.executeQuery();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            pool.checkIn(con);
+        }
+
     }
 
     public List<Subject> getSubjects(int projectID) {

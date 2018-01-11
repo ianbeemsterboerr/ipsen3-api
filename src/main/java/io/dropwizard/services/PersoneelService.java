@@ -6,10 +6,10 @@ import io.dropwizard.persistence.DAO.PersoneelDAO;
 import java.util.List;
 
 public class PersoneelService {
-    PersoneelDAO dao = new PersoneelDAO();
+    PersoneelDAO dao;
 
-    public PersoneelService(){
-
+    public PersoneelService(PersoneelDAO dao){
+        this.dao = dao;
     }
 
     public void setWerkzaam(String werkzaam, int id){

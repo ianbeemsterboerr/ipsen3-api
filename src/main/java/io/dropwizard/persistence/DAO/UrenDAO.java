@@ -12,11 +12,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UrenDAO {
-    ConnectionPool pool;
+public class UrenDAO extends DAO{
 
-    public UrenDAO(){
-        this.pool = new ConnectionPool("org.mariadb.jdbc.Driver","jdbc:mariadb://localhost:3306:/UrenregistratieDatabase", "root", "ipsen123");
+    public UrenDAO(ConnectionPool pool){
+        super(pool);
     }
 
     /**

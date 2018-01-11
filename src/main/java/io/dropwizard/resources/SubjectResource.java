@@ -3,13 +3,12 @@ package io.dropwizard.resources;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.dropwizard.View;
 import io.dropwizard.models.Subject;
+import io.dropwizard.services.ProjectService;
 import io.dropwizard.services.SubjectService;
+import io.dropwizard.models.Categories;
 
 import javax.inject.Singleton;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -17,7 +16,10 @@ import java.util.List;
 @Path("/subjects")
 @Produces(MediaType.APPLICATION_JSON)
 public class SubjectResource {
-    public SubjectService service = new SubjectService();
+    SubjectService service;
+    public  SubjectResource(SubjectService service){
+        this.service = service;
+    }
 
     @GET
     @Path("/allByName")
@@ -26,4 +28,10 @@ public class SubjectResource {
         return service.getSubjects(projectName, customerName);
     }
 
+    @POST
+    @Path("/add")
+    @JsonView(View.Public.class)
+    public void addSubject(Categories category){
+        service.addSubject(category.getProject_ID(), catergory.getOnderwerpnaam());
+    }
 }
