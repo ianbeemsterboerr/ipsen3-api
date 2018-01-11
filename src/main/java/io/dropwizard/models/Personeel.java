@@ -20,7 +20,6 @@ public class Personeel implements Principal{
     @Length(min = 3, max = 40)
     private String achternaam;
 
-    @NotEmpty
     @Length(min = 8)
     private String wachtwoord;
 
