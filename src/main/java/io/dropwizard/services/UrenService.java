@@ -4,21 +4,24 @@ import io.dropwizard.models.Customer;
 import io.dropwizard.models.Project;
 import io.dropwizard.models.Subject;
 import io.dropwizard.models.Uren;
+import io.dropwizard.persistence.DAO.CustomerDAO;
+import io.dropwizard.persistence.DAO.ProjectDAO;
+import io.dropwizard.persistence.DAO.SubjectDAO;
 import io.dropwizard.persistence.DAO.UrenDAO;
 
 import java.util.List;
 
 public class UrenService {
     private UrenDAO dao;
-    private CustomerService customerService;
-    private ProjectService projectService;
-    private SubjectService subjectService;
+    private CustomerDAO customerDao;
+    private ProjectDAO projectDao;
+    private SubjectDAO subjectDao;
 
-    public UrenService(UrenDAO dao, CustomerService customerService, ProjectService projectService, SubjectService subjectService){
-        this.dao = dao;
-        this.customerService = customerService;
-        this.projectService = projectService;
-        this.subjectService = subjectService;
+    public UrenService(UrenDAO urenDao, CustomerDAO customerDao, ProjectDAO ProjectDao, SubjectDAO subjectDao){
+        this.dao = urenDao;
+        this.customerDao = customerDao;
+        this.projectDao = ProjectDao;
+        this.subjectDao = subjectDao;
     }
 
     //Admin
@@ -76,9 +79,9 @@ public class UrenService {
 
     }
     public void updateHour(Uren hour){
-        Customer customer = customerService.getCustomerByName(hour.getCustomerName());
-        Project project = projectService.getProjectByCIdAndPName(hour.getProjectName(), customer.getCustomerId());
-        Subject subject = subjectService.getSubjectByPIDSName(project.getProjectID(), hour.getSubjectName());
+        Customer customer = customerDao.getCustomerByName(hour.getCustomerName());
+        Project project = projectDao.getProjectByCIdAndPName(hour.getProjectName(), customer.getCustomerId());
+        Subject subject = subjectDao.getSubjectByPIDSName(project.getProjectID(), hour.getSubjectName());
 
         hour.setCustomerId(customer.getCustomerId());
         hour.setProjectId(project.getProjectID());
@@ -88,17 +91,17 @@ public class UrenService {
     }
 
     private Customer getCustomer(String customerName) {
-        Customer customer= customerService.getCustomerByName(customerName);
+        Customer customer= customerDao.getCustomerByName(customerName);
         return customer;
     }
 
     private Project getProject(int customerID, String projectName) {
-        Project project= projectService.getProjectByCIdAndPName(projectName, customerID);
+        Project project= projectDao.getProjectByCIdAndPName(projectName, customerID);
         return project;
     }
 
     private Subject getSubject(int projectID, String subjectName) {
-        Subject subject = subjectService.getSubjectByPIDSName(projectID, subjectName);
+        Subject subject = subjectDao.getSubjectByPIDSName(projectID, subjectName);
         return subject;
     }
 

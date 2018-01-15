@@ -2,16 +2,17 @@ package io.dropwizard.services;
 
 import io.dropwizard.models.Customer;
 import io.dropwizard.models.Project;
+import io.dropwizard.persistence.DAO.CustomerDAO;
 import io.dropwizard.persistence.DAO.ProjectDAO;
 
 import java.util.List;
 
 public class ProjectService {
-    CustomerService customerService;
+    CustomerDAO customerDao;
     ProjectDAO dao;
-    public ProjectService(ProjectDAO dao, CustomerService customerService) {
-        this.dao = dao;
-        this.customerService = customerService;
+    public ProjectService(ProjectDAO projectDao, CustomerDAO customerDao) {
+        this.dao = projectDao;
+        this.customerDao = customerDao;
     }
 
     public Project getProjectByCIdAndPName(String projectName, int customerId) {
@@ -21,7 +22,7 @@ public class ProjectService {
     public List<Project> getProjects(String customerName) {
 
 
-        Customer customer = customerService.getCustomerByName(customerName);
+        Customer customer = customerDao.getCustomerByName(customerName);
 
 
         return this.dao.getProjectByID(customer.getCustomerId());

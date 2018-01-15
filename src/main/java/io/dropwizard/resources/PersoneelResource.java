@@ -44,7 +44,7 @@ public class PersoneelResource {
     @Path("/add")
     @Consumes (MediaType.APPLICATION_JSON)
     @JsonView(View.OnlyAdmins.class)
-    public void createAccount(Personeel personeel) {
+    public void createAccount(@Valid Personeel personeel) {
         //TODO @Valid toevoegen, maar werkt niet... ?
         service.addUser(personeel);
     }

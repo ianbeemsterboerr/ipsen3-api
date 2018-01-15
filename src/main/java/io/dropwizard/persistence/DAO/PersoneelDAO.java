@@ -3,7 +3,6 @@ package io.dropwizard.persistence.DAO;
 import io.dropwizard.models.Personeel;
 import io.dropwizard.persistence.ConnectionPool;
 
-import javax.inject.Inject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
