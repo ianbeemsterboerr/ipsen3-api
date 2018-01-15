@@ -28,10 +28,8 @@ public class SecurityFilterService implements ContainerRequestFilter{
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-        System.out.println("In filter");
     if(requestContext.getUriInfo().getPath().contains(SECURED_URL_PREFIX_EMPLOYEE)){
         List<String> authHeader = requestContext.getHeaders().get(AUTHORIZATION_HEADER);
-        System.out.println("In filtermethod, ");
         if(authHeader != null && authHeader.size()>0) {
             String authToken = authHeader.get(0);
             authToken = authToken.replaceFirst(AUTHORIZATION_HEADER_PREFIX, "");

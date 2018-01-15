@@ -43,7 +43,6 @@ public class PersoneelDAO extends DAO{
     public void setWerkzaam(int werkzaam, int id){
         try{
             Connection con = pool.checkout();
-            System.out.println(werkzaam + " " + id);
             PreparedStatement statement = con.prepareStatement("update personeel set werkzaam = ? where persoonID = ?");
             statement.setInt(1, werkzaam);
             statement.setInt(2, id);

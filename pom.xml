@@ -55,6 +55,11 @@
             <artifactId>dropwizard-configurable-assets-bundle</artifactId>
             <version>0.8.1-1</version>
         </dependency>
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.3m</version>
+        </dependency>
     </dependencies>
 
     <build>
