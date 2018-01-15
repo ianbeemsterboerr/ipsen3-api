@@ -34,18 +34,6 @@ public class CustomerDAO extends DAO{
         return klanten;
     }
 
-    public void add(String customerName){
-        Connection con = pool.checkout();
-        try{
-            PreparedStatement statement = con.prepareStatement("INSERT INTO klant (klant_naam) VALUES (?)");
-            statement.setString(1, customerName);
-
-        }catch(SQLException e){
-            e.printStackTrace();
-        } finally {
-            pool.checkIn(con);
-        }
-    }
 
     public Customer getCustomerByName(String customerName) {
         Connection con = pool.checkout();
@@ -70,7 +58,6 @@ public class CustomerDAO extends DAO{
 
     public void addCustomer(String klantnaam){
         Connection con = pool.checkout();
-        Customer customer = null;
         try {
             PreparedStatement addCustomer = con.prepareStatement("INSERT INTO klant (klant_naam), VALUE (?)");
             addCustomer.setString(1, klantnaam);

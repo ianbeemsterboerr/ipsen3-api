@@ -2,6 +2,7 @@ package io.dropwizard.resources;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import io.dropwizard.View;
+import io.dropwizard.models.Categories;
 import io.dropwizard.models.Customer;
 import io.dropwizard.services.CustomerService;
 
@@ -28,16 +29,11 @@ public class CustomerResource {
         return service.getCustomer();
     }
 
-//    @POST
-//    @Path("/add")
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @JsonView(View.OnlyAdmins.class)
-//    public void createAccount(Customer customer) {
-//        //TODO @Valid toevoegen, maar werkt niet... ?
-//        System.out.println(customer.getCustomerName());
-//        service.addCustomer(customer);
-//    }
-
-
+    @POST
+    @Path("/add")
+    @JsonView(View.Public.class)
+    public void addCustomer(Categories categorie) {
+        service.addCustomer(categorie.getKlantnaam(), categorie.getProjectnaam(), categorie.getOnderwerpnaam());
+    }
 
 }
