@@ -2,21 +2,20 @@ package io.dropwizard.services;
 
 import io.dropwizard.models.Customer;
 import io.dropwizard.models.Project;
+import io.dropwizard.persistence.DAO.CustomerDAO;
 import io.dropwizard.persistence.DAO.ProjectDAO;
+import io.dropwizard.persistence.DAO.SubjectDAO;
 
 import java.util.List;
 
 public class ProjectService {
-
-    private Project project = null;
-    private CustomerService customerService;
-    private SubjectService subjectService;
+    private SubjectDAO subjectDao;
+    private CustomerDAO customerDao;
     private ProjectDAO dao;
-
-    public ProjectService(ProjectDAO dao, CustomerService customerService, SubjectService subjectService) {
+    public ProjectService(ProjectDAO dao, CustomerDAO customerDao, SubjectDAO subjectDao) {
+        this.subjectDao = subjectDao;
         this.dao = dao;
-        this.customerService = customerService;
-        this.subjectService = subjectService;
+        this.customerDao = customerDao;
     }
 
     public Project getProjectByCIdAndPName(String projectName, int customerId) {
@@ -25,17 +24,16 @@ public class ProjectService {
 
     public List<Project> getProjects(String customerName) {
 
-
-        Customer customer = customerService.getCustomerByName(customerName);
-
-
+        Customer customer = customerDao.getCustomerByName(customerName);
         return this.dao.getProjectByID(customer.getCustomerId());
     }
 
     public void addProject(int klant_ID, String projectnaam, String onderwerpnaam) {
+
+        Project project;
         dao.addProject(projectnaam, klant_ID);
 
         project = dao.getProjectByCIdAndPName(projectnaam, klant_ID);
-        subjectService.addSubject(project.getProjectID(), onderwerpnaam);
+        subjectDao.addSubject(onderwerpnaam, project.getProjectID());
     }
 }

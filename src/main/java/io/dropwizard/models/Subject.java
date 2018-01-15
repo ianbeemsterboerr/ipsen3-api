@@ -6,9 +6,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class Subject {
 
     private int subjectId;
+
     @NotEmpty
     @Length(max = 40)
     private String subjectName;
+
     private int projectId;
 
     public Subject(int subjectId, String subjectName, int projectId) {

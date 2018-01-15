@@ -6,7 +6,7 @@ import io.dropwizard.models.Categories;
 import io.dropwizard.models.Subject;
 import io.dropwizard.services.ProjectService;
 import io.dropwizard.services.SubjectService;
-import io.dropwizard.models.Categories;
+
 
 import javax.inject.Singleton;
 import javax.ws.rs.*;

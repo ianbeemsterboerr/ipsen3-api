@@ -1,19 +1,23 @@
 package io.dropwizard.services;
 
 import io.dropwizard.models.Customer;
+import io.dropwizard.models.Project;
 import io.dropwizard.persistence.DAO.CustomerDAO;
+import io.dropwizard.persistence.DAO.ProjectDAO;
+import io.dropwizard.persistence.DAO.SubjectDAO;
 
 import java.util.List;
 
 public class CustomerService {
     private CustomerDAO dao;
-
+    private SubjectDAO subjectDao;
     private Customer customer;
-    private ProjectService service;
+    private ProjectDAO projectDao;
 
-    public CustomerService(CustomerDAO dao, ProjectService service){
+    public CustomerService(CustomerDAO dao, ProjectDAO projectDao, SubjectDAO subjectDao){
         this.dao = dao;
-        this.service = service;
+        this.projectDao = projectDao;
+        this.subjectDao = subjectDao;
     }
 
 
@@ -33,6 +37,10 @@ public class CustomerService {
 
         customer = dao.getCustomerByName(klantnaam);
 
-        service.addProject(customer.getCustomerId(), projectnaam, onderwerpnaam);
+        projectDao.addProject(projectnaam, customer.getCustomerId());
+
+        Project project = projectDao.getProjectByCIdAndPName(projectnaam, customer.getCustomerId());
+
+        subjectDao.addSubject(onderwerpnaam, project.getProjectID());
     }}
 
