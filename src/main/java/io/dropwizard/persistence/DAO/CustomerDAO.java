@@ -37,7 +37,7 @@ public class CustomerDAO extends DAO{
     public void add(String customerName){
         Connection con = pool.checkout();
         try{
-            PreparedStatement statement = con.prepareStatement("INSERT INTO klant (klant_naam   ) VALUES (?)");
+            PreparedStatement statement = con.prepareStatement("INSERT INTO klant (klant_naam) VALUES (?)");
             statement.setString(1, customerName);
 
         }catch(SQLException e){

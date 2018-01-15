@@ -30,4 +30,10 @@ public class SubjectService {
 
         return this.dao.getSubjects(project.getProjectID());
     }
-}
+
+    public void addSubject(int projectID, String onderwerpnaam) {
+        dao.addSubject(onderwerpnaam, projectID);
+    }
+
+
+    }

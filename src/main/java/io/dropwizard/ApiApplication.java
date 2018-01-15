@@ -68,12 +68,13 @@ public class ApiApplication extends Application<ApiConfiguration> {
          */
 
         final AuthService authService = new AuthService(personeelDAO);
-        final CustomerService customerService = new CustomerService(customerDAO);
+        final CustomerService customerService = new CustomerService(customerDAO, projectDAO, subjectDAO);
         final PersoneelService personeelService = new PersoneelService(personeelDAO);
-        final ProjectService projectService = new ProjectService(projectDAO, customerDAO);
+        final ProjectService projectService = new ProjectService(projectDAO, customerDAO, subjectDAO);
         final SecurityFilterService security = new SecurityFilterService(personeelDAO);
         final SubjectService subjectService = new SubjectService(subjectDAO, projectDAO, customerDAO);
         final UrenService urenService = new UrenService(urenDAO, customerDAO, projectDAO, subjectDAO);
+
 
         /**
          * Initialise all the Resource objects.
