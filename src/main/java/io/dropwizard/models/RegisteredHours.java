@@ -4,7 +4,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 
-public class Uren {
+public class RegisteredHours {
 
 
     @NotEmpty
@@ -54,7 +54,7 @@ public class Uren {
     @NotNull
     private boolean isChanged = false;
 
-    public Uren(int uurId, int employeeId, String startingDate, String startingTime, String endingDate, String endingTime, String customerName, String projectName, String subjectName, int customerId, int projectId, int subjectId, String comment, boolean confirmed, String employeeName, boolean isChanged) {
+    public RegisteredHours(int uurId, int employeeId, String startingDate, String startingTime, String endingDate, String endingTime, String customerName, String projectName, String subjectName, int customerId, int projectId, int subjectId, String comment, boolean confirmed, String employeeName, boolean isChanged) {
         this.hourID = uurId;
         this.employeeId = employeeId;
         this.startingDate = startingDate;
@@ -73,7 +73,7 @@ public class Uren {
         this.subjectId = subjectId;
     }
 
-    public Uren(int hourID, String startingDate, String endingDate, String startingTime, String endingTime, String comment, boolean confirmed, int employeeId, String customerName, String projectName, String subjectName, String employeeName) {
+    public RegisteredHours(int hourID, String startingDate, String endingDate, String startingTime, String endingTime, String comment, boolean confirmed, int employeeId, String customerName, String projectName, String subjectName, String employeeName) {
         this.hourID = hourID;
         this.employeeId = employeeId;
         this.startingDate = startingDate;
@@ -88,7 +88,7 @@ public class Uren {
         this.employeeName = employeeName;
     }
 
-    public Uren(String startingDate, String startingTime, String endingDate, String endingTime, String customerName, String projectName, String subjectName, String comment, int employeeID) {
+    public RegisteredHours(String startingDate, String startingTime, String endingDate, String endingTime, String customerName, String projectName, String subjectName, String comment, int employeeID) {
         this.startingDate = startingDate;
         this.startingTime = startingTime;
         this.endingDate = endingDate;
@@ -100,7 +100,7 @@ public class Uren {
         this.employeeId = employeeID;
     }
 
-    public Uren(){
+    public RegisteredHours(){
     }
 
     public int getUurId() {

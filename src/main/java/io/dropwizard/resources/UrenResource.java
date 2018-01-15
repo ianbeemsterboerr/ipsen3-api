@@ -2,7 +2,7 @@ package io.dropwizard.resources;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import io.dropwizard.View;
-import io.dropwizard.models.Uren;
+import io.dropwizard.models.RegisteredHours;
 import io.dropwizard.services.UrenService;
 
 import javax.annotation.security.RolesAllowed;
@@ -37,7 +37,7 @@ public class UrenResource {
     @Path("/getbyid")
     @JsonView(View.Public.class)
     @RolesAllowed("GUEST")
-    public List<Uren> getUren(
+    public List<RegisteredHours> getUren(
             @QueryParam("id") int id){
 
         return service.getUrenByPersoneelId(id);
@@ -47,7 +47,7 @@ public class UrenResource {
     @Path("/getall")
     @JsonView(View.OnlyAdmins.class)
     @RolesAllowed("ADMIN")
-    public List<Uren> getAllUren(){
+    public List<RegisteredHours> getAllUren(){
         return service.getAllUren();
     }
 
@@ -55,15 +55,15 @@ public class UrenResource {
     @Path("/setHour")
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.OnlyAdmins.class)
-    public void setHours( Uren uren) {
-        this.service.setHours(uren);
+    public void setHours( RegisteredHours registeredHours) {
+        this.service.setHours(registeredHours);
     }
 
     @POST
     @Path("/confirm")
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.OnlyAdmins.class)
-    public void setConfirmed(Uren uur){
+    public void setConfirmed(RegisteredHours uur){
         this.service.setConfirmed(uur);
     }
 
@@ -71,6 +71,6 @@ public class UrenResource {
     @Path("/updateHour")
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Public.class)
-    public void updateHour(Uren hour){ this.service.updateHour(hour);}
+    public void updateHour(RegisteredHours hour){ this.service.updateHour(hour);}
 
 }

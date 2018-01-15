@@ -1,10 +1,8 @@
 package io.dropwizard.persistence.DAO;
 
-import io.dropwizard.models.Personeel;
-import io.dropwizard.models.Uren;
+import io.dropwizard.models.RegisteredHours;
 import io.dropwizard.persistence.ConnectionPool;
 
-import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +22,7 @@ public class UrenDAO extends DAO{
      * @param einddatum
      * @return
      */
-    public List<Uren> getUrenByKlantProjectOnderwerp(Integer id, String begindatum, String einddatum, String klant, String project, String onderwerp) {
+    public List<RegisteredHours> getUrenByKlantProjectOnderwerp(Integer id, String begindatum, String einddatum, String klant, String project, String onderwerp) {
         ResultSet queryResultaten;
         queryResultaten = null;
         try {
@@ -57,8 +55,8 @@ public class UrenDAO extends DAO{
         return toModel(queryResultaten);
     }
 
-    private List<Uren> toModel(ResultSet results){
-        List<Uren> toModel = new ArrayList<>();
+    private List<RegisteredHours> toModel(ResultSet results){
+        List<RegisteredHours> toModel = new ArrayList<>();
         String personeelsNaam;
         try {
             while(results.next()){
@@ -67,7 +65,7 @@ public class UrenDAO extends DAO{
                 } else {
                     personeelsNaam = results.getString("voornaam") + " " + results.getString("achternaam");
                 }
-                toModel.add(new Uren(
+                toModel.add(new RegisteredHours(
                         results.getInt("uurID"),
                         results.getInt("persoonID"),
                         results.getString("begindatum"),
@@ -93,7 +91,7 @@ public class UrenDAO extends DAO{
         return toModel;
     }
 
-    public List<Uren> getByPersoonId(int id){
+    public List<RegisteredHours> getByPersoonId(int id){
         ResultSet resultSet = null;
         Connection con = pool.checkout();
         PreparedStatement statement;
@@ -110,7 +108,7 @@ public class UrenDAO extends DAO{
         return toModel(resultSet);
     }
 
-    public List<Uren> getAllUren() {
+    public List<RegisteredHours> getAllUren() {
         ResultSet results = null;
         Connection con;
         PreparedStatement statement;
@@ -125,7 +123,7 @@ public class UrenDAO extends DAO{
         return toModel(results);
     }
 
-    public void setHour(Uren hour) {
+    public void setHour(RegisteredHours hour) {
         Connection con = pool.checkout();
         try {
             PreparedStatement setHour = null;
@@ -157,7 +155,7 @@ public class UrenDAO extends DAO{
         }
     }
 
-    public void setConfirmed(Uren uur, boolean confirmed){
+    public void setConfirmed(RegisteredHours uur, boolean confirmed){
         Connection con = pool.checkout();
         try{
             PreparedStatement statement = con.prepareStatement("UPDATE geregistreerdetijd set goedgekeurd = ? WHERE uurID = ?");
@@ -171,7 +169,7 @@ public class UrenDAO extends DAO{
         }
     }
 
-    public void updateHour(Uren hour){
+    public void updateHour(RegisteredHours hour){
         Connection con = pool.checkout();
         try{
             PreparedStatement statement = con.prepareStatement("UPDATE gereristreerdetijd SET begindatum = ?, einddatum = ?, begintijd = ?, eindtijd = ?, commentaar = ?, persoonID = ?, klant_ID = ?, project_ID = ?, onderwerp_ID = ? WHERE uurID = ? AND confirmed = false");
