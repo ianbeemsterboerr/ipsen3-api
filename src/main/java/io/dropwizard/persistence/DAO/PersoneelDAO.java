@@ -125,4 +125,22 @@ public class PersoneelDAO extends DAO{
         }
     }
 
+    public String getPasswordById(int ID) {
+        Connection con = pool.checkout();
+        String pass = null;
+        try{
+            PreparedStatement getPassword = con.prepareStatement("SELECT wachtwoord FROM personeel WHERE persoonID = (?)");
+            getPassword.setInt(1, ID);
+            ResultSet results = getPassword.executeQuery();
+            if (results.next()) {
+                pass = results.getString("wachtwoord");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            pool.checkIn(con);
+        }
+        return pass;
+    }
+
 }

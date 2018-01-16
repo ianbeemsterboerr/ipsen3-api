@@ -26,11 +26,11 @@ public class UrenService {
 
     //Admin
     public List<RegisteredHours> getUrenAdmin(String begindatum, String einddatum, String klant, String project, String onderwerp) {
-        return dao.getUrenByKlantProjectOnderwerp(null, begindatum, einddatum, klant, project, onderwerp);
+        return dao.getUrenByKlantProjectOnderwerp(null, begindatum, klant, project, onderwerp);
     }
     //Personeel
     public List<RegisteredHours> getUren(int id, String begindatum, String einddatum, String klant, String project, String onderwerp) {
-        return dao.getUrenByKlantProjectOnderwerp(id, begindatum, einddatum, klant, project, onderwerp);
+        return dao.getUrenByKlantProjectOnderwerp(id, begindatum, klant, project, onderwerp);
     }
 
     public List<RegisteredHours> getUrenByPersoneelId(int id) {

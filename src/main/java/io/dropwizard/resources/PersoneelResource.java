@@ -1,10 +1,7 @@
 package io.dropwizard.resources;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.sun.org.apache.xpath.internal.SourceTree;
 import io.dropwizard.View;
-import io.dropwizard.auth.Auth;
-import io.dropwizard.jersey.PATCH;
 import io.dropwizard.models.Personeel;
 import io.dropwizard.services.PersoneelService;
 
@@ -52,7 +49,7 @@ public class PersoneelResource {
     @POST
     @Path("/wachtwoord")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void veranderWachtwoord(@QueryParam("wachtwoord") String newPassword, @QueryParam("id") int ID ) {
-        service.changePassword(newPassword, ID);
+    public void veranderWachtwoord(@QueryParam("wachtwoord") String newPassword, @QueryParam("id") int ID, @QueryParam("oldPassword") String oldPassword ) {
+        this.service.changePassword(newPassword, ID, oldPassword);
     }
 }
