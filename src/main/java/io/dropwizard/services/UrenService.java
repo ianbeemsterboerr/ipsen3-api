@@ -3,7 +3,7 @@ package io.dropwizard.services;
 import io.dropwizard.models.Customer;
 import io.dropwizard.models.Project;
 import io.dropwizard.models.Subject;
-import io.dropwizard.models.Uren;
+import io.dropwizard.models.RegisteredHours;
 import io.dropwizard.persistence.DAO.CustomerDAO;
 import io.dropwizard.persistence.DAO.ProjectDAO;
 import io.dropwizard.persistence.DAO.SubjectDAO;
@@ -25,19 +25,19 @@ public class UrenService {
     }
 
     //Admin
-    public List<Uren> getUrenAdmin(String begindatum, String einddatum, String klant, String project, String onderwerp) {
+    public List<RegisteredHours> getUrenAdmin(String begindatum, String einddatum, String klant, String project, String onderwerp) {
         return dao.getUrenByKlantProjectOnderwerp(null, begindatum, einddatum, klant, project, onderwerp);
     }
     //Personeel
-    public List<Uren> getUren(int id, String begindatum, String einddatum, String klant, String project, String onderwerp) {
+    public List<RegisteredHours> getUren(int id, String begindatum, String einddatum, String klant, String project, String onderwerp) {
         return dao.getUrenByKlantProjectOnderwerp(id, begindatum, einddatum, klant, project, onderwerp);
     }
 
-    public List<Uren> getUrenByPersoneelId(int id) {
+    public List<RegisteredHours> getUrenByPersoneelId(int id) {
         return dao.getByPersoonId(id);
     }
 
-    public void setHours(Uren hour) {
+    public void setHours(RegisteredHours hour) {
 
         Customer customer;
         Project project;
@@ -68,17 +68,17 @@ public class UrenService {
             }
 
     }
-    public void setConfirmed(Uren uur){
+    public void setConfirmed(RegisteredHours uur){
         boolean confirmed = uur.isConfirmed() == true ? false : true;
         this.dao.setConfirmed(uur, confirmed);
     }
 
 
-    public List<Uren> getAllUren() {
+    public List<RegisteredHours> getAllUren() {
         return dao.getAllUren();
 
     }
-    public void updateHour(Uren hour){
+    public void updateHour(RegisteredHours hour){
         Customer customer = customerDao.getCustomerByName(hour.getCustomerName());
         Project project = projectDao.getProjectByCIdAndPName(hour.getProjectName(), customer.getCustomerId());
         Subject subject = subjectDao.getSubjectByPIDSName(project.getProjectID(), hour.getSubjectName());

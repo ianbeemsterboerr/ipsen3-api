@@ -2,11 +2,13 @@ package io.dropwizard.services;
 
 import io.dropwizard.models.Personeel;
 import io.dropwizard.persistence.DAO.PersoneelDAO;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 
 public class PersoneelService {
     PersoneelDAO dao;
+    private final String STANDAARDWACHTWOORD = "Welkom1";
 
     public PersoneelService(PersoneelDAO dao){
         this.dao = dao;
@@ -26,10 +28,12 @@ public class PersoneelService {
     }
 
     public void addUser(Personeel personeel){
+        personeel.setWachtwoord(BCrypt.hashpw(STANDAARDWACHTWOORD, BCrypt.gensalt()));
         dao.add(personeel);
     }
 
     public void changePassword(String newPassword, int ID) {
-        dao.setWachtwoord(newPassword, ID);
+        String hash = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+        dao.setWachtwoord(hash, ID);
     }
 }
