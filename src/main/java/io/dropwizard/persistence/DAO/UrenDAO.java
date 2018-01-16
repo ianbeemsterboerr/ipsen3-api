@@ -27,8 +27,9 @@ public class UrenDAO extends DAO{
     public List<Uren> getUrenByKlantProjectOnderwerp(Integer id, String begindatum, String einddatum, String klant, String project, String onderwerp) {
         ResultSet queryResultaten;
         queryResultaten = null;
+        Connection con = pool.checkout();
         try {
-            Connection con = pool.checkout();
+
             PreparedStatement statement;
             if(id==null){
                 statement = con.prepareStatement("SELECT geregistreerdetijd.*, personeel.voornaam, personeel.tussenvoegsel, personeel.achternaam FROM geregistreerdetijd JOIN personeel ON geregistreerdetijd.persoonID = personeel.persoonID\n WHERE begindatum >=? AND einddatum<=?"+ "AND (klant_naam = ? OR klant_naam LIKE ?)"+ "AND (project_naam = ? OR project_naam LIKE ?)"+ "AND (onderwerp_naam = ? OR onderwerp_naam LIKE ?)" + "AND persoonID = ?" );
@@ -47,11 +48,11 @@ public class UrenDAO extends DAO{
             statement.setString(7, onderwerp);
             statement.setString(8, onderwerp+ "%");
             queryResultaten = statement.executeQuery();
-            pool.checkIn(con);
-
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            pool.checkIn(con);
         }
 
         return toModel(queryResultaten);
@@ -72,7 +73,6 @@ public class UrenDAO extends DAO{
                         results.getInt("persoonID"),
                         results.getString("begindatum"),
                         results.getString("begintijd"),
-                        results.getString("einddatum"),
                         results.getString("eindtijd"),
                         results.getString("klant_naam"),
                         results.getString("project_naam"),
@@ -102,9 +102,11 @@ public class UrenDAO extends DAO{
             statement = con.prepareStatement("SELECT geregistreerdetijd.uurID, geregistreerdetijd.begindatum, geregistreerdetijd.einddatum, geregistreerdetijd.begintijd, geregistreerdetijd.eindtijd, geregistreerdetijd.commentaar, geregistreerdetijd.goedgekeurd, personeel.voornaam, personeel.persoonID, personeel.achternaam, personeel.tussenvoegsel, klant.klant_naam, geregistreerdetijd.klant_ID, project.project_naam, geregistreerdetijd.project_ID, onderwerp.onderwerp_naam, geregistreerdetijd.onderwerp_ID FROM geregistreerdetijd JOIN personeel ON personeel.persoonID = geregistreerdetijd.persoonID JOIN klant ON klant.klant_ID = geregistreerdetijd.klant_ID JOIN project ON project.project_ID = geregistreerdetijd.project_ID JOIN onderwerp ON onderwerp.onderwerp_ID = geregistreerdetijd.onderwerp_ID WHERE geregistreerdetijd.persoonID = ?");
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
-            pool.checkIn(con);
+
         } catch (SQLException e) {
             e.printStackTrace();
+
+        } finally {
             pool.checkIn(con);
         }
         return toModel(resultSet);
@@ -112,15 +114,16 @@ public class UrenDAO extends DAO{
 
     public List<Uren> getAllUren() {
         ResultSet results = null;
-        Connection con;
+        Connection con = pool.checkout();;
         PreparedStatement statement;
         try {
-            con = pool.checkout();
+
             statement = con.prepareStatement("SELECT geregistreerdetijd.uurID, geregistreerdetijd.begindatum, geregistreerdetijd.einddatum, geregistreerdetijd.begintijd, geregistreerdetijd.eindtijd, geregistreerdetijd.commentaar, geregistreerdetijd.goedgekeurd, personeel.voornaam, personeel.persoonID, personeel.achternaam, personeel.tussenvoegsel, klant.klant_naam, geregistreerdetijd.klant_ID, project.project_naam, geregistreerdetijd.project_ID, onderwerp.onderwerp_naam, geregistreerdetijd.onderwerp_ID FROM geregistreerdetijd JOIN personeel ON personeel.persoonID = geregistreerdetijd.persoonID JOIN klant ON klant.klant_ID = geregistreerdetijd.klant_ID JOIN project ON project.project_ID = geregistreerdetijd.project_ID JOIN onderwerp ON onderwerp.onderwerp_ID = geregistreerdetijd.onderwerp_ID");
             results = statement.executeQuery();
-            pool.checkIn(con);
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            pool.checkIn(con);
         }
         return toModel(results);
     }
@@ -130,22 +133,21 @@ public class UrenDAO extends DAO{
         try {
             PreparedStatement setHour = null;
             if (hour.getComment() != null) {
-                setHour = con.prepareStatement("INSERT INTO geregistreerdetijd (begindatum, einddatum, begintijd, eindtijd, persoonID, klant_ID, project_ID, onderwerp_ID, commentaar) VALUES (?,?,?,?,?,?,?,?,?)");
-                setHour.setString(9, hour.getComment());
+                setHour = con.prepareStatement("INSERT INTO geregistreerdetijd (begindatum, begintijd, eindtijd, persoonID, klant_ID, project_ID, onderwerp_ID, commentaar) VALUES (?,?,?,?,?,?,?,?)");
+                setHour.setString(8, hour.getComment());
 
             } else {
-                setHour = con.prepareStatement("INSERT INTO geregistreerdetijd (begindatum, einddatum, begintijd, eindtijd, persoonID, klant_ID, project_ID, onderwerp_ID) VALUES (?,?,?,?,?,?,?,?)");
+                setHour = con.prepareStatement("INSERT INTO geregistreerdetijd (begindatum, begintijd, eindtijd, persoonID, klant_ID, project_ID, onderwerp_ID) VALUES (?,?,?,?,?,?,?)");
 
             }
                 setHour.setString(1, hour.getStartingDate());
-                setHour.setString(2, hour.getEndingDate());
-                setHour.setString(3, hour.getStartingTime());
-                setHour.setString(4, hour.getEndingTime());
+                setHour.setString(2, hour.getStartingTime());
+                setHour.setString(3, hour.getEndingTime());
 
-                setHour.setInt(5, hour.getEmployeeId());
-                setHour.setInt(6, hour.getCustomerId());
-                setHour.setInt(7, hour.getProjectId());
-                setHour.setInt(8, hour.getSubjectId());
+                setHour.setInt(4, hour.getEmployeeId());
+                setHour.setInt(5, hour.getCustomerId());
+                setHour.setInt(6, hour.getProjectId());
+                setHour.setInt(7, hour.getSubjectId());
 
             setHour.executeQuery();
 
@@ -164,31 +166,32 @@ public class UrenDAO extends DAO{
             statement.setBoolean(1, confirmed);
             statement.setInt(2, uur.getUurId());
             statement.executeUpdate();
-            pool.checkIn(con);
         } catch(SQLException e){
-            pool.checkIn(con);
+
             e.printStackTrace();
+        } finally {
+            pool.checkIn(con);
         }
     }
 
     public void updateHour(Uren hour){
         Connection con = pool.checkout();
         try{
-            PreparedStatement statement = con.prepareStatement("UPDATE gereristreerdetijd SET begindatum = ?, einddatum = ?, begintijd = ?, eindtijd = ?, commentaar = ?, persoonID = ?, klant_ID = ?, project_ID = ?, onderwerp_ID = ? WHERE uurID = ? AND confirmed = false");
+            PreparedStatement statement = con.prepareStatement("UPDATE gereristreerdetijd SET begindatum = ?, begintijd = ?, eindtijd = ?, commentaar = ?, persoonID = ?, klant_ID = ?, project_ID = ?, onderwerp_ID = ? WHERE uurID = ? AND confirmed = false");
             statement.setString(1, hour.getStartingDate());
-            statement.setString(2, hour.getEndingDate());
-            statement.setString(3, hour.getStartingTime());
-            statement.setString(4, hour.getEndingTime());
-            statement.setString(5, hour.getComment());
-            statement.setInt(6, hour.getEmployeeId());
-            statement.setInt(7, hour.getCustomerId());
-            statement.setInt(8, hour.getProjectId());
-            statement.setInt(9, hour.getSubjectId());
-            statement.setInt(10, hour.getUurId());
+            statement.setString(2, hour.getStartingTime());
+            statement.setString(3, hour.getEndingTime());
+            statement.setString(4, hour.getComment());
+            statement.setInt(5, hour.getEmployeeId());
+            statement.setInt(6, hour.getCustomerId());
+            statement.setInt(7, hour.getProjectId());
+            statement.setInt(8, hour.getSubjectId());
+            statement.setInt(9, hour.getUurId());
             statement.executeUpdate();
         } catch(SQLException e){
-            pool.checkIn(con);
             e.printStackTrace();
+        } finally {
+            pool.checkIn(con);
         }
     }
 }

@@ -24,16 +24,27 @@ public class SubjectService {
     }
 
     public List<Subject> getSubjects(String projectName, String customerName) {
-        Customer customer = customerDao.getCustomerByName(customerName);
 
+        Customer customer = customerDao.getCustomerByName(customerName);
         Project project = projectDao.getProjectByCIdAndPName(projectName, customer.getCustomerId());
 
         return this.dao.getSubjects(project.getProjectID());
     }
 
-    public void addSubject(int projectID, String onderwerpnaam) {
-        dao.addSubject(onderwerpnaam, projectID);
+    public void addSubject(String klantnaam, String projectnaam, String onderwerpnaam){
+
+        System.out.println("subjectservice addSubject()");
+        Customer customer = this.customerDao.getCustomerByName(klantnaam);
+
+        this.projectDao.addProject(projectnaam, customer.getCustomerId());
+        Project project = projectDao.getProjectByCIdAndPName(projectnaam, customer.getCustomerId());
+
+        this.dao.addSubject(onderwerpnaam, project.getProjectID());
     }
+
+//    public void addSubject(int projectID, String onderwerpnaam) {
+//        dao.addSubject(onderwerpnaam, projectID);
+//    }
 
 
     }

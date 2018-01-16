@@ -20,9 +20,6 @@ public class Uren {
     private String startingTime;
 
     @NotNull
-    private String endingDate;
-
-    @NotNull
     private String endingTime;
 
     @NotNull
@@ -54,12 +51,11 @@ public class Uren {
     @NotNull
     private boolean isChanged = false;
 
-    public Uren(int uurId, int employeeId, String startingDate, String startingTime, String endingDate, String endingTime, String customerName, String projectName, String subjectName, int customerId, int projectId, int subjectId, String comment, boolean confirmed, String employeeName, boolean isChanged) {
+    public Uren(int uurId, int employeeId, String startingDate, String startingTime, String endingTime, String customerName, String projectName, String subjectName, int customerId, int projectId, int subjectId, String comment, boolean confirmed, String employeeName, boolean isChanged) {
         this.hourID = uurId;
         this.employeeId = employeeId;
         this.startingDate = startingDate;
         this.startingTime = startingTime;
-        this.endingDate = endingDate;
         this.endingTime = endingTime;
         this.customerName = customerName;
         this.projectName = projectName;
@@ -73,12 +69,11 @@ public class Uren {
         this.subjectId = subjectId;
     }
 
-    public Uren(int hourID, String startingDate, String endingDate, String startingTime, String endingTime, String comment, boolean confirmed, int employeeId, String customerName, String projectName, String subjectName, String employeeName) {
+    public Uren(int hourID, String startingDate, String startingTime, String endingTime, String comment, boolean confirmed, int employeeId, String customerName, String projectName, String subjectName, String employeeName) {
         this.hourID = hourID;
         this.employeeId = employeeId;
         this.startingDate = startingDate;
         this.startingTime = startingTime;
-        this.endingDate = endingDate;
         this.endingTime = endingTime;
         this.customerName = customerName;
         this.projectName = projectName;
@@ -88,10 +83,9 @@ public class Uren {
         this.employeeName = employeeName;
     }
 
-    public Uren(String startingDate, String startingTime, String endingDate, String endingTime, String customerName, String projectName, String subjectName, String comment, int employeeID) {
+    public Uren(String startingDate, String startingTime, String endingTime, String customerName, String projectName, String subjectName, String comment, int employeeID) {
         this.startingDate = startingDate;
         this.startingTime = startingTime;
-        this.endingDate = endingDate;
         this.endingTime = endingTime;
         this.customerName = customerName;
         this.projectName = projectName;
@@ -133,14 +127,6 @@ public class Uren {
 
     public void setStartingTime(String startingTime) {
         this.startingTime = startingTime;
-    }
-
-    public String getEndingDate() {
-        return endingDate;
-    }
-
-    public void setEndingDate(String endingDate) {
-        this.endingDate = endingDate;
     }
 
     public String getEndingTime() {
