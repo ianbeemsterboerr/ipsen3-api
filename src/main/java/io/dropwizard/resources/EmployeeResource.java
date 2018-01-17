@@ -2,7 +2,7 @@ package io.dropwizard.resources;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import io.dropwizard.View;
-import io.dropwizard.models.Personeel;
+import io.dropwizard.models.Employee;
 import io.dropwizard.services.EmployeeService;
 
 import javax.annotation.security.RolesAllowed;
@@ -26,7 +26,7 @@ public class EmployeeResource {
     @GET
     @Path("/getall")
     @JsonView(View.Public.class)
-    public List<Personeel> getAll(){
+    public List<Employee> getAll(){
         return service.getAll();
     }
 
@@ -41,9 +41,9 @@ public class EmployeeResource {
     @Path("/add")
     @Consumes (MediaType.APPLICATION_JSON)
     @JsonView(View.OnlyAdmins.class)
-    public void createAccount(@Valid Personeel personeel) {
+    public void createAccount(@Valid Employee employee) {
         //TODO @Valid toevoegen, maar werkt niet... ?
-        service.addUser(personeel);
+        service.addUser(employee);
     }
 
     @POST

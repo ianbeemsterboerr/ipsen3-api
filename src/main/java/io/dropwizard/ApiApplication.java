@@ -3,7 +3,7 @@ package io.dropwizard;
 
 import io.dropwizard.auth.AuthFactory;
 import io.dropwizard.auth.basic.BasicAuthFactory;
-import io.dropwizard.models.Personeel;
+import io.dropwizard.models.Employee;
 import io.dropwizard.persistence.ConnectionPool;
 import io.dropwizard.persistence.DAO.*;
 import io.dropwizard.resources.*;
@@ -97,7 +97,7 @@ public class ApiApplication extends Application<ApiConfiguration> {
                 new BasicAuthFactory<>(
                         authService,
                         "lol",
-                        Personeel.class
+                        Employee.class
                 )
         ));
     }

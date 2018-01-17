@@ -28,7 +28,7 @@ public class RegisteredHourService {
     public List<RegisteredHour> getUrenAdmin(String begindatum, String einddatum, String klant, String project, String onderwerp) {
         return dao.getUrenByKlantProjectOnderwerp(null, begindatum, klant, project, onderwerp);
     }
-    //Personeel
+    //Employee
     public List<RegisteredHour> getUren(int id, String begindatum, String einddatum, String klant, String project, String onderwerp) {
         return dao.getUrenByKlantProjectOnderwerp(id, begindatum, klant, project, onderwerp);
     }

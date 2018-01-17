@@ -1,6 +1,6 @@
 package io.dropwizard.services;
 
-import io.dropwizard.models.Personeel;
+import io.dropwizard.models.Employee;
 import io.dropwizard.persistence.DAO.EmployeeDAO;
 import org.glassfish.jersey.internal.util.Base64;
 
@@ -37,7 +37,7 @@ public class SecurityFilterService implements ContainerRequestFilter{
             String email = tokenizer.nextToken();
             String password = tokenizer.nextToken();
 
-            Personeel user = dao.getByEmailaddress(email);
+            Employee user = dao.getByEmailaddress(email);
 
             if (user.getWachtwoord().equals(password)) {
                 return;

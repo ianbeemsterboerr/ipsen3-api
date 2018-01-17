@@ -1,6 +1,6 @@
 package io.dropwizard.services;
 
-import io.dropwizard.models.Personeel;
+import io.dropwizard.models.Employee;
 import io.dropwizard.persistence.DAO.EmployeeDAO;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -19,17 +19,17 @@ public class EmployeeService {
         dao.setWerkzaam(werkzaamBool, id);
     }
 
-    public Personeel getPersoon(String email){
+    public Employee getPersoon(String email){
         return dao.getByEmailaddress(email);
     }
 
-    public List<Personeel> getAll() {
+    public List<Employee> getAll() {
         return dao.getAll();
     }
 
-    public void addUser(Personeel personeel){
-        personeel.setWachtwoord(BCrypt.hashpw(STANDAARDWACHTWOORD, BCrypt.gensalt()));
-        dao.add(personeel);
+    public void addUser(Employee employee){
+        employee.setWachtwoord(BCrypt.hashpw(STANDAARDWACHTWOORD, BCrypt.gensalt()));
+        dao.add(employee);
     }
 
     public void changePassword(String newPassword, int ID, String oldPassword) {
