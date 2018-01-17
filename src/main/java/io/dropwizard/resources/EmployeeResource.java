@@ -3,7 +3,7 @@ package io.dropwizard.resources;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.dropwizard.View;
 import io.dropwizard.models.Personeel;
-import io.dropwizard.services.PersoneelService;
+import io.dropwizard.services.EmployeeService;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Singleton;
@@ -16,10 +16,10 @@ import java.util.List;
 @Path("/personeel")
 @Produces(MediaType.APPLICATION_JSON)
 @RolesAllowed({"ADMIN", "PERSONEEL"})
-public class PersoneelResource {
-    private  PersoneelService service;
+public class EmployeeResource {
+    private EmployeeService service;
 
-    public PersoneelResource(PersoneelService service){
+    public EmployeeResource(EmployeeService service){
         this.service = service;
     }
 

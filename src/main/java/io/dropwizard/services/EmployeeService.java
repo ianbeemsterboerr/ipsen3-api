@@ -1,16 +1,16 @@
 package io.dropwizard.services;
 
 import io.dropwizard.models.Personeel;
-import io.dropwizard.persistence.DAO.PersoneelDAO;
+import io.dropwizard.persistence.DAO.EmployeeDAO;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 
-public class PersoneelService {
-    PersoneelDAO dao;
+public class EmployeeService {
+    EmployeeDAO dao;
     private final String STANDAARDWACHTWOORD = "Welkom1";
 
-    public PersoneelService(PersoneelDAO dao){
+    public EmployeeService(EmployeeDAO dao){
         this.dao = dao;
     }
 

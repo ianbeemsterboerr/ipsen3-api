@@ -4,7 +4,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 
-public class RegisteredHours {
+public class RegisteredHour {
 
 
     @NotEmpty
@@ -51,7 +51,7 @@ public class RegisteredHours {
     @NotNull
     private boolean isChanged = false;
 
-    public RegisteredHours(int uurId, int employeeId, String startingDate, String startingTime, String endingTime, String customerName, String projectName, String subjectName, int customerId, int projectId, int subjectId, String comment, boolean confirmed, String employeeName, boolean isChanged) {
+    public RegisteredHour(int uurId, int employeeId, String startingDate, String startingTime, String endingTime, String customerName, String projectName, String subjectName, int customerId, int projectId, int subjectId, String comment, boolean confirmed, String employeeName, boolean isChanged) {
         this.hourID = uurId;
         this.employeeId = employeeId;
         this.startingDate = startingDate;
@@ -69,7 +69,7 @@ public class RegisteredHours {
         this.subjectId = subjectId;
     }
 
-    public RegisteredHours(int hourID, String startingDate, String startingTime, String endingTime, String comment, boolean confirmed, int employeeId, String customerName, String projectName, String subjectName, String employeeName) {
+    public RegisteredHour(int hourID, String startingDate, String startingTime, String endingTime, String comment, boolean confirmed, int employeeId, String customerName, String projectName, String subjectName, String employeeName) {
         this.hourID = hourID;
         this.employeeId = employeeId;
         this.startingDate = startingDate;
@@ -83,7 +83,7 @@ public class RegisteredHours {
         this.employeeName = employeeName;
     }
 
-    public RegisteredHours(String startingDate, String startingTime, String endingTime, String customerName, String projectName, String subjectName, String comment, int employeeID) {
+    public RegisteredHour(String startingDate, String startingTime, String endingTime, String customerName, String projectName, String subjectName, String comment, int employeeID) {
         this.startingDate = startingDate;
         this.startingTime = startingTime;
         this.endingTime = endingTime;
@@ -94,7 +94,7 @@ public class RegisteredHours {
         this.employeeId = employeeID;
     }
 
-    public RegisteredHours(){
+    public RegisteredHour(){
     }
 
     public int getUurId() {

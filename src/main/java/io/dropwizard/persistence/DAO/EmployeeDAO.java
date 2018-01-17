@@ -10,9 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersoneelDAO extends DAO{
+public class EmployeeDAO extends DAO{
 
-    public PersoneelDAO(ConnectionPool pool) {
+    public EmployeeDAO(ConnectionPool pool) {
         super(pool);
     }
 

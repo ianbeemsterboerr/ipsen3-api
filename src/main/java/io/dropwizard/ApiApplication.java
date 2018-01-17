@@ -12,10 +12,9 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 import io.dropwizard.bundles.assets.ConfiguredAssetsBundle;
-import javax.inject.Singleton;
+
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
-import java.sql.*;
 import java.util.EnumSet;
 
 
@@ -58,35 +57,35 @@ public class ApiApplication extends Application<ApiConfiguration> {
          * Initialise all the DAO objects.
          */
         CustomerDAO customerDAO = new CustomerDAO(connectionPool);
-        PersoneelDAO personeelDAO = new PersoneelDAO(connectionPool);
+        EmployeeDAO employeeDAO = new EmployeeDAO(connectionPool);
         ProjectDAO projectDAO = new ProjectDAO(connectionPool);
         SubjectDAO subjectDAO = new SubjectDAO(connectionPool);
-        UrenDAO urenDAO = new UrenDAO(connectionPool);
+        RegisteredHourDAO registeredHourDAO = new RegisteredHourDAO(connectionPool);
 
         /**
          * Initialise all the Service objects.
          */
 
-        final AuthService authService = new AuthService(personeelDAO);
+        final AuthService authService = new AuthService(employeeDAO);
         final CustomerService customerService = new CustomerService(customerDAO, projectDAO, subjectDAO);
-        final PersoneelService personeelService = new PersoneelService(personeelDAO);
+        final EmployeeService employeeService = new EmployeeService(employeeDAO);
         final ProjectService projectService = new ProjectService(projectDAO, customerDAO, subjectDAO);
-        final SecurityFilterService security = new SecurityFilterService(personeelDAO);
+        final SecurityFilterService security = new SecurityFilterService(employeeDAO);
         final SubjectService subjectService = new SubjectService(subjectDAO, projectDAO, customerDAO);
-        final UrenService urenService = new UrenService(urenDAO, customerDAO, projectDAO, subjectDAO);
+        final RegisteredHourService registeredHourService = new RegisteredHourService(registeredHourDAO, customerDAO, projectDAO, subjectDAO);
 
 
         /**
          * Initialise all the Resource objects.
          */
-        final PersoneelResource personeelResource = new PersoneelResource(personeelService);
-        final UrenResource urenResource = new UrenResource(urenService);
+        final EmployeeResource employeeResource = new EmployeeResource(employeeService);
+        final UrenResource urenResource = new UrenResource(registeredHourService);
         final LogInResource logInResource = new LogInResource();
         final CustomerResource customerResource = new CustomerResource(customerService);
         final ProjectResource projectResource = new ProjectResource(projectService);
         final SubjectResource subjectResource = new SubjectResource(subjectService);
 
-        environment.jersey().register(personeelResource);
+        environment.jersey().register(employeeResource);
         environment.jersey().register(urenResource);
         environment.jersey().register(security);
         environment.jersey().register(logInResource);

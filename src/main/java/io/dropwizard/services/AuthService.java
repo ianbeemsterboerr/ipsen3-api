@@ -5,13 +5,13 @@ import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.Authenticator;
 import io.dropwizard.auth.basic.BasicCredentials;
 import io.dropwizard.models.Personeel;
-import io.dropwizard.persistence.DAO.PersoneelDAO;
+import io.dropwizard.persistence.DAO.EmployeeDAO;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class AuthService implements Authenticator<BasicCredentials, Personeel> {
-    private PersoneelDAO dao;
+    private EmployeeDAO dao;
 
-    public AuthService(PersoneelDAO dao){
+    public AuthService(EmployeeDAO dao){
         this.dao = dao;
     }
 

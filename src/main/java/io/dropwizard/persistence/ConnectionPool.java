@@ -1,14 +1,9 @@
 package io.dropwizard.persistence;
 
-
-import com.sun.org.apache.xml.internal.utils.ObjectPool;
-
-
 import javax.inject.Singleton;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 /**
  * Fungeert als een connectionpool. Zorgt ervoor dat er nieuwe connecties worden aangemaakt als het druk wordt.

@@ -1,6 +1,6 @@
 package io.dropwizard.persistence.DAO;
 
-import io.dropwizard.models.RegisteredHours;
+import io.dropwizard.models.RegisteredHour;
 import io.dropwizard.persistence.ConnectionPool;
 
 import java.sql.Connection;
@@ -10,9 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UrenDAO extends DAO{
+public class RegisteredHourDAO extends DAO{
 
-    public UrenDAO(ConnectionPool pool){
+    public RegisteredHourDAO(ConnectionPool pool){
         super(pool);
     }
 
@@ -21,7 +21,7 @@ public class UrenDAO extends DAO{
      * @param begindatum
      * @return
      */
-    public List<RegisteredHours> getUrenByKlantProjectOnderwerp(Integer id, String begindatum, String klant, String project, String onderwerp) {
+    public List<RegisteredHour> getUrenByKlantProjectOnderwerp(Integer id, String begindatum, String klant, String project, String onderwerp) {
         ResultSet queryResultaten;
         queryResultaten = null;
         Connection con = pool.checkout();
@@ -54,8 +54,8 @@ public class UrenDAO extends DAO{
         return toModel(queryResultaten);
     }
 
-    private List<RegisteredHours> toModel(ResultSet results){
-        List<RegisteredHours> toModel = new ArrayList<>();
+    private List<RegisteredHour> toModel(ResultSet results){
+        List<RegisteredHour> toModel = new ArrayList<>();
         String personeelsNaam;
         try {
             while(results.next()){
@@ -64,7 +64,7 @@ public class UrenDAO extends DAO{
                 } else {
                     personeelsNaam = results.getString("voornaam") + " " + results.getString("achternaam");
                 }
-                toModel.add(new RegisteredHours(
+                toModel.add(new RegisteredHour(
                         results.getInt("uurID"),
                         results.getInt("persoonID"),
                         results.getString("begindatum"),
@@ -89,7 +89,7 @@ public class UrenDAO extends DAO{
         return toModel;
     }
 
-    public List<RegisteredHours> getByPersoonId(int id){
+    public List<RegisteredHour> getByPersoonId(int id){
         ResultSet resultSet = null;
         Connection con = pool.checkout();
         PreparedStatement statement;
@@ -108,7 +108,7 @@ public class UrenDAO extends DAO{
         return toModel(resultSet);
     }
 
-    public List<RegisteredHours> getAllUren() {
+    public List<RegisteredHour> getAllUren() {
         ResultSet results = null;
         Connection con = pool.checkout();;
         PreparedStatement statement;
@@ -124,7 +124,7 @@ public class UrenDAO extends DAO{
         return toModel(results);
     }
 
-    public void setHour(RegisteredHours hour) {
+    public void setHour(RegisteredHour hour) {
         Connection con = pool.checkout();
         try {
             PreparedStatement setHour = null;
@@ -155,7 +155,7 @@ public class UrenDAO extends DAO{
         }
     }
 
-    public void setConfirmed(RegisteredHours uur, boolean confirmed){
+    public void setConfirmed(RegisteredHour uur, boolean confirmed){
         Connection con = pool.checkout();
         try{
             PreparedStatement statement = con.prepareStatement("UPDATE geregistreerdetijd set goedgekeurd = ? WHERE uurID = ?");
@@ -170,7 +170,7 @@ public class UrenDAO extends DAO{
         }
     }
 
-    public void updateHour(RegisteredHours hour){
+    public void updateHour(RegisteredHour hour){
         Connection con = pool.checkout();
         try{
             PreparedStatement statement = con.prepareStatement("UPDATE gereristreerdetijd SET begindatum = ?, begintijd = ?, eindtijd = ?, commentaar = ?, persoonID = ?, klant_ID = ?, project_ID = ?, onderwerp_ID = ? WHERE uurID = ? AND confirmed = false");
