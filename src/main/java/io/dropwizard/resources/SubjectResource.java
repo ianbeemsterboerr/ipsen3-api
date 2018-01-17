@@ -32,9 +32,7 @@ public class SubjectResource {
     @POST
     @Path("/add")
     @JsonView(View.Public.class)
-    public void addSubject(Categories category){
-
-        service.addSubject(category.getProject_ID(), category.getOnderwerpnaam());
-
+    public void addProject(Categories categorie) {
+        this.service.addSubject(categorie.getKlantnaam(), categorie.getProjectnaam(), categorie.getOnderwerpnaam());
     }
 }

@@ -81,7 +81,7 @@ public class PersoneelDAO extends DAO{
     public void add(Personeel personeel){
         try{
             Connection con = pool.checkout();
-            PreparedStatement statement = con.prepareStatement("INSERT INTO personeel (achternaam, tussenvoegsel, voornaam, email, rechten, werkzaam) VALUES (?, ?, ?, ?, ?, ?)");
+            PreparedStatement statement = con.prepareStatement("INSERT INTO personeel (achternaam, tussenvoegsel, voornaam, email, wachtwoord, rechten, werkzaam) VALUES (?, ?, ?, ?, ?, ?, ?)");
 
             System.out.println(personeel.getVoornaam());
             statement.setString(1, personeel.getAchternaam());
@@ -93,13 +93,14 @@ public class PersoneelDAO extends DAO{
             }
             statement.setString(3, personeel.getVoornaam());
             statement.setString(4, personeel.getEmail());
+            statement.setString(5, personeel.getWachtwoord());
             if(personeel.getRechten().equals("Personeel")){
-                statement.setString(5, "0");
+                statement.setString(6, "0");
             } else {
-                statement.setString(5, "1");
+                statement.setString(6, "1");
             }
 
-            statement.setString(6, "1");
+            statement.setString(7, "1");
 
             statement.executeQuery();
         } catch(SQLException e){
@@ -122,6 +123,24 @@ public class PersoneelDAO extends DAO{
         } finally {
             pool.checkIn(con);
         }
+    }
+
+    public String getPasswordById(int ID) {
+        Connection con = pool.checkout();
+        String pass = null;
+        try{
+            PreparedStatement getPassword = con.prepareStatement("SELECT wachtwoord FROM personeel WHERE persoonID = (?)");
+            getPassword.setInt(1, ID);
+            ResultSet results = getPassword.executeQuery();
+            if (results.next()) {
+                pass = results.getString("wachtwoord");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            pool.checkIn(con);
+        }
+        return pass;
     }
 
 }

@@ -38,10 +38,6 @@ public class SecurityFilterService implements ContainerRequestFilter{
             String email = tokenizer.nextToken();
             String password = tokenizer.nextToken();
 
-            System.out.println(email);
-            System.out.println(password);
-
-
             Personeel user = dao.getByEmailaddress(email);
 
             if (user.getWachtwoord().equals(password)) {

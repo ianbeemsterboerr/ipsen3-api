@@ -32,8 +32,14 @@ public class PersoneelService {
         dao.add(personeel);
     }
 
-    public void changePassword(String newPassword, int ID) {
+    public void changePassword(String newPassword, int ID, String oldPassword) {
+
+        String passwordCheck = dao.getPasswordById(ID);
+
+        if(BCrypt.checkpw(oldPassword, passwordCheck)){
         String hash = BCrypt.hashpw(newPassword, BCrypt.gensalt());
         dao.setWachtwoord(hash, ID);
+            System.out.println("Hetzelfde:");
+        }
     }
 }

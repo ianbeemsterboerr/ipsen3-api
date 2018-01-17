@@ -14,12 +14,11 @@ public class CustomerService {
     private Customer customer;
     private ProjectDAO projectDao;
 
-    public CustomerService(CustomerDAO dao, ProjectDAO projectDao, SubjectDAO subjectDao){
+    public CustomerService(CustomerDAO dao, ProjectDAO projectDao, SubjectDAO subjectDao) {
         this.dao = dao;
         this.projectDao = projectDao;
         this.subjectDao = subjectDao;
     }
-
 
 
     public List<Customer> getCustomer() {
@@ -27,20 +26,19 @@ public class CustomerService {
     }
 
     public Customer getCustomerByName(String customerName) {
-       return dao.getCustomerByName(customerName);
+        return dao.getCustomerByName(customerName);
     }
 
 
-    public void addCustomer(String klantnaam, String projectnaam, String onderwerpnaam) {
+    public void addCustomer(String klantNaam, String projectNaam, String onderwerpNaam) {
+        System.out.println("customerService addCustomer()");
+        this.dao.addCustomer(klantNaam);
+        Customer customer = this.dao.getCustomerByName(klantNaam);
 
-        dao.addCustomer(klantnaam);
+        this.projectDao.addProject(projectNaam, customer.getCustomerId());
+        Project project = projectDao.getProjectByCIdAndPName(projectNaam, customer.getCustomerId());
 
-        customer = dao.getCustomerByName(klantnaam);
-
-        projectDao.addProject(projectnaam, customer.getCustomerId());
-
-        Project project = projectDao.getProjectByCIdAndPName(projectnaam, customer.getCustomerId());
-
-        subjectDao.addSubject(onderwerpnaam, project.getProjectID());
-    }}
+        this.subjectDao.addSubject(onderwerpNaam, project.getProjectID());
+    }
+}
 

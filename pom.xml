@@ -10,11 +10,11 @@
     </prerequisites>
 
     <groupId>io.dropwizard</groupId>
-    <artifactId>ipsen3apilol</artifactId>
+    <artifactId>WebShopApi</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>lala</name>
+    <name>Webshop API</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

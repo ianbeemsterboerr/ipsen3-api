@@ -31,7 +31,7 @@ public class ProjectResource {
     @POST
     @Path("/add")
     @JsonView(View.Public.class)
-    public void addproject(Categories categorie) {
-        service.addProject(categorie.getKlant_ID(), categorie.getProjectnaam(), categorie.getOnderwerpnaam());
+    public void addProject(Categories categorie) {
+        this.service.addProject(categorie.getKlantnaam(), categorie.getProjectnaam(), categorie.getOnderwerpnaam());
     }
 }

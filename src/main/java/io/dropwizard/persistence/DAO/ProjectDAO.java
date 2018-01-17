@@ -18,9 +18,8 @@ public class ProjectDAO extends DAO{
 
     public void addProject(String projectnaam, int klant_ID){
         Connection con = pool.checkout();
-        Project project = null;
         try {
-            PreparedStatement addProject = con.prepareStatement("INSERT INTO project (project_naam, klant_ID), VALUE (?,?)");
+            PreparedStatement addProject = con.prepareStatement("INSERT INTO project (project_naam, klant_ID) VALUE (?,?);");
             addProject.setString(1, projectnaam);
             addProject.setInt(2, klant_ID);
             addProject.executeQuery();
@@ -35,7 +34,7 @@ public class ProjectDAO extends DAO{
         Connection con = pool.checkout();
         Project project = null;
         try{
-            PreparedStatement getProject = con.prepareStatement("SELECT project_ID, project_naam, klant_ID FROM project WHERE klant_ID = (?) and project_naam = (?)");
+            PreparedStatement getProject = con.prepareStatement("SELECT project_ID, project_naam, klant_ID FROM project WHERE klant_ID = (?) and project_naam = (?);");
             getProject.setInt(1,customerId);
             getProject.setString(2, projectName);
             ResultSet results = getProject.executeQuery();
@@ -53,26 +52,11 @@ public class ProjectDAO extends DAO{
 
     }
 
-    public void addProject(String projectnaam){
-        Connection con = pool.checkout();
-        Project project = null;
-        try {
-            PreparedStatement addProject = con.prepareStatement("INSERT INTO project (project_naam), VALUE (?)");
-            addProject.setString(1, projectnaam);
-            addProject.executeQuery();
-        } catch (SQLException e){
-            e.printStackTrace();
-        } finally {
-            pool.checkIn(con);
-        }
-
-    }
-
     public List<Project> getProjectByID(int customerID) {
         Connection con = pool.checkout();
         List<Project> projects = null;
         try {
-            PreparedStatement getProjects = con.prepareStatement("SELECT project_ID, project_naam, klant_ID FROM project WHERE klant_ID = (?)");
+            PreparedStatement getProjects = con.prepareStatement("SELECT project_ID, project_naam, klant_ID FROM project WHERE klant_ID = (?);");
             getProjects.setInt(1, customerID);
 
             ResultSet results = getProjects.executeQuery();

@@ -40,12 +40,12 @@ public class SubjectDAO extends DAO{
     }
 
 
-    public void addSubject(String onderwerpnaam, int projectDao) {
+    public void addSubject(String onderwerpnaam, int projectID) {
         Connection con = pool.checkout();
         try {
-            PreparedStatement addSubject = con.prepareStatement("INSERT INTO subject (subject_naam, project_ID), VALUE (?,?)");
+            PreparedStatement addSubject = con.prepareStatement("INSERT INTO onderwerp (onderwerp_naam, project_ID) VALUE (?,?)");
             addSubject.setString(1, onderwerpnaam);
-            addSubject.setInt(2,projectDao);
+            addSubject.setInt(2,projectID);
             addSubject.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();

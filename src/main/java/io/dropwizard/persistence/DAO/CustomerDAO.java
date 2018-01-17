@@ -16,12 +16,14 @@ public class CustomerDAO extends DAO{
     }
 
     public List<Customer> getCustomer() {
-        List<Customer> klanten = new ArrayList<Customer>();
+        List<Customer> klanten = null;
 
         Connection con = this.pool.checkout();
         try {
             PreparedStatement getCustomers = con.prepareStatement("SELECT klant_ID, klant_naam FROM klant");
             ResultSet results = getCustomers.executeQuery();
+            klanten = new ArrayList<>();
+
             while(results.next()) {
                 klanten.add(new Customer(results.getInt("klant_ID"), results.getString("klant_naam")));
             }
@@ -72,7 +74,7 @@ public class CustomerDAO extends DAO{
         Connection con = pool.checkout();
         Customer customer = null;
         try {
-            PreparedStatement addCustomer = con.prepareStatement("INSERT INTO klant (klant_naam), VALUE (?)");
+            PreparedStatement addCustomer = con.prepareStatement("INSERT INTO klant (klant_naam) VALUE (?)");
             addCustomer.setString(1, klantnaam);
             addCustomer.executeQuery();
         } catch (SQLException e){
