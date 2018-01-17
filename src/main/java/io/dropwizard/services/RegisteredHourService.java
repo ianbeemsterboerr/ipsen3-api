@@ -3,41 +3,41 @@ package io.dropwizard.services;
 import io.dropwizard.models.Customer;
 import io.dropwizard.models.Project;
 import io.dropwizard.models.Subject;
-import io.dropwizard.models.RegisteredHours;
+import io.dropwizard.models.RegisteredHour;
 import io.dropwizard.persistence.DAO.CustomerDAO;
 import io.dropwizard.persistence.DAO.ProjectDAO;
 import io.dropwizard.persistence.DAO.SubjectDAO;
-import io.dropwizard.persistence.DAO.UrenDAO;
+import io.dropwizard.persistence.DAO.RegisteredHourDAO;
 
 import java.util.List;
 
-public class UrenService {
-    private UrenDAO dao;
+public class RegisteredHourService {
+    private RegisteredHourDAO dao;
     private CustomerDAO customerDao;
     private ProjectDAO projectDao;
     private SubjectDAO subjectDao;
 
-    public UrenService(UrenDAO urenDao, CustomerDAO customerDao, ProjectDAO ProjectDao, SubjectDAO subjectDao){
-        this.dao = urenDao;
+    public RegisteredHourService(RegisteredHourDAO registeredHourDao, CustomerDAO customerDao, ProjectDAO ProjectDao, SubjectDAO subjectDao){
+        this.dao = registeredHourDao;
         this.customerDao = customerDao;
         this.projectDao = ProjectDao;
         this.subjectDao = subjectDao;
     }
 
     //Admin
-    public List<RegisteredHours> getUrenAdmin(String begindatum, String einddatum, String klant, String project, String onderwerp) {
-        return dao.getUrenByKlantProjectOnderwerp(null, begindatum, einddatum, klant, project, onderwerp);
+    public List<RegisteredHour> getUrenAdmin(String begindatum, String einddatum, String klant, String project, String onderwerp) {
+        return dao.getUrenByKlantProjectOnderwerp(null, begindatum, klant, project, onderwerp);
     }
-    //Personeel
-    public List<RegisteredHours> getUren(int id, String begindatum, String einddatum, String klant, String project, String onderwerp) {
-        return dao.getUrenByKlantProjectOnderwerp(id, begindatum, einddatum, klant, project, onderwerp);
+    //Employee
+    public List<RegisteredHour> getUren(int id, String begindatum, String einddatum, String klant, String project, String onderwerp) {
+        return dao.getUrenByKlantProjectOnderwerp(id, begindatum, klant, project, onderwerp);
     }
 
-    public List<RegisteredHours> getUrenByPersoneelId(int id) {
+    public List<RegisteredHour> getUrenByPersoneelId(int id) {
         return dao.getByPersoonId(id);
     }
 
-    public void setHours(RegisteredHours hour) {
+    public void setHours(RegisteredHour hour) {
 
         Customer customer;
         Project project;
@@ -68,17 +68,17 @@ public class UrenService {
             }
 
     }
-    public void setConfirmed(RegisteredHours uur){
+    public void setConfirmed(RegisteredHour uur){
         boolean confirmed = uur.isConfirmed() == true ? false : true;
         this.dao.setConfirmed(uur, confirmed);
     }
 
 
-    public List<RegisteredHours> getAllUren() {
+    public List<RegisteredHour> getAllUren() {
         return dao.getAllUren();
 
     }
-    public void updateHour(RegisteredHours hour){
+    public void updateHour(RegisteredHour hour){
         Customer customer = customerDao.getCustomerByName(hour.getCustomerName());
         Project project = projectDao.getProjectByCIdAndPName(hour.getProjectName(), customer.getCustomerId());
         Subject subject = subjectDao.getSubjectByPIDSName(project.getProjectID(), hour.getSubjectName());

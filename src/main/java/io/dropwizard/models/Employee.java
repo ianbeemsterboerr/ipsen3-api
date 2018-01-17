@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import java.security.Principal;
 
-public class Personeel implements Principal{
+public class Employee implements Principal{
 
     private int personeelID;
 
@@ -33,7 +33,7 @@ public class Personeel implements Principal{
     @NotEmpty
     private String werkzaam;
 
-    public Personeel(){
+    public Employee(){
 
     }
 
@@ -95,7 +95,7 @@ public class Personeel implements Principal{
     }
 
 
-    public Personeel(int personeelID, String voornaam, String tussenvoegsel, String achternaam, String email, String wachtwoord, String rechten, String werkzaam){
+    public Employee(int personeelID, String voornaam, String tussenvoegsel, String achternaam, String email, String wachtwoord, String rechten, String werkzaam){
         this.personeelID = personeelID;
         this.voornaam = voornaam;
 
@@ -120,7 +120,7 @@ public class Personeel implements Principal{
         return wachtwoord;
     }
 
-    public Personeel(int personeelID, String voornaam, String achternaam, String email, String wachtwoord, String rechten, String werkzaam){
+    public Employee(int personeelID, String voornaam, String achternaam, String email, String wachtwoord, String rechten, String werkzaam){
         this.personeelID = personeelID;
         this.voornaam = voornaam;
         this.tussenvoegsel = null;
@@ -138,7 +138,5 @@ public class Personeel implements Principal{
         return email;
     }
 
-    public String getPassword() {
-        return wachtwoord;
-    }
+
 }

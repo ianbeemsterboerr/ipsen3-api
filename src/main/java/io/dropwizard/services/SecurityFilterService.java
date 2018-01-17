@@ -1,8 +1,7 @@
 package io.dropwizard.services;
 
-import io.dropwizard.View;
-import io.dropwizard.models.Personeel;
-import io.dropwizard.persistence.DAO.PersoneelDAO;
+import io.dropwizard.models.Employee;
+import io.dropwizard.persistence.DAO.EmployeeDAO;
 import org.glassfish.jersey.internal.util.Base64;
 
 import javax.ws.rs.container.ContainerRequestContext;
@@ -20,9 +19,9 @@ public class SecurityFilterService implements ContainerRequestFilter{
 
     private static final String SECURED_URL_PREFIX_EMPLOYEE = "api";
 
-    private PersoneelDAO dao;
+    private EmployeeDAO dao;
 
-    public  SecurityFilterService(PersoneelDAO dao){
+    public  SecurityFilterService(EmployeeDAO dao){
         this.dao = dao;
     }
 
@@ -38,11 +37,7 @@ public class SecurityFilterService implements ContainerRequestFilter{
             String email = tokenizer.nextToken();
             String password = tokenizer.nextToken();
 
-            System.out.println(email);
-            System.out.println(password);
-
-
-            Personeel user = dao.getByEmailaddress(email);
+            Employee user = dao.getByEmailaddress(email);
 
             if (user.getWachtwoord().equals(password)) {
                 return;

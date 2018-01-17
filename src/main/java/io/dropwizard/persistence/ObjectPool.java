@@ -1,5 +1,6 @@
 package io.dropwizard.persistence;
 
+import javax.inject.Inject;
 import java.util.Enumeration;
 import java.util.Hashtable;
 

@@ -1,8 +1,9 @@
 package io.dropwizard.persistence.DAO;
 
-import io.dropwizard.models.Personeel;
+import io.dropwizard.models.Employee;
 import io.dropwizard.persistence.ConnectionPool;
 
+import javax.inject.Inject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,14 +11,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersoneelDAO extends DAO{
+public class EmployeeDAO extends DAO{
 
-    public PersoneelDAO(ConnectionPool pool) {
+    @Inject
+    public EmployeeDAO(ConnectionPool pool) {
         super(pool);
     }
 
-    public Personeel getByEmailaddress(String email) {
-        Personeel model = new Personeel();
+    public Employee getByEmailaddress(String email) {
+        Employee model = new Employee();
         try {
             Connection con = pool.checkout();
             PreparedStatement getGebruiker = con.prepareStatement("SELECT * FROM personeel WHERE email =?");
@@ -28,9 +30,9 @@ public class PersoneelDAO extends DAO{
 
             if (results.next()) {
                 if (results.getString("tussenvoegsel") != null) {
-                    model = new Personeel(results.getInt("persoonID"), results.getString("achternaam"), results.getString("tussenvoegsel"), results.getString("voornaam"), results.getString("email"), results.getString("wachtwoord"), results.getString("rechten"), results.getString("werkzaam"));
+                    model = new Employee(results.getInt("persoonID"), results.getString("achternaam"), results.getString("tussenvoegsel"), results.getString("voornaam"), results.getString("email"), results.getString("wachtwoord"), results.getString("rechten"), results.getString("werkzaam"));
                 } else {
-                    model = new Personeel(results.getInt("persoonID"), results.getString("achternaam"), results.getString("voornaam"), results.getString("email"), results.getString("wachtwoord"), results.getString("rechten"), results.getString("werkzaam"));
+                    model = new Employee(results.getInt("persoonID"), results.getString("achternaam"), results.getString("voornaam"), results.getString("email"), results.getString("wachtwoord"), results.getString("rechten"), results.getString("werkzaam"));
                 }
             }
         } catch (SQLException e) {
@@ -53,9 +55,9 @@ public class PersoneelDAO extends DAO{
         }
     }
 
-    public List<Personeel> getAll(){
+    public List<Employee> getAll(){
         ResultSet results;
-        List<Personeel> alHetPersoneel = new ArrayList<>();
+        List<Employee> alHetPersoneel = new ArrayList<>();
         Connection con = pool.checkout();
 
         try {
@@ -63,11 +65,11 @@ public class PersoneelDAO extends DAO{
             results = statement.executeQuery();
             pool.checkIn(con);
             while (results.next()){
-                Personeel model;
+                Employee model;
                 if (results.getString("tussenvoegsel") != null) {
-                    model = new Personeel(results.getInt("persoonID"), results.getString("voornaam"), results.getString("tussenvoegsel"), results.getString("achternaam"), results.getString("email"), results.getString("wachtwoord"), results.getString("rechten"), results.getString("werkzaam"));
+                    model = new Employee(results.getInt("persoonID"), results.getString("voornaam"), results.getString("tussenvoegsel"), results.getString("achternaam"), results.getString("email"), results.getString("wachtwoord"), results.getString("rechten"), results.getString("werkzaam"));
                 } else {
-                    model = new Personeel(results.getInt("persoonID"), results.getString("voornaam"), results.getString("achternaam"), results.getString("email"), results.getString("wachtwoord"), results.getString("rechten"), results.getString("werkzaam"));
+                    model = new Employee(results.getInt("persoonID"), results.getString("voornaam"), results.getString("achternaam"), results.getString("email"), results.getString("wachtwoord"), results.getString("rechten"), results.getString("werkzaam"));
                 }
                 alHetPersoneel.add(model);
             }
@@ -78,23 +80,23 @@ public class PersoneelDAO extends DAO{
         return alHetPersoneel;
     }
 
-    public void add(Personeel personeel){
+    public void add(Employee employee){
         try{
             Connection con = pool.checkout();
             PreparedStatement statement = con.prepareStatement("INSERT INTO personeel (achternaam, tussenvoegsel, voornaam, email, wachtwoord, rechten, werkzaam) VALUES (?, ?, ?, ?, ?, ?, ?)");
 
-            System.out.println(personeel.getVoornaam());
-            statement.setString(1, personeel.getAchternaam());
+            System.out.println(employee.getVoornaam());
+            statement.setString(1, employee.getAchternaam());
 
-            if (personeel.getTussenvoegsel() == null) {
+            if (employee.getTussenvoegsel() == null) {
                 statement.setString(2, null);
             } else {
-                statement.setString(2, personeel.getTussenvoegsel());
+                statement.setString(2, employee.getTussenvoegsel());
             }
-            statement.setString(3, personeel.getVoornaam());
-            statement.setString(4, personeel.getEmail());
-            statement.setString(5, personeel.getWachtwoord());
-            if(personeel.getRechten().equals("Personeel")){
+            statement.setString(3, employee.getVoornaam());
+            statement.setString(4, employee.getEmail());
+            statement.setString(5, employee.getWachtwoord());
+            if(employee.getRechten().equals("Employee")){
                 statement.setString(6, "0");
             } else {
                 statement.setString(6, "1");
@@ -123,6 +125,24 @@ public class PersoneelDAO extends DAO{
         } finally {
             pool.checkIn(con);
         }
+    }
+
+    public String getPasswordById(int ID) {
+        Connection con = pool.checkout();
+        String pass = null;
+        try{
+            PreparedStatement getPassword = con.prepareStatement("SELECT wachtwoord FROM personeel WHERE persoonID = (?)");
+            getPassword.setInt(1, ID);
+            ResultSet results = getPassword.executeQuery();
+            if (results.next()) {
+                pass = results.getString("wachtwoord");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            pool.checkIn(con);
+        }
+        return pass;
     }
 
 }

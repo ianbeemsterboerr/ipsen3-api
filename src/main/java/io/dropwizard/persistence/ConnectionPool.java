@@ -1,26 +1,23 @@
 package io.dropwizard.persistence;
 
-
-import com.sun.org.apache.xml.internal.utils.ObjectPool;
-
-
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 /**
  * Fungeert als een connectionpool. Zorgt ervoor dat er nieuwe connecties worden aangemaakt als het druk wordt.
  */
-@Singleton
+
 public class ConnectionPool extends io.dropwizard.persistence.ObjectPool<Connection> {
     private String dsn, usr, pwd;
 
+    @Inject
     public ConnectionPool(String driver, String dsn, String usr, String pwd){
         super();
         try {
-            Class.forName(driver).newInstance();
+            Class.forName("org.mariadb.jdbc.Driver").newInstance();
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -40,7 +37,7 @@ public class ConnectionPool extends io.dropwizard.persistence.ObjectPool<Connect
     @Override
     protected Connection create() {
         try {
-            return (DriverManager.getConnection(dsn, usr, pwd));
+            return (DriverManager.getConnection("jdbc:mariadb://localhost:3306:/UrenregistratieDatabase", "root", "ipsen123"));
         } catch (SQLException e) {
             e.printStackTrace();
             return null;

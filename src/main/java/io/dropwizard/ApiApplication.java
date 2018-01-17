@@ -1,9 +1,12 @@
 package io.dropwizard;
 
 
-import io.dropwizard.auth.AuthFactory;
-import io.dropwizard.auth.basic.BasicAuthFactory;
-import io.dropwizard.models.Personeel;
+
+import com.google.inject.Module;
+import com.hubspot.dropwizard.guice.GuiceBundle;
+import io.dropwizard.auth.*;
+import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
+import io.dropwizard.models.Employee;
 import io.dropwizard.persistence.ConnectionPool;
 import io.dropwizard.persistence.DAO.*;
 import io.dropwizard.resources.*;
@@ -12,16 +15,17 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 import io.dropwizard.bundles.assets.ConfiguredAssetsBundle;
-import javax.inject.Singleton;
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
+
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
-import java.sql.*;
 import java.util.EnumSet;
 
 
 public class ApiApplication extends Application<ApiConfiguration> {
     private String apiName;
     private ConfiguredBundle assetsBundle;
+    private GuiceBundle guiceBundle;
     public static void main(final String[] args) throws Exception {
         new ApiApplication().run(args);
     }
@@ -35,7 +39,19 @@ public class ApiApplication extends Application<ApiConfiguration> {
     @Override
     public void initialize(final Bootstrap<ApiConfiguration> bootstrap) {
         assetsBundle = (ConfiguredBundle) new ConfiguredAssetsBundle("/assets/", "/", "index.html");
+        guiceBundle = createGuiceBundle(ApiConfiguration.class, new ApiGuiceModule());
         bootstrap.addBundle(assetsBundle);
+        bootstrap.addBundle(guiceBundle);
+    }
+
+    private GuiceBundle createGuiceBundle(Class<ApiConfiguration> configurationClass, Module module)
+    {
+        GuiceBundle.Builder guiceBuilder = GuiceBundle.<ApiConfiguration>newBuilder()
+                .addModule(module)
+                .enableAutoConfig(new String[] { "nl.hsleiden" })
+                .setConfigClass(configurationClass);
+
+        return guiceBuilder.build();
     }
 
     @Override
@@ -58,35 +74,35 @@ public class ApiApplication extends Application<ApiConfiguration> {
          * Initialise all the DAO objects.
          */
         CustomerDAO customerDAO = new CustomerDAO(connectionPool);
-        PersoneelDAO personeelDAO = new PersoneelDAO(connectionPool);
+        EmployeeDAO employeeDAO = new EmployeeDAO(connectionPool);
         ProjectDAO projectDAO = new ProjectDAO(connectionPool);
         SubjectDAO subjectDAO = new SubjectDAO(connectionPool);
-        UrenDAO urenDAO = new UrenDAO(connectionPool);
+        RegisteredHourDAO registeredHourDAO = new RegisteredHourDAO(connectionPool);
 
         /**
          * Initialise all the Service objects.
          */
 
-        final AuthService authService = new AuthService(personeelDAO);
+        final AuthService authService = new AuthService(employeeDAO);
         final CustomerService customerService = new CustomerService(customerDAO, projectDAO, subjectDAO);
-        final PersoneelService personeelService = new PersoneelService(personeelDAO);
+        final EmployeeService employeeService = new EmployeeService(employeeDAO);
         final ProjectService projectService = new ProjectService(projectDAO, customerDAO, subjectDAO);
-        final SecurityFilterService security = new SecurityFilterService(personeelDAO);
+        final SecurityFilterService security = new SecurityFilterService(employeeDAO);
         final SubjectService subjectService = new SubjectService(subjectDAO, projectDAO, customerDAO);
-        final UrenService urenService = new UrenService(urenDAO, customerDAO, projectDAO, subjectDAO);
+        final RegisteredHourService registeredHourService = new RegisteredHourService(registeredHourDAO, customerDAO, projectDAO, subjectDAO);
 
 
         /**
          * Initialise all the Resource objects.
          */
-        final PersoneelResource personeelResource = new PersoneelResource(personeelService);
-        final UrenResource urenResource = new UrenResource(urenService);
+        final EmployeeResource employeeResource = new EmployeeResource(employeeService);
+        final UrenResource urenResource = new UrenResource(registeredHourService);
         final LogInResource logInResource = new LogInResource();
         final CustomerResource customerResource = new CustomerResource(customerService);
         final ProjectResource projectResource = new ProjectResource(projectService);
         final SubjectResource subjectResource = new SubjectResource(subjectService);
 
-        environment.jersey().register(personeelResource);
+        environment.jersey().register(employeeResource);
         environment.jersey().register(urenResource);
         environment.jersey().register(security);
         environment.jersey().register(logInResource);
@@ -94,13 +110,25 @@ public class ApiApplication extends Application<ApiConfiguration> {
         environment.jersey().register(projectResource);
         environment.jersey().register(subjectResource);
 
-        environment.jersey().register(AuthFactory.binder(
-                new BasicAuthFactory<>(
-                        authService,
-                        "lol",
-                        Personeel.class
-                )
-        ));
+        setupAuthentication(environment);
+
+    }
+    private void setupAuthentication(Environment environment)
+    {
+        AuthService authenticationService = guiceBundle.getInjector().getInstance(AuthService.class);
+        ApiUnauthorizedHandler unauthorizedHandler = guiceBundle.getInjector().getInstance(ApiUnauthorizedHandler.class);
+
+        environment.jersey().register(new AuthDynamicFeature(
+                new BasicCredentialAuthFilter.Builder<Employee>()
+                        .setAuthenticator(authenticationService)
+                        .setAuthorizer(authenticationService)
+                        .setRealm("SUPER SECRET STUFF")
+                        .setUnauthorizedHandler(unauthorizedHandler)
+                        .buildAuthFilter())
+        );
+
+        environment.jersey().register(RolesAllowedDynamicFeature.class);
+        environment.jersey().register(new AuthValueFactoryProvider.Binder<>(Employee.class));
     }
 
 }

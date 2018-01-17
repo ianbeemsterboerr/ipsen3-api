@@ -2,8 +2,8 @@ package io.dropwizard.resources;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import io.dropwizard.View;
-import io.dropwizard.models.RegisteredHours;
-import io.dropwizard.services.UrenService;
+import io.dropwizard.models.RegisteredHour;
+import io.dropwizard.services.RegisteredHourService;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Singleton;
@@ -14,10 +14,11 @@ import java.util.List;
 @Singleton
 @Path("/uren")
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed({"1", "0"}) // 1 = admin, 0 = personeel;
 public class UrenResource {
-    private UrenService service;
+    private RegisteredHourService service;
 
-    public UrenResource(UrenService service){
+    public UrenResource(RegisteredHourService service){
         this.service = service;
     }
 
@@ -36,8 +37,7 @@ public class UrenResource {
     @GET
     @Path("/getbyid")
     @JsonView(View.Public.class)
-    @RolesAllowed("GUEST")
-    public List<RegisteredHours> getUren(
+    public List<RegisteredHour> getUren(
             @QueryParam("id") int id){
 
         return service.getUrenByPersoneelId(id);
@@ -46,8 +46,8 @@ public class UrenResource {
     @GET
     @Path("/getall")
     @JsonView(View.OnlyAdmins.class)
-    @RolesAllowed("ADMIN")
-    public List<RegisteredHours> getAllUren(){
+    @RolesAllowed("1")
+    public List<RegisteredHour> getAllUren(){
         return service.getAllUren();
     }
 
@@ -55,15 +55,16 @@ public class UrenResource {
     @Path("/setHour")
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.OnlyAdmins.class)
-    public void setHours( RegisteredHours registeredHours) {
-        this.service.setHours(registeredHours);
+    public void setHours( RegisteredHour registeredHour) {
+        this.service.setHours(registeredHour);
     }
 
     @POST
     @Path("/confirm")
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.OnlyAdmins.class)
-    public void setConfirmed(RegisteredHours uur){
+    @RolesAllowed("1")
+    public void setConfirmed(RegisteredHour uur){
         this.service.setConfirmed(uur);
     }
 
@@ -71,6 +72,6 @@ public class UrenResource {
     @Path("/updateHour")
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Public.class)
-    public void updateHour(RegisteredHours hour){ this.service.updateHour(hour);}
+    public void updateHour(RegisteredHour hour){ this.service.updateHour(hour);}
 
 }

@@ -8,6 +8,7 @@ import io.dropwizard.services.ProjectService;
 import io.dropwizard.services.SubjectService;
 
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Singleton;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -16,6 +17,7 @@ import java.util.List;
 @Singleton
 @Path("/subjects")
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed({"1", "0"}) // 1 = admin, 0 = personeel;
 public class SubjectResource {
     SubjectService service;
     public  SubjectResource(SubjectService service){
@@ -32,9 +34,8 @@ public class SubjectResource {
     @POST
     @Path("/add")
     @JsonView(View.Public.class)
-    public void addSubject(Categories category){
-
-        service.addSubject(category.getProject_ID(), category.getOnderwerpnaam());
-
+    @RolesAllowed("1")
+    public void addProject(Categories categorie) {
+        this.service.addSubject(categorie.getKlantnaam(), categorie.getProjectnaam(), categorie.getOnderwerpnaam());
     }
 }

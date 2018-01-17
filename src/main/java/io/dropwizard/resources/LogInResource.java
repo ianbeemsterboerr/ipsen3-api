@@ -3,7 +3,7 @@ package io.dropwizard.resources;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.dropwizard.View;
 import io.dropwizard.auth.Auth;
-import io.dropwizard.models.Personeel;
+import io.dropwizard.models.Employee;
 
 import javax.annotation.security.PermitAll;
 import javax.inject.Singleton;
@@ -25,7 +25,7 @@ public class LogInResource {
     @GET
     @Path("/login")
     @JsonView(View.Public.class)
-    public Personeel logIn(@Auth Personeel personeel){
-        return personeel;
+    public Employee logIn(@Auth Employee employee){
+        return employee;
     }
 }
