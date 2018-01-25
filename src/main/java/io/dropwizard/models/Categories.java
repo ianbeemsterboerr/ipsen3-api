@@ -1,41 +1,41 @@
 package io.dropwizard.models;
 
 public class Categories {
-    private String klantnaam;
-    private String projectnaam;
-    private String onderwerpnaam;
+    private String customerName;
+    private String projectName;
+    private String subjectName;
 
-    public Categories(String klantnaam, String projectnaam, String onderwerpnaam) {
-        this.klantnaam = klantnaam;
-        this.projectnaam = projectnaam;
-        this.onderwerpnaam = onderwerpnaam;
+    public Categories(String customerName, String projectName, String subjectName) {
+        this.customerName = customerName;
+        this.projectName = projectName;
+        this.subjectName = subjectName;
     }
 
     public Categories(){
 
     }
 
-    public String getKlantnaam() {
-        return klantnaam;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setKlantnaam(String klantnaam) {
-        this.klantnaam = klantnaam;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
-    public String getProjectnaam() {
-        return projectnaam;
+    public String getProjectName() {
+        return projectName;
     }
 
-    public void setProjectnaam(String projectnaam) {
-        this.projectnaam = projectnaam;
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 
-    public String getOnderwerpnaam() {
-        return onderwerpnaam;
+    public String getSubjectName() {
+        return subjectName;
     }
 
-    public void setOnderwerpnaam(String onderwerpnaam) {
-        this.onderwerpnaam = onderwerpnaam;
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
     }
 }

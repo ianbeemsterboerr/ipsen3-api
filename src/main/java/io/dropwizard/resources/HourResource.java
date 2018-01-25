@@ -15,10 +15,10 @@ import java.util.List;
 @Path("/uren")
 @Produces(MediaType.APPLICATION_JSON)
 @RolesAllowed({"1", "0"}) // 1 = admin, 0 = personeel;
-public class UrenResource {
+public class HourResource {
     private RegisteredHourService service;
 
-    public UrenResource(RegisteredHourService service){
+    public HourResource(RegisteredHourService service){
         this.service = service;
     }
 
