@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonView;
 import io.dropwizard.View;
 import io.dropwizard.models.Categories;
 import io.dropwizard.models.Subject;
-import io.dropwizard.services.ProjectService;
 import io.dropwizard.services.SubjectService;
 
 
@@ -36,6 +35,6 @@ public class SubjectResource {
     @JsonView(View.Public.class)
     @RolesAllowed("1")
     public void addProject(Categories categorie) {
-        this.service.addSubject(categorie.getKlantnaam(), categorie.getProjectnaam(), categorie.getOnderwerpnaam());
+        this.service.addSubject(categorie.getCustomerName(), categorie.getProjectName(), categorie.getSubjectName());
     }
 }

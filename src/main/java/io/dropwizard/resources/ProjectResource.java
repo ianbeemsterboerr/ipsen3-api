@@ -34,6 +34,6 @@ public class ProjectResource {
     @Path("/add")
     @JsonView(View.Public.class)
     public void addProject(Categories categorie) {
-        this.service.addProject(categorie.getKlantnaam(), categorie.getProjectnaam(), categorie.getOnderwerpnaam());
+        this.service.addProject(categorie.getCustomerName(), categorie.getProjectName(), categorie.getSubjectName());
     }
 }

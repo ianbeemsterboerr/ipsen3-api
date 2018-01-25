@@ -37,7 +37,7 @@ public class CustomerResource {
     @JsonView(View.Public.class)
     @RolesAllowed({"1", "0"})
     public void addProject(Categories categorie) {
-        this.service.addCustomer(categorie.getKlantnaam(), categorie.getProjectnaam(), categorie.getOnderwerpnaam());
+        this.service.addCustomer(categorie.getCustomerName(), categorie.getProjectName(), categorie.getSubjectName());
     }
 
 }
