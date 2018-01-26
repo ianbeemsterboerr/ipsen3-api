@@ -53,6 +53,7 @@ public class EmployeeResource {
     @POST
     @Path("/wachtwoord")
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"1", "0"})
     public void veranderWachtwoord(@QueryParam("wachtwoord") String newPassword, @QueryParam("id") int ID, @QueryParam("oldPassword") String oldPassword ) {
         this.service.changePassword(newPassword, ID, oldPassword);
     }

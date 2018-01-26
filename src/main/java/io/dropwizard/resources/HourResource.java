@@ -15,10 +15,10 @@ import java.util.List;
 @Path("/uren")
 @Produces(MediaType.APPLICATION_JSON)
 @RolesAllowed({"1", "0"}) // 1 = admin, 0 = personeel;
-public class UrenResource {
+public class HourResource {
     private RegisteredHourService service;
 
-    public UrenResource(RegisteredHourService service){
+    public HourResource(RegisteredHourService service){
         this.service = service;
     }
 
@@ -72,6 +72,8 @@ public class UrenResource {
     @Path("/updateHour")
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Public.class)
-    public void updateHour(RegisteredHour hour){ this.service.updateHour(hour);}
+    public void updateHour(RegisteredHour hour){
+        System.out.println(hour.getHourID());
+        this.service.updateHour(hour);}
 
 }

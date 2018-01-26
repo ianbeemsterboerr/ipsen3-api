@@ -94,14 +94,14 @@ public class ApiApplication extends Application<ApiConfiguration> {
          * Initialise all the Resource objects.
          */
         final EmployeeResource employeeResource = new EmployeeResource(employeeService);
-        final UrenResource urenResource = new UrenResource(registeredHourService);
+        final HourResource hourResource = new HourResource(registeredHourService);
         final LogInResource logInResource = new LogInResource();
         final CustomerResource customerResource = new CustomerResource(customerService);
         final ProjectResource projectResource = new ProjectResource(projectService);
         final SubjectResource subjectResource = new SubjectResource(subjectService);
 
         environment.jersey().register(employeeResource);
-        environment.jersey().register(urenResource);
+        environment.jersey().register(hourResource);
         environment.jersey().register(security);
         environment.jersey().register(logInResource);
         environment.jersey().register(customerResource);

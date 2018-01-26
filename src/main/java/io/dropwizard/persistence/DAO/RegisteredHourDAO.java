@@ -173,7 +173,7 @@ public class RegisteredHourDAO extends DAO{
     public void updateHour(RegisteredHour hour){
         Connection con = pool.checkout();
         try{
-            PreparedStatement statement = con.prepareStatement("UPDATE gereristreerdetijd SET begindatum = ?, begintijd = ?, eindtijd = ?, commentaar = ?, persoonID = ?, klant_ID = ?, project_ID = ?, onderwerp_ID = ? WHERE uurID = ? AND confirmed = false");
+            PreparedStatement statement = con.prepareStatement("UPDATE geregistreerdetijd SET begindatum = ?, begintijd = ?, eindtijd = ?, commentaar = ?, persoonID = ?, klant_ID = ?, project_ID = ?, onderwerp_ID = ? WHERE uurID = ? ");
             statement.setString(1, hour.getStartingDate());
             statement.setString(2, hour.getStartingTime());
             statement.setString(3, hour.getEndingTime());
