@@ -96,12 +96,7 @@ public class EmployeeDAO extends DAO{
             statement.setString(3, employee.getVoornaam());
             statement.setString(4, employee.getEmail());
             statement.setString(5, employee.getWachtwoord());
-            if(employee.getRechten().equals("Employee")){
-                statement.setString(6, "0");
-            } else {
-                statement.setString(6, "1");
-            }
-
+            statement.setString(6, employee.getRechten());
             statement.setString(7, "1");
 
             statement.executeQuery();

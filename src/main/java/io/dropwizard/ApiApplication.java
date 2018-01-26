@@ -1,7 +1,5 @@
 package io.dropwizard;
 
-
-
 import com.google.inject.Module;
 import com.hubspot.dropwizard.guice.GuiceBundle;
 import io.dropwizard.auth.*;

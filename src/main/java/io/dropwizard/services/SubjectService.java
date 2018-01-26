@@ -33,7 +33,7 @@ public class SubjectService {
 
     public void addSubject(String klantnaam, String projectnaam, String onderwerpnaam){
 
-        System.out.println("subjectservice addSubject()");
+
         Customer customer = this.customerDao.getCustomerByName(klantnaam);
 
         this.projectDao.addProject(projectnaam, customer.getCustomerId());
